@@ -48,4 +48,16 @@
         <item name="android:windowBackground">@drawable/splash_layer_drawable</item>
     </style>
 
+    <style name="AVLoadingIndicatorView">
+        <item name="minWidth">40dp</item>
+        <item name="maxWidth">40dp</item>
+        <item name="minHeight">40dp</item>
+        <item name="maxHeight">40dp</item>
+        <item name="indicatorName">LineSpinFadeLoaderIndicator</item>
+    </style>
+
+    <style name="LoadingProgressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

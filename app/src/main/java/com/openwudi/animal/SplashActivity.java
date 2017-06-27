@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.blankj.utilcode.utils.ToastUtils;
+import com.openwudi.animal.activity.LoginActivity;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-//                startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
             }
