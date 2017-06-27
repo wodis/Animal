@@ -13,7 +13,7 @@ import com.openwudi.animal.view.LoadingProgressDialog;
  * Created by diwu on 17/6/27.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements BaseView{
     protected BaseActivity mContext;
     private ProgressDialog mLoadingDialog;
 
@@ -46,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.color7), 0);
     }
 
+    @Override
     public void showLoading() {
         if (isFinishing()) {
             return;
@@ -59,6 +60,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void hideLoading() {
         if (mLoadingDialog == null) {
             return;

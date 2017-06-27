@@ -25,7 +25,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class SplashActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    public static final int DURATION = 1000;
+    public static final int DURATION = 2000;
     private static final int REQ_WRITE_SD_CARD_PERMISSION = 130;
     private static final int REQ_SETTING_RESULT = 201;
 
