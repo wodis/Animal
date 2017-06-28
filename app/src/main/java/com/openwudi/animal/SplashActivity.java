@@ -13,6 +13,8 @@ import android.view.View;
 
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.activity.LoginActivity;
+import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.utils.BitmapUtil;
 
 import java.util.List;
 
@@ -22,7 +24,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * Created by diwu on 17/6/27.
  */
-
 public class SplashActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     public static final int DURATION = 2000;
@@ -33,12 +34,14 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
      * 所需权限
      */
     private String[] mPerms = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.CALL_PHONE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
     };
 
     private Handler mHandler = new Handler() {
@@ -47,7 +50,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, TraceActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
             }
@@ -57,6 +60,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BitmapUtil.init();
         hideNavigationBar();
         checkSDCardPermission();
     }

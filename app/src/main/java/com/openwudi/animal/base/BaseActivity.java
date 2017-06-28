@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 
 import com.openwudi.animal.R;
 import com.openwudi.animal.view.LoadingProgressDialog;
@@ -68,5 +70,25 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
         if (mLoadingDialog.isShowing() && !isFinishing()) {
             mLoadingDialog.dismiss();
         }
+    }
+
+    /**
+     * 设置点击监听器
+     *
+     * @param listener
+     */
+    public void setOnClickListener(View.OnClickListener listener) {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_top);
+        LinearLayout optionsButton = (LinearLayout) layout.findViewById(R.id.btn_activity_options);
+        optionsButton.setOnClickListener(listener);
+    }
+
+    /**
+     * 回退事件
+     *
+     * @param v
+     */
+    public void onBack(View v) {
+        super.onBackPressed();
     }
 }

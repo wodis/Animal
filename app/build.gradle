@@ -11,10 +11,41 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [BD_API_KEY: 'FSbMbjthlB3Ak4TIxCLqh3VgoDiaZVqY']
     }
-    buildTypes {
+
+    signingConfigs {
+        debug {
+            // No debug config
+            storeFile file("../key.jks")
+            storePassword "Bbm2nGud"
+            keyAlias "openwudi"
+            keyPassword "Bbm2nGud"
+        }
+
         release {
+            storeFile file("../key.jks")
+            storePassword "Bbm2nGud"
+            keyAlias "openwudi"
+            keyPassword "Bbm2nGud"
+        }
+    }
+
+    buildTypes {
+        debug {
+            resValue "string", "BD_SID", "144632"
+            signingConfig signingConfigs.debug
             minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+        }
+
+        release {
+            resValue "string", "BD_SID", "144530"
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

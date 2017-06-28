@@ -2,6 +2,7 @@ package com.openwudi.animal.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
@@ -15,5 +16,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        TextView textView = (TextView) findViewById(R.id.tv);
+        textView.setText(getText(R.string.BD_SID));
     }
 }
