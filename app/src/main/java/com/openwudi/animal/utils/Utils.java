@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Created by diwu on 17/6/28.
  */
-
 public class Utils {
 
     public static double getDirectDistance(List<TrackPoint> points) {
