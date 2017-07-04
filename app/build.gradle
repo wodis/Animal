@@ -14,6 +14,12 @@ android {
         manifestPlaceholders = [BD_API_KEY: 'FSbMbjthlB3Ak4TIxCLqh3VgoDiaZVqY']
     }
 
+    //加载资源
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    def url = properties.getProperty('url')
+
     signingConfigs {
         debug {
             // No debug config
@@ -34,6 +40,7 @@ android {
     buildTypes {
         debug {
             resValue "string", "BD_SID", "144632"
+            resValue "string", "API_URL", url
             signingConfig signingConfigs.debug
             minifyEnabled false
             zipAlignEnabled false
@@ -42,6 +49,7 @@ android {
 
         release {
             resValue "string", "BD_SID", "144530"
+            resValue "string", "API_URL", url
             signingConfig signingConfigs.debug
             minifyEnabled true
             zipAlignEnabled true

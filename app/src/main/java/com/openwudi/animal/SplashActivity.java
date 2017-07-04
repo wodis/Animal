@@ -50,7 +50,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                startActivity(new Intent(SplashActivity.this, TraceActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
             }

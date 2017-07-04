@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.manager.ApiManager;
 
 /**
  * Created by diwu on 17/6/27.
