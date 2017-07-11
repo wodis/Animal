@@ -45,7 +45,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
     }
 
     protected void setStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.color7), 0);
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
 
     @Override

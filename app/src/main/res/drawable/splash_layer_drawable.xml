@@ -3,10 +3,10 @@
 
     <item android:drawable="@color/color6" />
 
-    <item android:bottom="30dp">
+    <item android:bottom="0dp">
         <bitmap
             android:gravity="center_horizontal|bottom"
-            android:src="@drawable/image_splash" />
+            android:src="@drawable/splash_bg" />
     </item>
 
 </layer-list>

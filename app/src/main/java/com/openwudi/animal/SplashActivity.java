@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.activity.LoginActivity;
+import com.openwudi.animal.activity.MainActivity;
 import com.openwudi.animal.activity.TraceActivity;
 import com.openwudi.animal.utils.BitmapUtil;
 
@@ -26,7 +27,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class SplashActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    public static final int DURATION = 2000;
+    public static final int DURATION = 1000;
     private static final int REQ_WRITE_SD_CARD_PERMISSION = 130;
     private static final int REQ_SETTING_RESULT = 201;
 
@@ -50,7 +51,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
                 overridePendingTransition(0, 0);
             }
