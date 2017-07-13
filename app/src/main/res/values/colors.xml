@@ -43,4 +43,6 @@
     <color name="dialog_cancel_bg">#dfdcdc</color>
     <!-- 对话框标题颜色 -->
     <color name="dialog_title">#323232</color>
+
+    <color name="underline">#C7C7C7</color>
 </resources>

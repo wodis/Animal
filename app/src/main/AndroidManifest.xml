@@ -42,11 +42,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
 
         <activity
