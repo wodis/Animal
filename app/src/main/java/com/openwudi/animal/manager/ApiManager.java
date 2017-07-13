@@ -65,7 +65,7 @@ public class ApiManager {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
                     if (!TextUtils.isEmpty(entry.getValue())) {
                         soapObject.addProperty(entry.getKey(), entry.getValue());
-                        logger.d("┃ " + "key:%s value:%s", entry.getKey(), entry.getValue());
+                        logger.d("┃ " + "%s = %s", entry.getKey(), entry.getValue());
                     }
                 }
             }
