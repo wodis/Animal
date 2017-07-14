@@ -16,6 +16,7 @@ import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.MainActivity;
 import com.openwudi.animal.activity.RegisterActivity;
 import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.utils.BitmapUtil;
 
 import java.util.List;
@@ -52,7 +53,12 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                Class activity = LoginActivity.class;
+                if (AccountManager.getAccount() != null) {
+                    activity = MainActivity.class;
+                }
+
+                startActivity(new Intent(SplashActivity.this, activity));
                 finish();
                 overridePendingTransition(0, 0);
             }

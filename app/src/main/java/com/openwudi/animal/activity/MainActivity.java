@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
@@ -53,6 +55,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout tabMy;
     @BindView(R.id.root)
     FrameLayout root;
+
+    public static final int CLICK_BACK_INTERVAL = 2000;
+    private long mLastClickTime;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - mLastClickTime) > CLICK_BACK_INTERVAL) {
+                ToastUtils.showShortToast(this, "再按一次退出");
+                mLastClickTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 
     @Override

@@ -3,6 +3,7 @@ package com.openwudi.animal.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +14,9 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
+import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.manager.ApiManager;
+import com.openwudi.animal.model.Account;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,20 +62,21 @@ public class LoginActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!RegexUtils.isMobileSimple(account.getText().toString())) {
-                    ToastUtils.showShortToast(mContext, "请输入正确的手机号");
+                if (TextUtils.isEmpty(account.getText().toString())) {
+                    ToastUtils.showShortToast(mContext, "请输入正确的用户名");
                     return;
                 }
 
-                if (!RegexUtils.isUsername(password.getText().toString())) {
+                if (TextUtils.isEmpty(password.getText().toString())) {
                     ToastUtils.showShortToast(mContext, "请输入正确的密码格式");
                     return;
                 }
 
-                final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
+                final Observable.OnSubscribe<Account> onSubscribe = new Observable.OnSubscribe<Account>() {
                     @Override
-                    public void call(Subscriber<? super String> subscriber) {
-                        String result = ApiManager.login(account.getText().toString(), password.getText().toString());
+                    public void call(Subscriber<? super Account> subscriber) {
+                        Account result = ApiManager.login(account.getText().toString(), password.getText().toString());
+                        AccountManager.setAccount(result);
                         subscriber.onNext(result);
                         subscriber.onCompleted();
                     }
@@ -86,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                                 button.setEnabled(false);
                                 showLoading();
                             }
-                        }).subscribe(new Subscriber<String>() {
+                        }).subscribe(new Subscriber<Account>() {
                     @Override
                     public void onCompleted() {
                         button.setEnabled(true);
@@ -101,8 +105,10 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        ToastUtils.showShortToast(mContext, s);
+                    public void onNext(Account account) {
+                        ToastUtils.showShortToast(mContext, account.getUserCode() + "登录成功");
+                        startActivity(new Intent(mContext, MainActivity.class));
+                        finish();
                     }
                 });
             }

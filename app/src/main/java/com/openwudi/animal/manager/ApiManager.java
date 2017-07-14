@@ -6,10 +6,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.utils.DeviceUtils;
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.SPUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.AnimalApplication;
 import com.openwudi.animal.exception.AnimalException;
 import com.openwudi.animal.exception.RES_STATUS;
+import com.openwudi.animal.model.Account;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.Area;
 import com.openwudi.animal.model.Item;
@@ -201,11 +203,32 @@ public class ApiManager {
         return result;
     }
 
-    public static String login(String account, String password) {
+    public static Account login(String account, String password) {
         Map<String, String> params = new HashMap<>(1);
         params.put("username", account);
         params.put("userpassword", password);
         String result = send("CheckLogin", params);
-        return result;
+        Account a = JSON.parseObject(result, Account.class);
+        return a;
+    }
+
+    public static void saveAccount(Account account) {
+        SPUtils spUtils = new SPUtils(AnimalApplication.INSTANCE, Account.class.getSimpleName());
+        spUtils.putString("a", JSON.toJSONString(account));
+    }
+
+    public static Account getAccount() {
+        SPUtils spUtils = new SPUtils(AnimalApplication.INSTANCE, Account.class.getSimpleName());
+        String json = spUtils.getString("a");
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        } else {
+            return JSON.parseObject(json, Account.class);
+        }
+    }
+
+    public static void clearAccount() {
+        SPUtils spUtils = new SPUtils(AnimalApplication.INSTANCE, Account.class.getSimpleName());
+        spUtils.clear();
     }
 }
