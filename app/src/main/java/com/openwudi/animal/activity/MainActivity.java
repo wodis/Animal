@@ -18,10 +18,15 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
+import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.fragment.HomeFragment;
 import com.openwudi.animal.fragment.MessageFragment;
 import com.openwudi.animal.fragment.MyFragment;
 import com.openwudi.animal.view.MainTabViewPager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,6 +87,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -183,5 +195,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         public int getCount() {
             return mFragmentTabs.length;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTabEvent(TabEvent event){
+        selectMainTab(event.getPosition());
+        mainVp.setCurrentItem(event.getPosition(), false);
     }
 }

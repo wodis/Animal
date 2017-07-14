@@ -2,6 +2,7 @@ package com.openwudi.animal.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,11 @@ import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.LoginActivity;
+import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.model.SortItem;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +163,29 @@ public class HomeFragment extends Fragment {
                 case 0:
                     context.startActivity(new Intent(context, LoginActivity.class));
                     break;
+                case 1:
+                    gps();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    EventBus.getDefault().post(new TabEvent(1));
+                    break;
+                case 4:
+                    call();
+                    break;
             }
+        }
+
+        private void call() {
+            String phone = "62021756";
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
+        private void gps(){
+            context.startActivity(new Intent(context, TraceActivity.class));
         }
     }
 }

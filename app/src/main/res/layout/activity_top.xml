@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="@dimen/activity_title_height"
-              android:background="@color/layout_title"
+              android:background="@color/colorPrimary"
               android:gravity="center"
               android:orientation="horizontal"
               android:weightSum="1">
@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@mipmap/icon_back"/>
+                android:background="@drawable/icon_back_white"/>
     </LinearLayout>
 
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
             android:gravity="center"
-            android:text="野生动物保护"
+            android:text="路径信息"
             android:textColor="@color/white"
             android:textSize="18sp"/>
 
@@ -44,7 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@mipmap/icon_settings"/>
+                android:background="@mipmap/icon_settings"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
