@@ -8,4 +8,22 @@
         <attr name="indicatorName" format="string" />
         <attr name="indicatorColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="TitleBarView">
+        <attr name="tbv_bg_color" format="color" />
+        <attr name="tbv_left" format="reference" />
+        <attr name="tbv_left_visible" format="boolean" />
+        <attr name="tbv_left_sub_text" format="string" />
+        <attr name="tbv_left_sub_text_visible" format="boolean" />
+        <attr name="tbv_left_sub_color" format="color" />
+        <attr name="tbv_right" format="reference" />
+        <attr name="tbv_right_text" format="string" />
+        <attr name="tbv_title" format="string" />
+        <attr name="tbv_title_color" format="color" />
+        <attr name="tbv_title_text_size" format="integer" />
+        <attr name="tbv_subtitle" format="string" />
+        <attr name="tbv_subtitle_color" format="color" />
+        <attr name="tbv_desc_text" format="string" />
+        <attr name="tbv_shadow" format="boolean" />
+    </declare-styleable>
 </resources>

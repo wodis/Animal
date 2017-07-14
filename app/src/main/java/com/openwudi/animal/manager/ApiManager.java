@@ -15,6 +15,7 @@ import com.openwudi.animal.model.Account;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.Area;
 import com.openwudi.animal.model.Item;
+import com.openwudi.animal.model.Message;
 import com.openwudi.animal.model.MonitorStation;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.L;
@@ -230,5 +231,13 @@ public class ApiManager {
     public static void clearAccount() {
         SPUtils spUtils = new SPUtils(AnimalApplication.INSTANCE, Account.class.getSimpleName());
         spUtils.clear();
+    }
+
+    public static List<Message> listMessage(){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("userid", AccountManager.getAccount().getUserId());
+        String result = send("GetMessageList", params);
+        List<Message> items = JSON.parseArray(result, Message.class);
+        return items;
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ConvertUtils;
@@ -33,12 +34,14 @@ import butterknife.Unbinder;
 public class HomeFragment extends Fragment {
     @BindView(R.id.gview)
     GridView gview;
+    @BindView(R.id.sv)
+    ScrollView sv;
     Unbinder unbinder;
 
     private static List<SortItem> data = new ArrayList<>();
 
     public static HomeFragment newInstance() {
-        if (data.isEmpty()){
+        if (data.isEmpty()) {
             data.add(new SortItem("信息采集", R.drawable.icon_xinxi));
             data.add(new SortItem("路径信息", R.drawable.icon_lujing));
             data.add(new SortItem("历史记录", R.drawable.icon_lishi));
@@ -150,8 +153,8 @@ public class HomeFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        private void start(int position){
-            switch (position){
+        private void start(int position) {
+            switch (position) {
                 case 0:
                     context.startActivity(new Intent(context, LoginActivity.class));
                     break;

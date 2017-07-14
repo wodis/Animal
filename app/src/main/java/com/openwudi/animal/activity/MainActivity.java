@@ -19,6 +19,7 @@ import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
 import com.openwudi.animal.fragment.HomeFragment;
+import com.openwudi.animal.fragment.MessageFragment;
 import com.openwudi.animal.fragment.MyFragment;
 import com.openwudi.animal.view.MainTabViewPager;
 
@@ -167,7 +168,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         fragment = HomeFragment.newInstance();
                         break;
                     case TAB_READ:
-                        fragment = MyFragment.newInstance();
+                        fragment = MessageFragment.newInstance();
                         break;
                     case TAB_MY:
                         fragment = MyFragment.newInstance();

@@ -1,5 +1,8 @@
 package com.openwudi.animal.utils;
 
+import android.graphics.Paint;
+import android.text.TextUtils;
+
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.trace.api.track.TrackPoint;
@@ -34,5 +37,33 @@ public class Utils {
                     next);
         }
         return routeDistance;
+    }
+
+    /***
+     * 文本截断
+     *
+     * @param paint      画笔
+     * @param ori        要截断的文本
+     * @param lengthLeft 最大长度
+     * @param moreLength 与画笔的 textSize 相对应的 "..." 的长度
+     * @return
+     */
+    public static String breakTxts(Paint paint, String ori, int lengthLeft, int moreLength) {
+        if (TextUtils.isEmpty(ori)) {
+            return ori;
+        }
+        if (lengthLeft <= 0) {
+            return "";
+        }
+        int count = paint.breakText(ori, true, lengthLeft, null);
+        if (count < ori.length()) { // 说明需要截断
+            lengthLeft -= moreLength;
+            if (lengthLeft <= 0) {
+                return "";
+            }
+            return ori.substring(0, paint.breakText(ori, true, lengthLeft, null)) + "...";
+        } else {
+            return ori;
+        }
     }
 }
