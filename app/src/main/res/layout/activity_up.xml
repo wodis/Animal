@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_title="信息采集" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="动物名称"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="0"
+                app:tcv_title="采集数量"
+                app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/qixidi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="栖息地"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="状态"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="0"
+                app:tcv_title="健康数量"
+                app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <View style="@style/Widget.Divider"/>
+
+            <com.openwudi.animal.view.TableCellView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="0"
+                app:tcv_title="生病数量"
+                app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="生病描述" />
+
+                <EditText
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="end"
+                    android:hint="请填写"
+                    android:lines="3"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
+            <View style="@style/Widget.Divider"/>
+
+            <com.openwudi.animal.view.TableCellView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="0"
+                app:tcv_title="死亡数量"
+                app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="死亡描述" />
+
+                <EditText
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="end"
+                    android:hint="请填写"
+                    android:lines="3"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/juli"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="估计距离"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/fangwei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="方位"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/weizhi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="位置"
+                app:tcv_type="indicator" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

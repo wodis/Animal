@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.activity.UpActivity;
 import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.model.SortItem;
 
@@ -161,7 +162,7 @@ public class HomeFragment extends Fragment {
         private void start(int position) {
             switch (position) {
                 case 0:
-                    context.startActivity(new Intent(context, LoginActivity.class));
+                    context.startActivity(new Intent(context, UpActivity.class));
                     break;
                 case 1:
                     gps();

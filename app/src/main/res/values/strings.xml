@@ -204,5 +204,6 @@
 
     <string name="loc_failed">定位失败</string>
     <string name="font_type">微软雅黑</string>
+    <string name="please_select">请选择</string>
 
 </resources>

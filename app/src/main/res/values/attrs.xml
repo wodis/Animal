@@ -26,4 +26,17 @@
         <attr name="tbv_desc_text" format="string" />
         <attr name="tbv_shadow" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="TableCellView">
+        <attr name="tcv_title" format="string" />
+        <attr name="tcv_right_hint" format="string" />
+        <attr name="tcv_right_text" format="string" />
+        <attr name="tcv_right_drawable" format="reference" />
+        <attr name="tcv_type" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="indicator" value="1" />
+            <enum name="input" value="2" />
+            <enum name="input_indicator" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>

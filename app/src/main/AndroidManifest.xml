@@ -61,6 +61,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.UpActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.TraceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
