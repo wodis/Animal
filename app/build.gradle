@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [BD_API_KEY: 'FSbMbjthlB3Ak4TIxCLqh3VgoDiaZVqY']
+        multiDexEnabled true
     }
 
     //加载资源
@@ -19,6 +20,7 @@ android {
     InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
     properties.load(inputStream)
     def url = properties.getProperty('url')
+    def pic = properties.getProperty('pic')
 
     signingConfigs {
         debug {
@@ -41,6 +43,7 @@ android {
         debug {
             resValue "string", "BD_SID", "144632"
             resValue "string", "API_URL", url
+            resValue "string", "PIC_URL", pic
             signingConfig signingConfigs.debug
             minifyEnabled false
             zipAlignEnabled false
@@ -50,12 +53,17 @@ android {
         release {
             resValue "string", "BD_SID", "144530"
             resValue "string", "API_URL", url
+            resValue "string", "PIC_URL", pic
             signingConfig signingConfigs.debug
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
@@ -67,6 +75,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:support-annotations:${ANDROID_SUPPORT_VERSION}"
+    compile 'com.android.support:multidex:1.0.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.alibaba:fastjson:1.1.46.android'

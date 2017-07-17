@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -90,6 +91,12 @@ public class AnimalApplication extends Application {
         super.onCreate();
         INSTANCE = this;
         initBD();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initBD(){

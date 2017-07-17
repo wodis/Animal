@@ -132,6 +132,14 @@ public class ApiManager {
         return items;
     }
 
+    public static Animal getAnimalModel(String id){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("keyValue", id);
+        String result = send("GetAnimalModel", params);
+        return JSON.parseObject(result, Animal.class);
+
+    }
+
     /**
      * 获取物种列表
      *

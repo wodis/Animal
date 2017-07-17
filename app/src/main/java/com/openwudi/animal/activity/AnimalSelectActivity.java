@@ -3,8 +3,10 @@ package com.openwudi.animal.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,6 +66,18 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         searchTv.setOnClickListener(this);
         adapter = new AnimalSelectAdapter();
         contentLv.setAdapter(adapter);
+
+        searchInputEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    String name = searchInputEt.getText().toString();
+                    search(name);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -112,6 +126,45 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    private void getAnimalById(final String id){
+        final Observable.OnSubscribe<Animal> onSubscribe = new Observable.OnSubscribe<Animal>() {
+            @Override
+            public void call(Subscriber<? super Animal> subscriber) {
+                Animal animal = ApiManager.getAnimalModel(id);
+                subscriber.onNext(animal);
+                subscriber.onCompleted();
+            }
+        };
+
+        Observable.create(onSubscribe)
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoading();
+                    }
+                }).subscribe(new Subscriber<Animal>() {
+            @Override
+            public void onCompleted() {
+                hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideLoading();
+                ToastUtils.showShortToast(mContext, e.getMessage());
+            }
+
+            @Override
+            public void onNext(Animal animal) {
+                Intent i = new Intent();
+                i.putExtra(Animal.class.getSimpleName(), animal);
+                setResult(RESULT_OK, i);
+                finish();
+            }
+        });
+    }
+
 
     public class AnimalSelectAdapter extends BaseAdapter {
 
@@ -145,10 +198,7 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent();
-                    i.putExtra(Animal.class.getSimpleName(), animal);
-                    setResult(RESULT_OK, i);
-                    finish();
+                    getAnimalById(animal.getId());
                 }
             });
             return convertView;

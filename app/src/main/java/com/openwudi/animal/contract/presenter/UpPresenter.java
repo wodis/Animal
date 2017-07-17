@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.ToastUtils;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.contract.UpContract;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
@@ -27,6 +28,15 @@ import rx.schedulers.Schedulers;
 
 public class UpPresenter extends UpContract.Presenter {
     private Animal animal;
+    private Item qixidi;
+    private Set<Item> zhuangtai;
+    private Item juli;
+    private Item fangwei;
+    private Item weizhi;
+
+    private LocalMedia health;
+    private LocalMedia ill;
+    private LocalMedia death;
 
     @Override
     public void onStart() {
@@ -35,6 +45,18 @@ public class UpPresenter extends UpContract.Presenter {
 
     public void setAnimal(Animal animal) {
         this.animal = animal;
+    }
+
+    public void setHealth(LocalMedia health) {
+        this.health = health;
+    }
+
+    public void setIll(LocalMedia ill) {
+        this.ill = ill;
+    }
+
+    public void setDeath(LocalMedia death) {
+        this.death = death;
     }
 
     public void show(final String encode) {
@@ -124,8 +146,10 @@ public class UpPresenter extends UpContract.Presenter {
                     }
                     sb.deleteCharAt(sb.length() - 1);
                     mView.setZhuangTai(sb.toString());
+                    zhuangtai = selected;
                 } else {
                     mView.setZhuangTai("");
+                    zhuangtai = null;
                 }
             }
         });
@@ -138,7 +162,7 @@ public class UpPresenter extends UpContract.Presenter {
         builder.show();
     }
 
-    private void dialogQixidi(List<Item> list) {
+    private void dialogQixidi(final List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -152,13 +176,14 @@ public class UpPresenter extends UpContract.Presenter {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 mView.setQixidi(items[i]);
+                qixidi = list.get(i);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogJuli(List<Item> list) {
+    private void dialogJuli(final List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -173,13 +198,14 @@ public class UpPresenter extends UpContract.Presenter {
                 String item = items[i];
                 Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setJuli(item);
+                juli = list.get(i);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogFangwei(List<Item> list) {
+    private void dialogFangwei(final List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -194,13 +220,14 @@ public class UpPresenter extends UpContract.Presenter {
                 String item = items[i];
                 Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setFangwei(item);
+                fangwei = list.get(i);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogWeizhi(List<Item> list) {
+    private void dialogWeizhi(final List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -215,6 +242,7 @@ public class UpPresenter extends UpContract.Presenter {
                 String item = items[i];
                 Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setWeizhi(item);
+                weizhi = list.get(i);
             }
         });
         builder.create();

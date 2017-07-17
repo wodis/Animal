@@ -86,4 +86,16 @@
         <item name="android:gravity">center_vertical|end</item>
         <item name="android:textColor">@color/color1</item>
     </style>
+
+    <style name="Widget.Blue.Button" parent="Widget">
+        <item name="android:background">@drawable/selector_blue_btn</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/blue_btn_height</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/color6</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

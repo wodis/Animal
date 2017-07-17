@@ -32,6 +32,21 @@
 
             <View style="@style/Widget.Divider" />
 
+            <ImageView
+                android:id="@+id/pic_iv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_round_corner_color10"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/pic_line"
+                style="@style/Widget.Divider"
+                android:visibility="gone" />
+
             <com.openwudi.animal.view.TableCellView
                 android:id="@+id/caijishuliang"
                 android:layout_width="match_parent"
@@ -77,7 +92,41 @@
 
             <View style="@style/Widget.Divider" />
 
-            <View style="@style/Widget.Divider"/>
+            <RelativeLayout
+                android:id="@+id/health_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cell_height"
+                android:background="@color/color6"
+                android:paddingLeft="@dimen/default_padding_normal"
+                android:paddingRight="@dimen/default_padding_normal">
+
+                <ImageView
+                    android:id="@+id/health_left_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_round_corner_color10"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/icon_cams"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <View style="@style/Widget.Divider" />
 
             <com.openwudi.animal.view.TableCellView
                 android:id="@+id/shengbingshuliang"
@@ -88,6 +137,42 @@
                 app:tcv_right_hint="0"
                 app:tcv_title="生病数量"
                 app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <RelativeLayout
+                android:id="@+id/ill_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cell_height"
+                android:background="@color/color6"
+                android:paddingLeft="@dimen/default_padding_normal"
+                android:paddingRight="@dimen/default_padding_normal">
+
+                <ImageView
+                    android:id="@+id/ill_left_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_round_corner_color10"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/icon_cams"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
 
             <View style="@style/Widget.Divider" />
 
@@ -121,7 +206,7 @@
                     android:textCursorDrawable="@drawable/color_cursor" />
             </LinearLayout>
 
-            <View style="@style/Widget.Divider"/>
+            <View style="@style/Widget.Divider" />
 
             <com.openwudi.animal.view.TableCellView
                 android:layout_width="match_parent"
@@ -131,6 +216,42 @@
                 app:tcv_right_hint="0"
                 app:tcv_title="死亡数量"
                 app:tcv_type="input" />
+
+            <View style="@style/Widget.Divider" />
+
+            <RelativeLayout
+                android:id="@+id/death_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cell_height"
+                android:background="@color/color6"
+                android:paddingLeft="@dimen/default_padding_normal"
+                android:paddingRight="@dimen/default_padding_normal">
+
+                <ImageView
+                    android:id="@+id/death_left_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_round_corner_color10"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/icon_cams"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
 
             <View style="@style/Widget.Divider" />
 
@@ -197,6 +318,22 @@
                 app:tcv_right_hint="@string/please_select"
                 app:tcv_title="位置"
                 app:tcv_type="indicator" />
+
+            <TextView
+                android:id="@+id/save_tv"
+                style="@style/Widget.Blue.Button"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:text="保存" />
+
+            <TextView
+                android:id="@+id/submit_tv"
+                style="@style/Widget.Blue.Button"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:text="上报" />
 
         </LinearLayout>
 

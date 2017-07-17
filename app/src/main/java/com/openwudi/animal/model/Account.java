@@ -12,6 +12,7 @@ public class Account {
     private String MonitorStationId;
     private int RoleType;
     private String LoginToken;
+    private String TerminalId;
 
     public String getUserId() {
         return UserId;
@@ -67,5 +68,13 @@ public class Account {
 
     public void setLoginToken(String loginToken) {
         LoginToken = loginToken;
+    }
+
+    public String getTerminalId() {
+        return TerminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        TerminalId = terminalId;
     }
 }

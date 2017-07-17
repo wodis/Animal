@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/transparent">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_title="图片" />
+
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
