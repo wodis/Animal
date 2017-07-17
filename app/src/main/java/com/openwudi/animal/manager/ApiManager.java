@@ -259,4 +259,10 @@ public class ApiManager {
         List<DataAcquisition> items = JSON.parseArray(result, DataAcquisition.class);
         return items;
     }
+
+    public static void saveDataAcquisition(DataAcquisition dataAcquisition){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("json", JSON.toJSONString(dataAcquisition));
+        String result = send("SaveDataAcquisition", params);
+    }
 }

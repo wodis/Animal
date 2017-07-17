@@ -2,12 +2,17 @@ package com.openwudi.animal.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.view.TitleBarView;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +34,12 @@ public class PhotoActivity extends BaseActivity {
         setContentView(R.layout.activity_photo);
         ButterKnife.bind(this);
         String pic = getIntent().getStringExtra("pic");
-        Glide.with(this).load(pic).into(photoView);
+        LocalMedia animal = (LocalMedia) getIntent().getSerializableExtra(Animal.class.getSimpleName());
+        if (!TextUtils.isEmpty(pic)){
+            Glide.with(this).load(pic).into(photoView);
+        } else if (animal != null){
+            Glide.with(this).load(new File(animal.getPath())).into(photoView);
+        }
 
         titleBarTbv.setLeftListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,14 @@ public interface UpContract {
     }
 
     interface View extends BaseView {
+        int getTotal();
+
+        int getHealthNum();
+
+        int getIllNum();
+
+        int getDeathNum();
+
         void setQixidi(String qixidi);
 
         void setZhuangTai(String string);

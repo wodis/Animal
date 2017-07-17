@@ -209,6 +209,7 @@
             <View style="@style/Widget.Divider" />
 
             <com.openwudi.animal.view.TableCellView
+                android:id="@+id/siwangshuliang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

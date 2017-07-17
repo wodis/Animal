@@ -1,17 +1,26 @@
 package com.openwudi.animal.contract.presenter;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.openwudi.animal.activity.PhotoActivity;
 import com.openwudi.animal.contract.UpContract;
+import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
+import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.ItemEncode;
+import com.openwudi.animal.utils.TimeUtil;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -247,5 +256,103 @@ public class UpPresenter extends UpContract.Presenter {
         });
         builder.create();
         builder.show();
+    }
+
+    private String getAnimalStateId() {
+        StringBuilder sb = new StringBuilder();
+        for (Item item : zhuangtai) {
+            sb.append(item.getCode()).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
+
+    public void startPhoto(int i){
+        Intent intent = new Intent(mContext, PhotoActivity.class);
+        switch (i){
+            case 0:
+                if (health == null){
+                    return;
+                }
+                intent.putExtra(Animal.class.getSimpleName(), health);
+                break;
+            case 1:
+                if (ill == null){
+                    return;
+                }
+                intent.putExtra(Animal.class.getSimpleName(), ill);
+                break;
+            case 2:
+                if (death == null){
+                    return;
+                }
+                intent.putExtra(Animal.class.getSimpleName(), death);
+                break;
+        }
+        mContext.startActivity(intent);
+    }
+
+    public DataAcquisition getData() {
+        DataAcquisition data = new DataAcquisition();
+        data.setId("");
+        data.setMonitorStationId(AccountManager.getAccount().getMonitorStationId());
+        data.setTerminalId(AccountManager.getAccount().getTerminalId());
+        data.setCollectionTime(TimeUtil.getDateTime());
+        data.setAnimalId(animal.getId());
+        data.setAnimaStateId(getAnimalStateId());
+        data.setHabitate(qixidi.getCode());
+        data.setTotal(mView.getTotal());
+        data.setHealthNum(mView.getHealthNum());
+        if (health != null) {
+            data.setHealthPic(Base64.encodeToString(FileUtils.readFile2Bytes(new File(health.getPath())), Base64.DEFAULT));
+        }
+        data.setIllNum(mView.getIllNum());
+        if (ill != null) {
+            data.setIllPic(Base64.encodeToString(FileUtils.readFile2Bytes(new File(ill.getPath())), Base64.DEFAULT));
+        }
+        data.setDeathNum(mView.getDeathNum());
+        if (ill != null) {
+            data.setDeathPic(Base64.encodeToString(FileUtils.readFile2Bytes(new File(death.getPath())), Base64.DEFAULT));
+        }
+        data.setDistance(juli.getCode());
+        data.setAzimuth(fangwei.getCode());
+        data.setPosition(weizhi.getCode());
+        return data;
+    }
+
+    public void submit() {
+        final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                DataAcquisition dataAcquisition = getData();
+                ApiManager.saveDataAcquisition(dataAcquisition);
+                subscriber.onNext("");
+                subscriber.onCompleted();
+            }
+        };
+
+        Observable.create(onSubscribe)
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mView.showLoading();
+                    }
+                }).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                mView.hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                ToastUtils.showShortToast(mContext, e.getMessage());
+            }
+
+            @Override
+            public void onNext(String string) {
+            }
+        });
     }
 }

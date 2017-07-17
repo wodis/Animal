@@ -25,7 +25,7 @@ public class LubanBuilder {
 
     int gear = Luban.THIRD_GEAR;
 
-    LubanBuilder(File cacheDir) {
+    public LubanBuilder(File cacheDir) {
         this.cacheDir = cacheDir;
     }
 }

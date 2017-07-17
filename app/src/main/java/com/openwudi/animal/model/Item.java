@@ -10,6 +10,9 @@ public class Item {
     @JSONField(name = "F_ItemId")
     private String id;
 
+    @JSONField(name = "F_ItemCode")
+    private String code;
+
     @JSONField(name = "F_ItemName")
     private String name;
 
@@ -27,6 +30,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override

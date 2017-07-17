@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
@@ -78,6 +79,12 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     ImageView deathLeftIv;
     @BindView(R.id.death_layout)
     RelativeLayout deathLayout;
+    @BindView(R.id.save_tv)
+    TextView saveTv;
+    @BindView(R.id.submit_tv)
+    TextView submitTv;
+    @BindView(R.id.siwangshuliang)
+    TableCellView siwangshuliang;
 
     private String pic;
 
@@ -94,6 +101,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         caijishuliang.setInputType(InputType.TYPE_CLASS_PHONE);
         jiangkangshuliang.setInputType(InputType.TYPE_CLASS_PHONE);
         shengbingshuliang.setInputType(InputType.TYPE_CLASS_PHONE);
+        siwangshuliang.setInputType(InputType.TYPE_CLASS_PHONE);
 
         titleBarTbv.setLeftListener(new View.OnClickListener() {
             @Override
@@ -125,6 +133,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         healthLayout.setOnClickListener(this);
         illLayout.setOnClickListener(this);
         deathLayout.setOnClickListener(this);
+        saveTv.setOnClickListener(this);
+        submitTv.setOnClickListener(this);
+        healthLeftIv.setOnClickListener(this);
+        illLeftIv.setOnClickListener(this);
+        deathLeftIv.setOnClickListener(this);
     }
 
     @Override
@@ -172,6 +185,18 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             case R.id.death_layout:
                 startAlbum(REQ_CODE_DEATH_PIC);
                 break;
+            case R.id.submit_tv:
+                presenter.submit();
+                break;
+            case R.id.health_left_iv:
+                presenter.startPhoto(0);
+                break;
+            case R.id.ill_left_iv:
+                presenter.startPhoto(1);
+                break;
+            case R.id.death_left_iv:
+                presenter.startPhoto(2);
+                break;
         }
     }
 
@@ -218,6 +243,26 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 }
             }
         }
+    }
+
+    @Override
+    public int getTotal() {
+        return Integer.parseInt(caijishuliang.getRightText());
+    }
+
+    @Override
+    public int getHealthNum() {
+        return Integer.parseInt(jiangkangshuliang.getRightText());
+    }
+
+    @Override
+    public int getIllNum() {
+        return Integer.parseInt(shengbingshuliang.getRightText());
+    }
+
+    @Override
+    public int getDeathNum() {
+        return Integer.parseInt(siwangshuliang.getRightText());
     }
 
     @Override
