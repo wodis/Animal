@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.RegexUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
@@ -33,6 +37,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.blankj.utilcode.utils.ConstUtils.REGEX_POSITIVE_INTEGER;
 
 /**
  * Created by diwu on 17/7/14.
@@ -69,22 +75,32 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     ImageView picIv;
     @BindView(R.id.health_left_iv)
     ImageView healthLeftIv;
-    @BindView(R.id.health_layout)
-    RelativeLayout healthLayout;
     @BindView(R.id.ill_left_iv)
     ImageView illLeftIv;
-    @BindView(R.id.ill_layout)
-    RelativeLayout illLayout;
     @BindView(R.id.death_left_iv)
     ImageView deathLeftIv;
-    @BindView(R.id.death_layout)
-    RelativeLayout deathLayout;
     @BindView(R.id.save_tv)
     TextView saveTv;
     @BindView(R.id.submit_tv)
     TextView submitTv;
     @BindView(R.id.siwangshuliang)
     TableCellView siwangshuliang;
+    @BindView(R.id.jiangkangtupian)
+    TableCellView jiangkangtupian;
+    @BindView(R.id.shengbingtupian)
+    TableCellView shengbingtupian;
+    @BindView(R.id.siwangtupian)
+    TableCellView siwangtupian;
+    @BindView(R.id.shengbingmiaoshu)
+    LinearLayout shengbingmiaoshu;
+    @BindView(R.id.siwangmiaoshu)
+    LinearLayout siwangmiaoshu;
+    @BindView(R.id.pic_line)
+    View picLine;
+    @BindView(R.id.shengbingline)
+    View shengbingline;
+    @BindView(R.id.siwangline)
+    View siwangline;
 
     private String pic;
 
@@ -130,14 +146,81 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         juli.setOnClickListener(this);
         fangwei.setOnClickListener(this);
         weizhi.setOnClickListener(this);
-        healthLayout.setOnClickListener(this);
-        illLayout.setOnClickListener(this);
-        deathLayout.setOnClickListener(this);
+        jiangkangtupian.setOnClickListener(this);
+        shengbingtupian.setOnClickListener(this);
+        siwangtupian.setOnClickListener(this);
         saveTv.setOnClickListener(this);
         submitTv.setOnClickListener(this);
         healthLeftIv.setOnClickListener(this);
         illLeftIv.setOnClickListener(this);
         deathLeftIv.setOnClickListener(this);
+
+        jiangkangshuliang.getmInputEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkNumber(s);
+                healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                jiangkangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        shengbingshuliang.getmInputEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkNumber(s);
+                illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                shengbingtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                shengbingmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                shengbingline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        siwangshuliang.getmInputEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkNumber(s);
+                deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                siwangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                siwangmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                siwangline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void checkNumber(CharSequence s) {
+        if (!RegexUtils.isMatch(REGEX_POSITIVE_INTEGER, s)) {
+            ToastUtils.showShortToast(mContext, "请输入正确的数字");
+        }
     }
 
     @Override
@@ -176,13 +259,13 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 picIntent.putExtra("pic", pic);
                 startActivity(picIntent);
                 break;
-            case R.id.health_layout:
+            case R.id.jiangkangtupian:
                 startAlbum(REQ_CODE_HEALTH_PIC);
                 break;
-            case R.id.ill_layout:
+            case R.id.shengbingtupian:
                 startAlbum(REQ_CODE_ILL_PIC);
                 break;
-            case R.id.death_layout:
+            case R.id.siwangtupian:
                 startAlbum(REQ_CODE_DEATH_PIC);
                 break;
             case R.id.submit_tv:
