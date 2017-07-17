@@ -2,11 +2,13 @@ package com.openwudi.animal.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
+
 /**
  * Created by diwu on 17/7/4.
  */
 
-public class Animal {
+public class Animal implements Serializable{
     @JSONField(name = "F_Id")
     private String id;
 

@@ -13,6 +13,15 @@ public interface UpContract {
     }
 
     interface View extends BaseView {
+        void setQixidi(String qixidi);
+
+        void setZhuangTai(String string);
+
+        void setJuli(String string);
+
+        void setFangwei(String string);
+
+        void setWeizhi(String string);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

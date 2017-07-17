@@ -33,6 +33,7 @@
             <View style="@style/Widget.Divider" />
 
             <com.openwudi.animal.view.TableCellView
+                android:id="@+id/caijishuliang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tcv_right_drawable="@drawable/icon_arrow"
@@ -65,6 +66,7 @@
             <View style="@style/Widget.Divider" />
 
             <com.openwudi.animal.view.TableCellView
+                android:id="@+id/jiangkangshuliang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -78,6 +80,7 @@
             <View style="@style/Widget.Divider"/>
 
             <com.openwudi.animal.view.TableCellView
+                android:id="@+id/shengbingshuliang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

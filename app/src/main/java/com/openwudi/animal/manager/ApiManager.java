@@ -14,11 +14,13 @@ import com.openwudi.animal.exception.RES_STATUS;
 import com.openwudi.animal.model.Account;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.Area;
+import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.Message;
 import com.openwudi.animal.model.MonitorStation;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.L;
+import com.openwudi.animal.utils.TimeUtil;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -238,6 +240,15 @@ public class ApiManager {
         params.put("userid", AccountManager.getAccount().getUserId());
         String result = send("GetMessageList", params);
         List<Message> items = JSON.parseArray(result, Message.class);
+        return items;
+    }
+
+    public static List<DataAcquisition> getDataAcquisitionList(){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("terminalid", "8a661e8e-f1c6-4033-af47-fc047438ed6c");
+        params.put("date", "2017-07-04T10:33:44.000");
+        String result = send("GetDataAcquisitionList", params);
+        List<DataAcquisition> items = JSON.parseArray(result, DataAcquisition.class);
         return items;
     }
 }

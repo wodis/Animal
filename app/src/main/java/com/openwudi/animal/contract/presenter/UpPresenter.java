@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.contract.UpContract;
 import com.openwudi.animal.manager.ApiManager;
+import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.ItemEncode;
 
@@ -25,9 +26,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class UpPresenter extends UpContract.Presenter {
+    private Animal animal;
+
     @Override
     public void onStart() {
 
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
     }
 
     public void show(final String encode) {
@@ -61,7 +68,7 @@ public class UpPresenter extends UpContract.Presenter {
 
             @Override
             public void onNext(List<Item> itemList) {
-                switch (encode){
+                switch (encode) {
                     case ItemEncode.DWZT:
                         dialogZhuantai(itemList);
                         break;
@@ -110,7 +117,16 @@ public class UpPresenter extends UpContract.Presenter {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                if (selected.size() > 0) {
+                    StringBuilder sb = new StringBuilder();
+                    for (Item item : selected) {
+                        sb.append(item.getName()).append(",");
+                    }
+                    sb.deleteCharAt(sb.length() - 1);
+                    mView.setZhuangTai(sb.toString());
+                } else {
+                    mView.setZhuangTai("");
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -122,7 +138,7 @@ public class UpPresenter extends UpContract.Presenter {
         builder.show();
     }
 
-    private void dialogQixidi(List<Item> list){
+    private void dialogQixidi(List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -135,13 +151,14 @@ public class UpPresenter extends UpContract.Presenter {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+                mView.setQixidi(items[i]);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogJuli(List<Item> list){
+    private void dialogJuli(List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -153,14 +170,16 @@ public class UpPresenter extends UpContract.Presenter {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+                String item = items[i];
+                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+                mView.setJuli(item);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogFangwei(List<Item> list){
+    private void dialogFangwei(List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -172,14 +191,16 @@ public class UpPresenter extends UpContract.Presenter {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+                String item = items[i];
+                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+                mView.setFangwei(item);
             }
         });
         builder.create();
         builder.show();
     }
 
-    private void dialogWeizhi(List<Item> list){
+    private void dialogWeizhi(List<Item> list) {
         final String[] items = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i).getName();
@@ -191,7 +212,9 @@ public class UpPresenter extends UpContract.Presenter {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+                String item = items[i];
+                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+                mView.setWeizhi(item);
             }
         });
         builder.create();
