@@ -110,6 +110,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     EditText shengbingEt;
     @BindView(R.id.siwangEt)
     EditText siwangEt;
+    @BindView(R.id.bubaoEt)
+    EditText bubaoEt;
 
     private String pic;
 
@@ -403,13 +405,18 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
-    public String illDesc(){
+    public String illDesc() {
         return shengbingEt.getText().toString();
     }
 
     @Override
-    public String deathDesc(){
+    public String deathDesc() {
         return siwangEt.getText().toString();
+    }
+
+    @Override
+    public String bubao(){
+        return bubaoEt.getText().toString();
     }
 
     @Override

@@ -25,6 +25,8 @@ public interface UpContract {
 
         String deathDesc();
 
+        String bubao();
+
         void setQixidi(String qixidi);
 
         void setZhuangTai(String string);

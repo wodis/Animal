@@ -208,8 +208,8 @@
                     android:text="生病描述" />
 
                 <EditText
-                    style="@style/TextAppearance.Cell.Desc"
                     android:id="@+id/shengbingEt"
+                    style="@style/TextAppearance.Cell.Desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -298,8 +298,8 @@
                     android:text="死亡描述" />
 
                 <EditText
-                    style="@style/TextAppearance.Cell.Desc"
                     android:id="@+id/siwangEt"
+                    style="@style/TextAppearance.Cell.Desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -368,21 +368,54 @@
                 app:tcv_title="采集时间"
                 app:tcv_type="indicator" />
 
+            <View style="@style/Widget.Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="是否补报" />
+
+                <EditText
+                    android:id="@+id/bubaoEt"
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="end"
+                    android:hint="请填写补报信息,默认不补报"
+                    android:lines="3"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/save_tv"
                 style="@style/Widget.Blue.Button"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:clickable="true"
                 android:text="保存" />
 
             <TextView
                 android:id="@+id/submit_tv"
                 style="@style/Widget.Blue.Button"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
                 android:clickable="true"
-                android:text="上报" />
+                android:text="直接上报" />
 
         </LinearLayout>
 

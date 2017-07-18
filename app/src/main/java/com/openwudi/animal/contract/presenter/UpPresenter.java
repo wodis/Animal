@@ -421,6 +421,14 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         data.setDistance(juli.getCode());
         data.setAzimuth(fangwei.getCode());
         data.setPosition(weizhi.getCode());
+
+        data.setBubao(0);
+        String bubao = mView.bubao();
+        if (!TextUtils.isEmpty(bubao)){
+            data.setBubao(1);
+            data.setBubaoDesc(bubao);
+            data.setBubaoTime(TimeUtil.getDateTime());
+        }
         return data;
     }
 
