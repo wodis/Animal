@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.multidex.MultiDex;
@@ -25,8 +26,13 @@ import com.baidu.trace.model.ProcessOption;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.db.AppOpenHelper;
+import com.openwudi.animal.db.DaoMaster;
+import com.openwudi.animal.db.DaoSession;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.NetUtil;
+
+import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -211,5 +217,27 @@ public class AnimalApplication extends Application {
      */
     public int getTag() {
         return mSequenceGenerator.incrementAndGet();
+    }
+
+    public DaoSession daoSession = null;
+
+    /**
+     * GreenDao
+     */
+    private synchronized void initDataBase() {
+        try {
+            DaoMaster.OpenHelper helper = new AppOpenHelper(this, "animal-db");
+            Database db = helper.getWritableDb();
+            daoSession = new DaoMaster(db).newSession();
+        } catch (SQLiteCantOpenDatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DaoSession getDaoSession() {
+        if (daoSession == null) {
+            initDataBase();
+        }
+        return daoSession;
     }
 }

@@ -150,6 +150,15 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 builder.show();
             }
         });
+
+        titleBarTbv.setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(mContext, UpSaveActivity.class));
+            }
+        });
+
         name.setOnClickListener(this);
         picIv.setOnClickListener(this);
         status.setOnClickListener(this);
@@ -314,9 +323,6 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             case R.id.siwangtupian:
                 startAlbum(REQ_CODE_DEATH_PIC);
                 break;
-            case R.id.submit_tv:
-                presenter.submit();
-                break;
             case R.id.health_left_iv:
                 presenter.startPhoto(0);
                 break;
@@ -331,6 +337,12 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 break;
             case R.id.time:
                 presenter.getTime();
+                break;
+            case R.id.save_tv:
+                presenter.submit(true);
+                break;
+            case R.id.submit_tv:
+                presenter.submit(false);
                 break;
         }
     }

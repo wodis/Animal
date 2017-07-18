@@ -261,11 +261,12 @@ public class ApiManager {
         return items;
     }
 
-    public static void saveDataAcquisition(DataAcquisition dataAcquisition){
+    public static String saveDataAcquisition(DataAcquisition dataAcquisition){
         dataAcquisition.setUploadTime(TimeUtil.getDateTime());
         dataAcquisition.setUploadName(AccountManager.getAccount().getUserName());
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(dataAcquisition));
         String result = send("SaveDataAcquisition", params);
+        return result;
     }
 }

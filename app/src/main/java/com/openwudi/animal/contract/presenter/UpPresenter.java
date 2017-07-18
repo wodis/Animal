@@ -364,7 +364,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             msg = "请上传图片";
         } else if (address == null) {
             msg = "请重新定位";
-        } else if (collectionTime <= 0){
+        } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
         }
 
@@ -403,7 +403,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             data.setIllPic(Base64.encodeToString(imageByte, Base64.DEFAULT));
         }
 
-        if (data.getIllNum() > 0){
+        if (data.getIllNum() > 0) {
             data.setIllDesc(mView.illDesc());
         }
 
@@ -414,7 +414,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             data.setDeathPic(Base64.encodeToString(imageByte, Base64.DEFAULT));
         }
 
-        if (data.getDeathNum() > 0){
+        if (data.getDeathNum() > 0) {
             data.setDeathDesc(mView.deathDesc());
         }
 
@@ -424,7 +424,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
         data.setBubao(0);
         String bubao = mView.bubao();
-        if (!TextUtils.isEmpty(bubao)){
+        if (!TextUtils.isEmpty(bubao)) {
             data.setBubao(1);
             data.setBubaoDesc(bubao);
             data.setBubaoTime(TimeUtil.getDateTime());
@@ -432,7 +432,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         return data;
     }
 
-    public void submit() {
+    public void submit(final boolean saveOnly) {
         if (!check()) {
             return;
         }
@@ -440,8 +440,13 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 DataAcquisition dataAcquisition = getData();
-                ApiManager.saveDataAcquisition(dataAcquisition);
-                subscriber.onNext("");
+                if (saveOnly) {
+                    mModel.saveDataAcquisition(animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
+                    subscriber.onNext("");
+                } else {
+                    String result = ApiManager.saveDataAcquisition(dataAcquisition);
+                    subscriber.onNext(result);
+                }
                 subscriber.onCompleted();
             }
         };
@@ -467,7 +472,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void onNext(String string) {
-                ((BaseActivity)mContext).finish();
+                ((BaseActivity) mContext).finish();
             }
         });
     }
