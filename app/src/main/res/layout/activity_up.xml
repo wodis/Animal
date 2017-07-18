@@ -209,6 +209,7 @@
 
                 <EditText
                     style="@style/TextAppearance.Cell.Desc"
+                    android:id="@+id/shengbingEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -298,6 +299,7 @@
 
                 <EditText
                     style="@style/TextAppearance.Cell.Desc"
+                    android:id="@+id/siwangEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -342,6 +344,28 @@
                 app:tcv_right_drawable="@drawable/icon_arrow"
                 app:tcv_right_hint="@string/please_select"
                 app:tcv_title="位置"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/gps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="采集经纬度"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="采集时间"
                 app:tcv_type="indicator" />
 
             <TextView

@@ -14,4 +14,10 @@
 
     <dimen name="blue_btn_height">48dp</dimen>
     <dimen name="default_margin">16dp</dimen>
+
+    <dimen name="picker_toolbar_height">40dp</dimen>
+    <dimen name="picker_dialog_height">190dp</dimen>
+    <dimen name="picker_height">230dp</dimen>
+    <dimen name="text_view_default_padding">5dp</dimen>
+    <dimen name="picker_line_mar">15dp</dimen>
 </resources>

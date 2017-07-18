@@ -154,11 +154,12 @@ public class ApiManager {
         return items;
     }
 
-    public static String getTerminalId() {
+    public static String getTerminalId(String useObjectId) {
         JSONObject object = new JSONObject();
         object.put("F_DeviceModel", DeviceUtils.getModel());
         object.put("F_SerialNumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
         object.put("F_MAC", DeviceUtils.getMacAddress(AnimalApplication.INSTANCE));
+        object.put("F_UseObject_Id", useObjectId);
 
         Map<String, String> params = new HashMap<>(1);
         params.put("json", object.toJSONString());
@@ -261,6 +262,8 @@ public class ApiManager {
     }
 
     public static void saveDataAcquisition(DataAcquisition dataAcquisition){
+        dataAcquisition.setUploadTime(TimeUtil.getDateTime());
+        dataAcquisition.setUploadName(AccountManager.getAccount().getUserName());
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(dataAcquisition));
         String result = send("SaveDataAcquisition", params);

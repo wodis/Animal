@@ -78,6 +78,11 @@
             android:screenOrientation="portrait" />
 
         <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"/>
+
+        <service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
             android:exported="true"

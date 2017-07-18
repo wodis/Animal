@@ -21,10 +21,10 @@ import com.openwudi.animal.exception.AnimalException;
 import com.openwudi.animal.exception.RES_STATUS;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Area;
+import com.openwudi.animal.model.Item;
+import com.openwudi.animal.model.ItemEncode;
 import com.openwudi.animal.model.MonitorStation;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,11 +52,14 @@ public class RegisterActivity extends BaseActivity {
     TextView tvArea;
     @BindView(R.id.tv_monitor)
     TextView tvMonitor;
+    @BindView(R.id.tv_tujing)
+    TextView tvTujing;
 
     private String areaId = "110000";
 
     private Area area = null;
     private MonitorStation monitorStation = null;
+    private Item tujing = null;
 
     @Override
     protected void setStatusBarColor() {
@@ -125,6 +128,53 @@ public class RegisterActivity extends BaseActivity {
         tvMonitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Observable.OnSubscribe<List<Item>> onSubscribe = new Observable.OnSubscribe<List<Item>>() {
+                    @Override
+                    public void call(Subscriber<? super List<Item>> subscriber) {
+                        List<Item> items = ApiManager.getItemsList(ItemEncode.SYDX);
+                        subscriber.onNext(items);
+                        subscriber.onCompleted();
+                    }
+                };
+
+                Observable.create(onSubscribe)
+                        .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                tvMonitor.setEnabled(false);
+                                showLoading();
+                            }
+                        }).
+                        subscribe(new Subscriber<List<Item>>() {
+                            @Override
+                            public void onCompleted() {
+                                tvMonitor.setEnabled(true);
+                                hideLoading();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                tvMonitor.setEnabled(true);
+                                hideLoading();
+                                ToastUtils.showShortToast(mContext, e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(List<Item> list) {
+                                if (EmptyUtils.isEmpty(list)) {
+                                    ToastUtils.showShortToast(mContext, "无上报途径");
+                                } else {
+                                    listItem(list);
+                                }
+                            }
+                        });
+            }
+        });
+
+        tvMonitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Observable.OnSubscribe<List<MonitorStation>> onSubscribe = new Observable.OnSubscribe<List<MonitorStation>>() {
                     @Override
                     public void call(Subscriber<? super List<MonitorStation>> subscriber) {
@@ -180,6 +230,27 @@ public class RegisterActivity extends BaseActivity {
                 register();
             }
         });
+    }
+
+    private void listItem(final List<Item> list) {
+        final String[] items = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            items[i] = list.get(i).getName();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        //设置标题
+        builder.setTitle("请选择上报途径");
+        //设置图标
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+                tvTujing.setText(items[i]);
+                tujing = list.get(i);
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     private void listArea(final List<Area> list) {
@@ -240,7 +311,7 @@ public class RegisterActivity extends BaseActivity {
         final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                String tid = ApiManager.getTerminalId();
+                String tid = ApiManager.getTerminalId(tujing.getCode());
                 String uid = ApiManager.addUser(account.getText().toString(), tid, area.getId(), monitorStation.getId());
                 String result = ApiManager.addPassword(uid, password.getText().toString());
                 subscriber.onNext(result);

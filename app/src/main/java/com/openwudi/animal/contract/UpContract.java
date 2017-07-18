@@ -21,6 +21,10 @@ public interface UpContract {
 
         int getDeathNum();
 
+        String illDesc();
+
+        String deathDesc();
+
         void setQixidi(String qixidi);
 
         void setZhuangTai(String string);
@@ -30,6 +34,10 @@ public interface UpContract {
         void setFangwei(String string);
 
         void setWeizhi(String string);
+
+        void setTime(String string);
+
+        void setGps(String string);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

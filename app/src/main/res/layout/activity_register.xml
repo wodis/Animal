@@ -176,6 +176,49 @@
                     android:background="@color/color10" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp">
+
+                <ImageView
+                    android:id="@+id/iv_tujing"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="8dp"
+                    android:src="@drawable/pass" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/iv_tujing"
+                    android:scrollbars="none">
+
+                    <TextView
+                        android:id="@+id/tv_tujing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:hint="请选上报途径"
+                        android:maxLines="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/color5"
+                        android:textColorHint="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                </HorizontalScrollView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color10" />
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"

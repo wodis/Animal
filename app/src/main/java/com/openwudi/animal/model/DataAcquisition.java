@@ -64,6 +64,33 @@ public class DataAcquisition {
     @JSONField(name = "F_Habitat_Id")
     private String habitate;
 
+    @JSONField(name = "F_CollectionLongitude")
+    private String longtitude;
+
+    @JSONField(name = "F_CollectionLatitude")
+    private String latitude;
+
+    @JSONField(name = "F_Altitude")
+    private int altitude;
+
+    @JSONField(name = "F_UploadTime")
+    private String uploadTime;
+
+    @JSONField(name = "F_UploadName")
+    private String uploadName;
+
+    @JSONField(name = "F_IfBubao")
+    private int bubao;
+
+    @JSONField(name = "F_BubaoDes")
+    private String bubaoDesc;
+
+    @JSONField(name = "F_BubaoTime")
+    private String bubaoTime;
+
+    @JSONField(name = "F_UseObject_Id")
+    private String useObjectId;
+
     public String getId() {
         return id;
     }
@@ -214,5 +241,77 @@ public class DataAcquisition {
 
     public void setHabitate(String habitate) {
         this.habitate = habitate;
+    }
+
+    public String getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(int altitude) {
+        this.altitude = altitude;
+    }
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    public String getUploadName() {
+        return uploadName;
+    }
+
+    public void setUploadName(String uploadName) {
+        this.uploadName = uploadName;
+    }
+
+    public int getBubao() {
+        return bubao;
+    }
+
+    public void setBubao(int bubao) {
+        this.bubao = bubao;
+    }
+
+    public String getBubaoDesc() {
+        return bubaoDesc;
+    }
+
+    public void setBubaoDesc(String bubaoDesc) {
+        this.bubaoDesc = bubaoDesc;
+    }
+
+    public String getBubaoTime() {
+        return bubaoTime;
+    }
+
+    public void setBubaoTime(String bubaoTime) {
+        this.bubaoTime = bubaoTime;
+    }
+
+    public String getUseObjectId() {
+        return useObjectId;
+    }
+
+    public void setUseObjectId(String useObjectId) {
+        this.useObjectId = useObjectId;
     }
 }

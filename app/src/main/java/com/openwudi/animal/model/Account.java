@@ -13,6 +13,7 @@ public class Account {
     private int RoleType;
     private String LoginToken;
     private String TerminalId;
+    private String UseObjectId;
 
     public String getUserId() {
         return UserId;
@@ -76,5 +77,13 @@ public class Account {
 
     public void setTerminalId(String terminalId) {
         TerminalId = terminalId;
+    }
+
+    public String getUseObjectId() {
+        return UseObjectId;
+    }
+
+    public void setUseObjectId(String useObjectId) {
+        UseObjectId = useObjectId;
     }
 }

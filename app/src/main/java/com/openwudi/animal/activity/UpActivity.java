@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -101,6 +102,14 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     View shengbingline;
     @BindView(R.id.siwangline)
     View siwangline;
+    @BindView(R.id.gps)
+    TableCellView gps;
+    @BindView(R.id.time)
+    TableCellView time;
+    @BindView(R.id.shengbingEt)
+    EditText shengbingEt;
+    @BindView(R.id.siwangEt)
+    EditText siwangEt;
 
     private String pic;
 
@@ -154,6 +163,28 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         healthLeftIv.setOnClickListener(this);
         illLeftIv.setOnClickListener(this);
         deathLeftIv.setOnClickListener(this);
+        gps.setOnClickListener(this);
+        time.setOnClickListener(this);
+
+        caijishuliang.getmInputEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!checkNumber(s) && s.length() > 0) {
+                    s = s.subSequence(0, s.length() - 1);
+                    caijishuliang.setRightText(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         jiangkangshuliang.getmInputEt().addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,7 +194,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkNumber(s);
+                if (!checkNumber(s) && s.length() > 0) {
+                    s = s.subSequence(0, s.length() - 1);
+                    jiangkangshuliang.setRightText(s.toString());
+                }
                 healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 jiangkangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
             }
@@ -182,7 +216,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkNumber(s);
+                if (!checkNumber(s) && s.length() > 0) {
+                    s = s.subSequence(0, s.length() - 1);
+                    shengbingshuliang.setRightText(s.toString());
+                }
                 illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
@@ -203,7 +240,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkNumber(s);
+                if (!checkNumber(s) && s.length() > 0) {
+                    s = s.subSequence(0, s.length() - 1);
+                    siwangshuliang.setRightText(s.toString());
+                }
                 deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
@@ -215,12 +255,16 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
 
             }
         });
+
+        presenter.gps();
     }
 
-    private void checkNumber(CharSequence s) {
-        if (!RegexUtils.isMatch(REGEX_POSITIVE_INTEGER, s)) {
+    private boolean checkNumber(CharSequence s) {
+        boolean check = RegexUtils.isMatch(REGEX_POSITIVE_INTEGER, s);
+        if (!check) {
             ToastUtils.showShortToast(mContext, "请输入正确的数字");
         }
+        return check;
     }
 
     @Override
@@ -280,6 +324,12 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             case R.id.death_left_iv:
                 presenter.startPhoto(2);
                 break;
+            case R.id.gps:
+                presenter.gps();
+                break;
+            case R.id.time:
+                presenter.getTime();
+                break;
         }
     }
 
@@ -330,22 +380,36 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
 
     @Override
     public int getTotal() {
-        return Integer.parseInt(caijishuliang.getRightText());
+        String total = caijishuliang.getRightRealString();
+        return Integer.parseInt(total.length() > 0 ? total : "0");
     }
 
     @Override
     public int getHealthNum() {
-        return Integer.parseInt(jiangkangshuliang.getRightText());
+        String total = jiangkangshuliang.getRightRealString();
+        return Integer.parseInt(total.length() > 0 ? total : "0");
     }
 
     @Override
     public int getIllNum() {
-        return Integer.parseInt(shengbingshuliang.getRightText());
+        String total = shengbingshuliang.getRightRealString();
+        return Integer.parseInt(total.length() > 0 ? total : "0");
     }
 
     @Override
     public int getDeathNum() {
-        return Integer.parseInt(siwangshuliang.getRightText());
+        String total = siwangshuliang.getRightRealString();
+        return Integer.parseInt(total.length() > 0 ? total : "0");
+    }
+
+    @Override
+    public String illDesc(){
+        return shengbingEt.getText().toString();
+    }
+
+    @Override
+    public String deathDesc(){
+        return siwangEt.getText().toString();
     }
 
     @Override
@@ -371,6 +435,17 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     @Override
     public void setWeizhi(String string) {
         weizhi.setRightText(string);
+    }
+
+    @Override
+    public void setTime(String string) {
+        time.setRightText(string);
+    }
+
+    @Override
+    public void setGps(String string) {
+        gps.setRightText(string);
+        gps.postInvalidate();
     }
 
     public void startAlbum(int requestCode) {

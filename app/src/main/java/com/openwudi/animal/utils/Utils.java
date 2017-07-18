@@ -1,12 +1,20 @@
 package com.openwudi.animal.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.text.TextUtils;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.trace.api.track.TrackPoint;
+import com.blankj.utilcode.utils.ConstUtils;
+import com.blankj.utilcode.utils.ConvertUtils;
+import com.blankj.utilcode.utils.ImageUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,5 +73,69 @@ public class Utils {
         } else {
             return ori;
         }
+    }
+
+    public static byte[] compressImage(byte[] original,double lengthM) {
+        int w = 0;
+        int h = 0;
+        while (original != null && ConvertUtils.byte2Size(original.length, ConstUtils.MemoryUnit.MB) > lengthM) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(original, 0, original.length, options);
+            if (w == 0) {
+                w = options.outWidth;
+                h = options.outHeight;
+                double ratio=1D;
+                if(lengthM>0){
+                    ratio=ConvertUtils.byte2Size(original.length, ConstUtils.MemoryUnit.MB)/lengthM;
+                }
+                if (ratio> 1.0D) {
+                    w /= Math.sqrt(ratio);
+                    h /= Math.sqrt(ratio);
+                }
+            }
+            try {
+                Bitmap b = ImageUtils.getBitmap(original, 0, w, h);
+                original = ConvertUtils.bitmap2Bytes(b, Bitmap.CompressFormat.JPEG);
+                b.recycle();
+            } catch (OutOfMemoryError | Exception ignored) {
+                ignored.printStackTrace();
+            } finally {
+                w *= 0.75;
+                h *= 0.75;
+            }
+        }
+        return original;
+    }
+
+    // string类型转换为long类型
+    // strTime要转换的String类型的时间
+    // formatType时间格式
+    // strTime的时间格式和formatType的时间格式必须相同
+    public static long string2Long(String strTime, String formatType) {
+        Date date = string2Date(strTime, formatType); // String类型转成date类型
+        if (date == null) {
+            return 0;
+        } else {
+            long currentTime = date2Long(date); // date类型转成long类型
+            return currentTime;
+        }
+    }
+
+    public static Date string2Date(String strTime, String formatType) {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatType);
+        Date date = null;
+        try {
+            date = formatter.parse(strTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    // date类型转换为long类型
+    // date要转换的date类型的时间
+    public static long date2Long(Date date) {
+        return date.getTime();
     }
 }
