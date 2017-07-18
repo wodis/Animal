@@ -467,6 +467,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void onNext(String string) {
+                ((BaseActivity)mContext).finish();
             }
         });
     }
