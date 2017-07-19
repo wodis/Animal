@@ -461,9 +461,14 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
-    public void setGps(String string) {
-        gps.setRightText(string);
-        gps.postInvalidate();
+    public void setGps(final String string) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gps.setRightText(string);
+                gps.postInvalidate();
+            }
+        });
     }
 
     public void startAlbum(int requestCode) {
