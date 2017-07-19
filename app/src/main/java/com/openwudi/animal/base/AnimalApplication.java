@@ -33,6 +33,7 @@ import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.NetUtil;
 
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,6 +230,8 @@ public class AnimalApplication extends Application {
             DaoMaster.OpenHelper helper = new AppOpenHelper(this, "animal-db");
             Database db = helper.getWritableDb();
             daoSession = new DaoMaster(db).newSession();
+            QueryBuilder.LOG_SQL = true;
+            QueryBuilder.LOG_VALUES = true;
         } catch (SQLiteCantOpenDatabaseException e) {
             e.printStackTrace();
         }

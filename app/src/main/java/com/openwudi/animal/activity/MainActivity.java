@@ -198,7 +198,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTabEvent(TabEvent event){
+    public void onTabEvent(
+            TabEvent event){
         selectMainTab(event.getPosition());
         mainVp.setCurrentItem(event.getPosition(), false);
     }

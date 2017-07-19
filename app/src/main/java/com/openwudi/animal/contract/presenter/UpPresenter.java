@@ -393,13 +393,14 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         data.setLatitude(latitude + "");
         data.setLongtitude(longtitude + "");
         data.setAltitude((int) altitude);
-        if (health != null) {
+        if (health != null && mView.getHealthNum() > 0) {
             byte[] imageByteO = FileUtils.readFile2Bytes(health.getPath());
             byte[] imageByte = Utils.compressImage(imageByteO, 0.3D);
             data.setHealthPic(Base64.encodeToString(imageByte, Base64.DEFAULT));
         }
+
         data.setIllNum(mView.getIllNum());
-        if (ill != null) {
+        if (ill != null && mView.getIllNum() > 0) {
             byte[] imageByteO = FileUtils.readFile2Bytes(ill.getPath());
             byte[] imageByte = Utils.compressImage(imageByteO, 0.3D);
             data.setIllPic(Base64.encodeToString(imageByte, Base64.DEFAULT));
@@ -410,7 +411,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         }
 
         data.setDeathNum(mView.getDeathNum());
-        if (death != null) {
+        if (death != null && data.getDeathNum() > 0) {
             byte[] imageByteO = FileUtils.readFile2Bytes(death.getPath());
             byte[] imageByte = Utils.compressImage(imageByteO, 0.3D);
             data.setDeathPic(Base64.encodeToString(imageByte, Base64.DEFAULT));

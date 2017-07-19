@@ -27,39 +27,15 @@ public class UpEntityManager {
         List<UpEntity> entityList = dao.queryBuilder().orderDesc(UpEntityDao.Properties.Id).list();
         List<UpObject> list = new ArrayList<>();
         for (UpEntity entity : entityList) {
-            Animal animal = null;
-            DataAcquisition dataAcquisition = null;
-            Item qixidi = null;
-            Set<Item> zhuangtai = null;
-            Item juli = null;
-            Item fangwei = null;
-            Item weizhi = null;
-            if (EmptyUtils.isNotEmpty(entity.getAnimal())) {
-                animal = JSON.parseObject(entity.getAnimal(), Animal.class);
-            }
-            if (EmptyUtils.isNotEmpty(entity.getData())) {
-                dataAcquisition = JSON.parseObject(entity.getData(), DataAcquisition.class);
-            }
-            if (EmptyUtils.isNotEmpty(entity.getQixidi())) {
-                qixidi = JSON.parseObject(entity.getQixidi(), Item.class);
-            }
-            if (EmptyUtils.isNotEmpty(entity.getZhuangtai())) {
-                zhuangtai = JSON.parseObject(entity.getZhuangtai(), new TypeReference<Set<Item>>() {
-                });
-            }
-            if (EmptyUtils.isNotEmpty(entity.getJuli())) {
-                juli = JSON.parseObject(entity.getJuli(), Item.class);
-            }
-            if (EmptyUtils.isNotEmpty(entity.getFangwei())) {
-                fangwei = JSON.parseObject(entity.getFangwei(), Item.class);
-            }
-            if (EmptyUtils.isNotEmpty(entity.getWeizhi())) {
-                weizhi = JSON.parseObject(entity.getWeizhi(), Item.class);
-            }
-            UpObject o = new UpObject(entity.getId(), animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
-            list.add(o);
+            list.add(buildUpObject(entity));
         }
         return list;
+    }
+
+    public static void deleteById(Long id) {
+        List<Long> ids = new ArrayList<>();
+        ids.add(id);
+        deleteById(ids);
     }
 
     public static void deleteById(List<Long> id) {
@@ -68,5 +44,46 @@ public class UpEntityManager {
         }
         UpEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getUpEntityDao();
         dao.deleteByKeyInTx(id);
+    }
+
+    public static UpObject getById(Long id){
+        UpEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getUpEntityDao();
+        List<UpEntity> entityList = dao.queryBuilder().where(UpEntityDao.Properties.Id.eq(id)).list();
+        UpEntity entity = entityList.get(0);
+        return buildUpObject(entity);
+    }
+
+    private static UpObject buildUpObject(UpEntity entity){
+        Animal animal = null;
+        DataAcquisition dataAcquisition = null;
+        Item qixidi = null;
+        Set<Item> zhuangtai = null;
+        Item juli = null;
+        Item fangwei = null;
+        Item weizhi = null;
+        if (EmptyUtils.isNotEmpty(entity.getAnimal())) {
+            animal = JSON.parseObject(entity.getAnimal(), Animal.class);
+        }
+        if (EmptyUtils.isNotEmpty(entity.getData())) {
+            dataAcquisition = JSON.parseObject(entity.getData(), DataAcquisition.class);
+        }
+        if (EmptyUtils.isNotEmpty(entity.getQixidi())) {
+            qixidi = JSON.parseObject(entity.getQixidi(), Item.class);
+        }
+        if (EmptyUtils.isNotEmpty(entity.getZhuangtai())) {
+            zhuangtai = JSON.parseObject(entity.getZhuangtai(), new TypeReference<Set<Item>>() {
+            });
+        }
+        if (EmptyUtils.isNotEmpty(entity.getJuli())) {
+            juli = JSON.parseObject(entity.getJuli(), Item.class);
+        }
+        if (EmptyUtils.isNotEmpty(entity.getFangwei())) {
+            fangwei = JSON.parseObject(entity.getFangwei(), Item.class);
+        }
+        if (EmptyUtils.isNotEmpty(entity.getWeizhi())) {
+            weizhi = JSON.parseObject(entity.getWeizhi(), Item.class);
+        }
+        UpObject o = new UpObject(entity.getId(), animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
+        return o;
     }
 }

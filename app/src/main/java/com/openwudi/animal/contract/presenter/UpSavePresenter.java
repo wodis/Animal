@@ -99,7 +99,7 @@ public class UpSavePresenter extends UpSaveContract.Presenter {
             @Override
             public void onNext(List<UpObject> upObjects) {
                 if (upObjects.size() == 0){
-                    ToastUtils.showShortToast(mContext, "无数据");
+//                    ToastUtils.showShortToast(mContext, "无数据");
                     mView.setData(new ArrayList<UpObject>());
                 } else {
                     mView.setData(upObjects);

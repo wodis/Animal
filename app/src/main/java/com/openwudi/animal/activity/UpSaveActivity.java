@@ -1,7 +1,10 @@
 package com.openwudi.animal.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,8 +18,15 @@ import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.UpSaveContract;
 import com.openwudi.animal.contract.model.UpSaveModel;
 import com.openwudi.animal.contract.presenter.UpSavePresenter;
+import com.openwudi.animal.db.UpEntity;
+import com.openwudi.animal.db.manager.UpEntityManager;
+import com.openwudi.animal.event.UpEvent;
 import com.openwudi.animal.model.UpObject;
 import com.openwudi.animal.view.TitleBarView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,14 +70,41 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<UpObject> list = adapter.getData();
-                if (list.size() > 0){
-                    presenter.report(list);
-                } else {
-                    ToastUtils.showShortToast(mContext, "无上报数据");
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("确定上报吗?");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<UpObject> list = adapter.getData();
+                        if (list.size() > 0) {
+                            presenter.report(list);
+                        } else {
+                            ToastUtils.showShortToast(mContext, "无上报数据");
+                        }
+                    }
+                });
+                //    设置一个NegativeButton
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
             }
         });
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpEvent(UpEvent event) {
+        presenter.refresh();
     }
 
     @Override
@@ -100,13 +137,20 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
                 convertView = View.inflate(mContext, R.layout.view_save_item, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
-            UpObject object = getItem(position);
+            final UpObject object = getItem(position);
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             Date date = TimeUtils.string2Date(object.getDataAcquisition().getCollectionTime());
             viewHolder.tvDate.setText(TimeUtils.date2String(date, new SimpleDateFormat("MM-dd HH时")));
             viewHolder.tvName.setText(object.getAnimal().getName());
             viewHolder.tvQixidi.setText(object.getQixidi().getName());
             viewHolder.total.setText(object.getDataAcquisition().getTotal() + "");
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startDetail(object);
+                }
+            });
 
             return convertView;
         }
@@ -132,8 +176,14 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
             notifyDataSetChanged();
         }
 
-        public List<UpObject> getData(){
+        public List<UpObject> getData() {
             return data;
+        }
+
+        private void startDetail(UpObject object) {
+            Intent i = new Intent(mContext, UpDetailActivity.class);
+            i.putExtra("id", object.getId().longValue());
+            startActivity(i);
         }
     }
 }

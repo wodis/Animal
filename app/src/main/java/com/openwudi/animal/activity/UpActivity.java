@@ -154,7 +154,6 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         titleBarTbv.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 startActivity(new Intent(mContext, UpSaveActivity.class));
             }
         });
