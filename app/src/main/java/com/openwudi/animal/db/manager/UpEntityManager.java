@@ -56,9 +56,17 @@ public class UpEntityManager {
             if (EmptyUtils.isNotEmpty(entity.getWeizhi())) {
                 weizhi = JSON.parseObject(entity.getWeizhi(), Item.class);
             }
-            UpObject o = new UpObject(animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
+            UpObject o = new UpObject(entity.getId(), animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
             list.add(o);
         }
         return list;
+    }
+
+    public static void deleteById(List<Long> id) {
+        if (EmptyUtils.isEmpty(id)){
+            return;
+        }
+        UpEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getUpEntityDao();
+        dao.deleteByKeyInTx(id);
     }
 }

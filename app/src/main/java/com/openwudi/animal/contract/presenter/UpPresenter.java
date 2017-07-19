@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.baidu.location.Address;
 import com.blankj.utilcode.utils.ConstUtils;
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.ImageUtils;
 import com.blankj.utilcode.utils.LogUtils;
@@ -19,6 +20,7 @@ import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.PhotoActivity;
+import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.UpContract;
 import com.openwudi.animal.location.LocationHelper;
@@ -472,7 +474,12 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void onNext(String string) {
-                ((BaseActivity) mContext).finish();
+                if (EmptyUtils.isEmpty(string)){
+                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpSaveActivity.class));
+                    ((BaseActivity) mContext).finish();
+                } else {
+                    ((BaseActivity) mContext).finish();
+                }
             }
         });
     }

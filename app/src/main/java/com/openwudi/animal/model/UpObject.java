@@ -7,6 +7,7 @@ import java.util.Set;
  */
 
 public class UpObject {
+    private Long id;
     private Animal animal;
     private DataAcquisition dataAcquisition;
     private Item qixidi;
@@ -15,7 +16,8 @@ public class UpObject {
     private Item fangwei;
     private Item weizhi;
 
-    public UpObject(Animal animal, DataAcquisition dataAcquisition, Item qixidi, Set<Item> zhuangtai, Item juli, Item fangwei, Item weizhi) {
+    public UpObject(Long id, Animal animal, DataAcquisition dataAcquisition, Item qixidi, Set<Item> zhuangtai, Item juli, Item fangwei, Item weizhi) {
+        this.id = id;
         this.animal = animal;
         this.dataAcquisition = dataAcquisition;
         this.qixidi = qixidi;
@@ -79,5 +81,13 @@ public class UpObject {
 
     public void setWeizhi(Item weizhi) {
         this.weizhi = weizhi;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="100dp"
+        android:padding="10dp"
+        android:layout_height="60dp"
+        android:text="采集时间"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16dp"
+        android:textColor="@color/color2"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="100dp"
+        android:padding="10dp"
+        android:layout_height="match_parent"
+        android:text="动物名称"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16dp"
+        android:textColor="@color/color2"/>
+
+    <TextView
+        android:id="@+id/tv_qixidi"
+        android:layout_width="85dp"
+        android:padding="10dp"
+        android:layout_height="match_parent"
+        android:text="栖息地"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16dp"
+        android:textColor="@color/color2"/>
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="match_parent"
+        android:text="数量"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16dp"
+        android:textColor="@color/color2"/>
+
+</LinearLayout>
