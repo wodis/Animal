@@ -7,8 +7,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.model.Message;
 import com.openwudi.animal.view.TitleBarView;
 
 import butterknife.BindView;
@@ -40,6 +42,7 @@ public class MessageDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         String title;
         String message;
+        Message m = new Message();
         if (intent.getData() != null) {
             Uri uri = intent.getData();
             title = uri.getQueryParameter("title");
@@ -47,9 +50,10 @@ public class MessageDetailActivity extends BaseActivity {
         } else {
             title = intent.getStringExtra("title");
             message = intent.getStringExtra("desc");
+            m = (Message) intent.getSerializableExtra(Message.class.getSimpleName());
         }
 
-        setMessage(title, message);
+        setMessage(title, message + "\n\n\n" + m.getPostName() + "\n" + TimeUtils.date2String(TimeUtils.string2Date(m.getDate().replaceAll("T"," "))));
     }
 
     private void setMessage(String title, String message) {

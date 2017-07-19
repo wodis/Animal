@@ -21,7 +21,10 @@ import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Message;
 import com.openwudi.animal.utils.TimeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -151,7 +154,11 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
             final Message message = getItem(position);
             viewHolder.tvText1.setText(message.getTitle());
             viewHolder.tvText2.setText(message.getContent());
-            viewHolder.tvRight.setText(message.getDate());
+            try {
+                viewHolder.tvRight.setText(TimeUtils.date2String(TimeUtils.string2Date(message.getDate().replaceAll("T"," "))));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,6 +166,7 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
                     Intent i = new Intent(getActivity(), MessageDetailActivity.class);
                     i.putExtra("title", message.getTitle());
                     i.putExtra("desc", message.getContent());
+                    i.putExtra(Message.class.getSimpleName(), message);
                     startActivity(i);
                 }
             });

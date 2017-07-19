@@ -2,11 +2,13 @@ package com.openwudi.animal.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
+
 /**
  * Created by diwu on 17/7/14.
  */
 
-public class Message {
+public class Message implements Serializable{
     @JSONField(name = "F_Id")
     private String id;
 
@@ -18,6 +20,9 @@ public class Message {
 
     @JSONField(name = "F_PostDate")
     private String date;
+
+    @JSONField(name = "F_PostName")
+    private String postName;
 
     public String getId() {
         return id;
@@ -49,5 +54,13 @@ public class Message {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName;
     }
 }
