@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/splash_bg" />
+    <item android:drawable="@color/transparent" />
 
-    <item android:bottom="0dp">
-        <bitmap
-            android:tileMode="disabled"
-            android:src="@drawable/splash_bg" />
-    </item>
+    <!--<item android:bottom="0dp">-->
+        <!--<bitmap-->
+            <!--android:gravity="center_horizontal|bottom"-->
+            <!--android:src="@drawable/splash_bg" />-->
+    <!--</item>-->
 
     <item android:bottom="120dp">
         <bitmap
             android:gravity="center_horizontal|bottom"
-            android:src="@drawable/splash_logo"
-            android:dither="true" />
+            android:src="@drawable/splash_logo" />
     </item>
 
     <item android:bottom="70dp">

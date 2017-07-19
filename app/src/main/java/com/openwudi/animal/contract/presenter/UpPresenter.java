@@ -492,7 +492,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
                 LogUtils.d("L", "定位经纬度：latitude：" + lat + ",longitude:" + lon + ",altitude:" + altitude);
                 mView.setGps(lat + "," + lon);
                 if (!TextUtils.isEmpty(add.address)) {
-                    ToastUtils.showShortToast(mContext, add.street);
+//                    ToastUtils.showShortToast(mContext, add.street);
                 }
                 address = add;
                 latitude = lat;
