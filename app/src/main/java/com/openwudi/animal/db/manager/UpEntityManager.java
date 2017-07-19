@@ -24,7 +24,7 @@ import java.util.Set;
 public class UpEntityManager {
     public static List<UpObject> listAll() {
         UpEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getUpEntityDao();
-        List<UpEntity> entityList = dao.queryBuilder().orderDesc(UpEntityDao.Properties.Id).list();
+        List<UpEntity> entityList = dao.queryBuilder().orderDesc(UpEntityDao.Properties.Id).limit(1000).list();
         List<UpObject> list = new ArrayList<>();
         for (UpEntity entity : entityList) {
             list.add(buildUpObject(entity));

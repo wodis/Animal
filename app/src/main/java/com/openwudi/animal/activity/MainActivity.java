@@ -134,9 +134,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Drawable homeDrawable = ContextCompat.getDrawable(this, R.drawable.icons);
         Drawable helpDrawable = ContextCompat.getDrawable(this, R.drawable.icon_msg);
         Drawable myDrawable = ContextCompat.getDrawable(this, R.drawable.settings);
-        int homeTextColor = ContextCompat.getColor(this, R.color.main_tab_text_normal);
-        int helpTextColor = ContextCompat.getColor(this, R.color.main_tab_text_normal);
-        int myTextColor = ContextCompat.getColor(this, R.color.main_tab_text_normal);
+        int homeTextColor = ContextCompat.getColor(this, R.color.color6);
+        int helpTextColor = ContextCompat.getColor(this, R.color.color6);
+        int myTextColor = ContextCompat.getColor(this, R.color.color6);
 
         switch (id) {
             case TAB_HOME:
