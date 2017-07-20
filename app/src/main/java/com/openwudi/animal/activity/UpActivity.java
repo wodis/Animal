@@ -130,6 +130,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         shengbingshuliang.setInputType(InputType.TYPE_CLASS_PHONE);
         siwangshuliang.setInputType(InputType.TYPE_CLASS_PHONE);
 
+        caijishuliang.setInputMaxLength(9);
+        jiangkangshuliang.setInputMaxLength(9);
+        shengbingshuliang.setInputMaxLength(9);
+        siwangshuliang.setInputMaxLength(9);
+
         titleBarTbv.setLeftListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,13 +153,6 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     }
                 });
                 builder.show();
-            }
-        });
-
-        titleBarTbv.setRightListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, UpSaveActivity.class));
             }
         });
 

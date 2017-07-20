@@ -21,6 +21,7 @@ import com.openwudi.animal.R;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
 import com.openwudi.animal.activity.UpActivity;
+import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.model.SortItem;
 
@@ -47,18 +48,6 @@ public class HomeFragment extends Fragment {
     private static List<SortItem> data = new ArrayList<>();
 
     public static HomeFragment newInstance() {
-        if (data.isEmpty()) {
-            data.add(new SortItem("信息采集", R.drawable.icon_xinxi));
-            data.add(new SortItem("路径信息", R.drawable.icon_lujing));
-            data.add(new SortItem("历史记录", R.drawable.icon_lishi));
-            data.add(new SortItem("通知信息", R.drawable.icon_tongzhi));
-            data.add(new SortItem("紧急电话", R.drawable.icon_jinjidianhua));
-            data.add(new SortItem("IP设置", R.drawable.icon_ip));
-            data.add(new SortItem("GPS频率", R.drawable.icon_gps));
-            data.add(new SortItem("物种检索", R.drawable.icon_wuzhongjiansuo));
-            data.add(new SortItem("科普知识", R.drawable.icon_kepuzhishi));
-        }
-
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
@@ -70,6 +59,18 @@ public class HomeFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         SortAdapter adapter = new SortAdapter(getActivity());
         gview.setAdapter(adapter);
+
+        if (data.isEmpty()) {
+            data.add(new SortItem("信息采集", R.drawable.icon_xinxi));
+            data.add(new SortItem("保存列表", R.drawable.icon_ip));
+            data.add(new SortItem("历史记录", R.drawable.icon_lishi));
+            data.add(new SortItem("路径信息", R.drawable.icon_lujing));
+            data.add(new SortItem("通知信息", R.drawable.icon_tongzhi));
+            data.add(new SortItem("紧急电话", R.drawable.icon_jinjidianhua));
+            data.add(new SortItem("GPS频率", R.drawable.icon_gps));
+            data.add(new SortItem("物种检索", R.drawable.icon_wuzhongjiansuo));
+            data.add(new SortItem("科普知识", R.drawable.icon_kepuzhishi));
+        }
         adapter.set(data);
         return view;
     }
@@ -165,14 +166,15 @@ public class HomeFragment extends Fragment {
                     context.startActivity(new Intent(context, UpActivity.class));
                     break;
                 case 1:
-                    gps();
-                    break;
-                case 2:
+                    context.startActivity(new Intent(context, UpSaveActivity.class));
                     break;
                 case 3:
-                    EventBus.getDefault().post(new TabEvent(1));
+                    gps();
                     break;
                 case 4:
+                    EventBus.getDefault().post(new TabEvent(1));
+                    break;
+                case 5:
                     call();
                     break;
             }

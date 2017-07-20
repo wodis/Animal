@@ -206,6 +206,29 @@ public class UpDetailActivity extends BaseActivity {
             siwangmiaoshu.setVisibility(View.GONE);
             siwangline.setVisibility(View.GONE);
         }
+
+        if (EmptyUtils.isNotEmpty(object.getAnimal().getPhoto())){
+            picIv.setVisibility(View.VISIBLE);
+            findViewById(R.id.pic_line).setVisibility(View.VISIBLE);
+            String pic = getString(R.string.PIC_URL) + object.getAnimal().getPhoto();
+            Glide.with(mContext).load(pic).into(picIv);
+        }
+
+        name.setRightDrawable(0);
+        caijishuliang.setRightDrawable(0);
+        qixidi.setRightDrawable(0);
+        status.setRightDrawable(0);
+        jiangkangshuliang.setRightDrawable(0);
+        jiangkangtupian.setRightDrawable(0);
+        shengbingshuliang.setRightDrawable(0);
+        shengbingtupian.setRightDrawable(0);
+        siwangshuliang.setRightDrawable(0);
+        siwangtupian.setRightDrawable(0);
+        juli.setRightDrawable(0);
+        fangwei.setRightDrawable(0);
+        weizhi.setRightDrawable(0);
+        gps.setRightDrawable(0);
+        time.setRightDrawable(0);
     }
 
     private void getObject(final Long id) {
