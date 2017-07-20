@@ -125,7 +125,7 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
-        tvMonitor.setOnClickListener(new View.OnClickListener() {
+        tvTujing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Observable.OnSubscribe<List<Item>> onSubscribe = new Observable.OnSubscribe<List<Item>>() {
@@ -142,20 +142,20 @@ public class RegisterActivity extends BaseActivity {
                         .doOnSubscribe(new Action0() {
                             @Override
                             public void call() {
-                                tvMonitor.setEnabled(false);
+                                tvTujing.setEnabled(false);
                                 showLoading();
                             }
                         }).
                         subscribe(new Subscriber<List<Item>>() {
                             @Override
                             public void onCompleted() {
-                                tvMonitor.setEnabled(true);
+                                tvTujing.setEnabled(true);
                                 hideLoading();
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                tvMonitor.setEnabled(true);
+                                tvTujing.setEnabled(true);
                                 hideLoading();
                                 ToastUtils.showShortToast(mContext, e.getMessage());
                             }
