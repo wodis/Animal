@@ -29,6 +29,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +133,7 @@ public class ApiManager {
         return items;
     }
 
-    public static Animal getAnimalModel(String id){
+    public static Animal getAnimalModel(String id) {
         Map<String, String> params = new HashMap<>(1);
         params.put("keyValue", id);
         String result = send("GetAnimalModel", params);
@@ -244,7 +245,7 @@ public class ApiManager {
         spUtils.clear();
     }
 
-    public static List<Message> listMessage(){
+    public static List<Message> listMessage() {
         Map<String, String> params = new HashMap<>(1);
         params.put("userid", AccountManager.getAccount().getUserId());
         String result = send("GetMessageList", params);
@@ -252,16 +253,28 @@ public class ApiManager {
         return items;
     }
 
-    public static List<DataAcquisition> getDataAcquisitionList(){
+    public static DataAcquisition getDataAcquisitionModel(String key) {
         Map<String, String> params = new HashMap<>(1);
-        params.put("terminalid", "8a661e8e-f1c6-4033-af47-fc047438ed6c");
-        params.put("date", "2017-07-04T10:33:44.000");
+        params.put("keyValue", key);
+        String result = send("GetDataAcquisitionModel", params);
+        return JSON.parseObject(result, DataAcquisition.class);
+    }
+
+    public static List<DataAcquisition> getDataAcquisitionList(int index) {
+        Map<String, String> params = new HashMap<>(2);
+        params.put("terminalid", AccountManager.getAccount().getTerminalId());
+        params.put("pageIndex", index+"");
         String result = send("GetDataAcquisitionList", params);
         List<DataAcquisition> items = JSON.parseArray(result, DataAcquisition.class);
+        for (DataAcquisition data : items) {
+            if (EmptyUtils.isEmpty(data.getAnimalName())){
+                data.setAnimalName(getAnimalModel(data.getAnimalId()).getName());
+            }
+        }
         return items;
     }
 
-    public static String saveDataAcquisition(DataAcquisition dataAcquisition){
+    public static String saveDataAcquisition(DataAcquisition dataAcquisition) {
         dataAcquisition.setUploadTime(TimeUtil.getDateTime());
         dataAcquisition.setUploadName(AccountManager.getAccount().getUserName());
         Map<String, String> params = new HashMap<>(1);

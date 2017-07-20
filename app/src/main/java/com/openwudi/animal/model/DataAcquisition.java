@@ -2,11 +2,13 @@ package com.openwudi.animal.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
+
 /**
  * Created by diwu on 17/7/17.
  */
 
-public class DataAcquisition {
+public class DataAcquisition implements Serializable {
     @JSONField(name = "F_Id")
     private String id;
 
@@ -21,6 +23,9 @@ public class DataAcquisition {
 
     @JSONField(name = "F_Animal_Id")
     private String animalId;
+
+    @JSONField(name = "F_AnimalName")
+    private String animalName;
 
     @JSONField(name = "F_TotalNumber")
     private int total;
@@ -313,5 +318,13 @@ public class DataAcquisition {
 
     public void setUseObjectId(String useObjectId) {
         this.useObjectId = useObjectId;
+    }
+
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public void setAnimalName(String animalName) {
+        this.animalName = animalName;
     }
 }

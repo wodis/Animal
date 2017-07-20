@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
+import com.openwudi.animal.activity.HistoryActivity;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
 import com.openwudi.animal.activity.UpActivity;
@@ -167,6 +168,9 @@ public class HomeFragment extends Fragment {
                     break;
                 case 1:
                     context.startActivity(new Intent(context, UpSaveActivity.class));
+                    break;
+                case 2:
+                    context.startActivity(new Intent(context, HistoryActivity.class));
                     break;
                 case 3:
                     gps();
