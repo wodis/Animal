@@ -17,10 +17,15 @@ import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.HistoryContract;
 import com.openwudi.animal.contract.model.HistoryModel;
 import com.openwudi.animal.contract.presenter.HistoryPresenter;
+import com.openwudi.animal.event.IdEvent;
 import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.UpObject;
 import com.openwudi.animal.view.MoreListView;
 import com.openwudi.animal.view.TitleBarView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +78,27 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
                 finish();
             }
         });
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onIdEvent(IdEvent event){
+        List<DataAcquisition> list = adapter.getData();
+        DataAcquisition remove = null;
+        for (DataAcquisition data : list){
+            if (data.getId().equals(event.getId())){
+                remove = data;
+                break;
+            }
+        }
+        list.remove(remove);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -90,7 +116,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
 
     @Override
     public void addData(List<DataAcquisition> data) {
-        if (EmptyUtils.isNotEmpty(data)){
+        if (EmptyUtils.isNotEmpty(data)) {
             adapter.addData(data);
             lv.onLoadMoreComplete();
         } else {
@@ -126,7 +152,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.view_save_item, null);
                 convertView.setTag(new ViewHolder(convertView));
@@ -142,6 +168,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    startDetail(getItem(position));
                 }
             });
 
@@ -178,9 +205,9 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
             notifyDataSetChanged();
         }
 
-        private void startDetail(UpObject object) {
+        private void startDetail(DataAcquisition data) {
             Intent i = new Intent(mContext, UpDetailActivity.class);
-            i.putExtra("id", object.getId().longValue());
+            i.putExtra(DataAcquisition.class.getSimpleName(), data);
             startActivity(i);
         }
     }

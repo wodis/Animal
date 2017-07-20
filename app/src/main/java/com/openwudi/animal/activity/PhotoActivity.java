@@ -3,8 +3,10 @@ package com.openwudi.animal.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.R;
@@ -35,10 +37,13 @@ public class PhotoActivity extends BaseActivity {
         ButterKnife.bind(this);
         String pic = getIntent().getStringExtra("pic");
         LocalMedia animal = (LocalMedia) getIntent().getSerializableExtra(Animal.class.getSimpleName());
+        String base64 = getIntent().getStringExtra(Base64.class.getSimpleName());
         if (!TextUtils.isEmpty(pic)){
             Glide.with(this).load(pic).into(photoView);
         } else if (animal != null){
             Glide.with(this).load(new File(animal.getPath())).into(photoView);
+        } else if (EmptyUtils.isNotEmpty(base64)){
+            Glide.with(this).load(Base64.decode(base64, Base64.DEFAULT)).into(photoView);
         }
 
         titleBarTbv.setLeftListener(new View.OnClickListener() {

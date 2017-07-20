@@ -260,6 +260,13 @@ public class ApiManager {
         return JSON.parseObject(result, DataAcquisition.class);
     }
 
+    public static String deleteDataAcquisition(String key){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("keyValue", key);
+        String result = send("DeleteDataAcquisition", params);
+        return result;
+    }
+
     public static List<DataAcquisition> getDataAcquisitionList(int index) {
         Map<String, String> params = new HashMap<>(2);
         params.put("terminalid", AccountManager.getAccount().getTerminalId());

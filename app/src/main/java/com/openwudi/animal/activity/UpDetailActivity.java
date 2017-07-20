@@ -19,9 +19,13 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.contract.UpDetailContract;
+import com.openwudi.animal.contract.model.UpDetailModel;
+import com.openwudi.animal.contract.presenter.UpDetailPresenter;
 import com.openwudi.animal.db.manager.UpEntityManager;
 import com.openwudi.animal.event.UpEvent;
 import com.openwudi.animal.manager.ApiManager;
+import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.UpObject;
@@ -46,7 +50,7 @@ import rx.schedulers.Schedulers;
  * Created by diwu on 17/7/19.
  */
 
-public class UpDetailActivity extends BaseActivity {
+public class UpDetailActivity extends BaseActivity implements UpDetailContract.View, View.OnClickListener {
 
     @BindView(R.id.title_bar_tbv)
     TitleBarView titleBarTbv;
@@ -106,18 +110,39 @@ public class UpDetailActivity extends BaseActivity {
     EditText bubaoEt;
     @BindView(R.id.submit_tv)
     TextView submitTv;
+
+    private UpDetailPresenter presenter;
+
+    private boolean isUp = true;
+
     private UpObject object;
+
+    private DataAcquisition dataAcquisition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_detail);
         ButterKnife.bind(this);
+        presenter = new UpDetailPresenter();
+        presenter.setVM(this, this, new UpDetailModel());
         Long id = getIntent().getLongExtra("id", 0);
-        getObject(id);
+        dataAcquisition = (DataAcquisition) getIntent().getSerializableExtra(DataAcquisition.class.getSimpleName());
+
+        if (dataAcquisition != null) {
+            isUp = false;
+        }
+
+        if (isUp) {
+            presenter.getObject(id);
+        } else {
+            presenter.getObjectByData(dataAcquisition);
+        }
     }
 
-    private void initView() {
+
+    @Override
+    public void initView() {
         titleBarTbv.setLeftListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +157,13 @@ public class UpDetailActivity extends BaseActivity {
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        UpEntityManager.deleteById(object.getId());
-                        refresh();
-                        finish();
+                        if (isUp) {
+                            UpEntityManager.deleteById(object.getId());
+                            refresh();
+                            finish();
+                        } else {
+                            presenter.delete(dataAcquisition.getId());
+                        }
                     }
                 });
                 //    设置一个NegativeButton
@@ -149,33 +178,56 @@ public class UpDetailActivity extends BaseActivity {
         titleBarTbv.setTitle(object.getAnimal().getName());
 
         name.setRightText(object.getAnimal().getName());
-        caijishuliang.setRightText(object.getDataAcquisition().getTotal()+"");
-        qixidi.setRightText(object.getQixidi().getName());
-        status.setRightText(getAnimalState(object.getZhuangtai()));
-        jiangkangshuliang.setRightText(object.getDataAcquisition().getHealthNum()+"");
+        caijishuliang.setRightText(object.getDataAcquisition().getTotal() + "");
+        if (EmptyUtils.isNotEmpty(object.getQixidi())) {
+            qixidi.setRightText(object.getQixidi().getName());
+        }
+        if (EmptyUtils.isNotEmpty(object.getZhuangtai())) {
+            status.setRightText(getAnimalState(object.getZhuangtai()));
+            status.setOnClickListener(this);
+        }
+        jiangkangshuliang.setRightText(object.getDataAcquisition().getHealthNum() + "");
 
-        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getHealthPic())){
+        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getHealthPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getHealthPic(), Base64.DEFAULT)).into(healthLeftIv);
+            healthLeftIv.setOnClickListener(this);
         }
 
-        shengbingshuliang.setRightText(object.getDataAcquisition().getIllNum()+"");
-        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getIllPic())){
+        shengbingshuliang.setRightText(object.getDataAcquisition().getIllNum() + "");
+        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getIllPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getIllPic(), Base64.DEFAULT)).into(illLeftIv);
+            illLeftIv.setOnClickListener(this);
         }
         shengbingEt.setText(object.getDataAcquisition().getIllDesc());
 
-        siwangshuliang.setRightText(object.getDataAcquisition().getDeathNum()+"");
-        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getDeathPic())){
+        siwangshuliang.setRightText(object.getDataAcquisition().getDeathNum() + "");
+        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getDeathPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getDeathPic(), Base64.DEFAULT)).into(deathLeftIv);
+            deathLeftIv.setOnClickListener(this);
         }
         siwangEt.setText(object.getDataAcquisition().getDeathDesc());
 
-        juli.setRightText(object.getJuli().getName());
-        fangwei.setRightText(object.getFangwei().getName());
-        weizhi.setRightText(object.getWeizhi().getName());
-        gps.setRightText(object.getDataAcquisition().getLatitude() + "," + object.getDataAcquisition().getLongtitude());
-        time.setRightText(object.getDataAcquisition().getCollectionTime());
-        if (object.getDataAcquisition().getBubao() == 1){
+        if (EmptyUtils.isNotEmpty(object.getJuli())) {
+            juli.setRightText(object.getJuli().getName());
+        } else {
+            juli.setRightText("未选择");
+        }
+
+        if (EmptyUtils.isNotEmpty(object.getFangwei())) {
+            fangwei.setRightText(object.getFangwei().getName());
+        } else {
+            fangwei.setRightText("未选择");
+        }
+
+        if (EmptyUtils.isNotEmpty(object.getWeizhi())) {
+            weizhi.setRightText(object.getWeizhi().getName());
+        } else {
+            weizhi.setRightText("未选择");
+        }
+
+        gps.setRightText(object.getDataAcquisition().getLatitude().trim() + "," + object.getDataAcquisition().getLongtitude().trim());
+        time.setRightText(object.getDataAcquisition().getCollectionTime().replaceAll("T", " "));
+        if (object.getDataAcquisition().getBubao() == 1) {
             bubaoEt.setText(object.getDataAcquisition().getBubaoDesc());
         } else {
             bubaoEt.setText("否");
@@ -188,30 +240,31 @@ public class UpDetailActivity extends BaseActivity {
             }
         });
 
-        if (object.getDataAcquisition().getHealthNum() == 0){
+        if (object.getDataAcquisition().getHealthNum() == 0) {
             jiangkangtupian.setVisibility(View.GONE);
             healthLeftIv.setVisibility(View.GONE);
         }
 
-        if (object.getDataAcquisition().getIllNum() == 0){
+        if (object.getDataAcquisition().getIllNum() == 0) {
             shengbingtupian.setVisibility(View.GONE);
             illLeftIv.setVisibility(View.GONE);
             shengbingmiaoshu.setVisibility(View.GONE);
             shengbingline.setVisibility(View.GONE);
         }
 
-        if (object.getDataAcquisition().getDeathNum() == 0){
+        if (object.getDataAcquisition().getDeathNum() == 0) {
             siwangtupian.setVisibility(View.GONE);
             deathLeftIv.setVisibility(View.GONE);
             siwangmiaoshu.setVisibility(View.GONE);
             siwangline.setVisibility(View.GONE);
         }
 
-        if (EmptyUtils.isNotEmpty(object.getAnimal().getPhoto())){
+        if (EmptyUtils.isNotEmpty(object.getAnimal().getPhoto())) {
             picIv.setVisibility(View.VISIBLE);
             findViewById(R.id.pic_line).setVisibility(View.VISIBLE);
             String pic = getString(R.string.PIC_URL) + object.getAnimal().getPhoto();
             Glide.with(mContext).load(pic).into(picIv);
+            picIv.setOnClickListener(this);
         }
 
         name.setRightDrawable(0);
@@ -229,44 +282,15 @@ public class UpDetailActivity extends BaseActivity {
         weizhi.setRightDrawable(0);
         gps.setRightDrawable(0);
         time.setRightDrawable(0);
+
+        if (!isUp) {
+            submitTv.setVisibility(View.GONE);
+        }
     }
 
-    private void getObject(final Long id) {
-        final Observable.OnSubscribe<UpObject> onSubscribe = new Observable.OnSubscribe<UpObject>() {
-            @Override
-            public void call(Subscriber<? super UpObject> subscriber) {
-                UpObject list = UpEntityManager.getById(id);
-                subscriber.onNext(list);
-                subscriber.onCompleted();
-            }
-        };
-
-        Observable.create(onSubscribe)
-                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showLoading();
-                    }
-                }).subscribe(new Subscriber<UpObject>() {
-            @Override
-            public void onCompleted() {
-                hideLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideLoading();
-                ToastUtils.showShortToast(mContext, e.getMessage());
-                finish();
-            }
-
-            @Override
-            public void onNext(UpObject upObjects) {
-                object = upObjects;
-                initView();
-            }
-        });
+    @Override
+    public void setObject(UpObject object) {
+        this.object = object;
     }
 
     private String getAnimalState(Set<Item> zhuangtai) {
@@ -278,7 +302,7 @@ public class UpDetailActivity extends BaseActivity {
         return sb.toString();
     }
 
-    private void submit(){
+    private void submit() {
         final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -319,7 +343,38 @@ public class UpDetailActivity extends BaseActivity {
         });
     }
 
-    private void refresh(){
+    private void refresh() {
         EventBus.getDefault().post(new UpEvent());
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent i = null;
+        switch (v.getId()) {
+            case R.id.health_left_iv:
+                i = new Intent(mContext, PhotoActivity.class);
+                i.putExtra(Base64.class.getSimpleName(), object.getDataAcquisition().getHealthPic());
+                startActivity(i);
+                break;
+            case R.id.ill_left_iv:
+                i = new Intent(mContext, PhotoActivity.class);
+                i.putExtra(Base64.class.getSimpleName(), object.getDataAcquisition().getIllPic());
+                startActivity(i);
+                break;
+            case R.id.death_left_iv:
+                i = new Intent(mContext, PhotoActivity.class);
+                i.putExtra(Base64.class.getSimpleName(), object.getDataAcquisition().getDeathPic());
+                startActivity(i);
+                break;
+            case R.id.pic_iv:
+                String pic = getString(R.string.PIC_URL) + object.getAnimal().getPhoto();
+                i = new Intent(mContext, PhotoActivity.class);
+                i.putExtra("pic", pic);
+                startActivity(i);
+                break;
+            case R.id.status:
+                ToastUtils.showShortToast(mContext, status.getRightText());
+                break;
+        }
     }
 }
