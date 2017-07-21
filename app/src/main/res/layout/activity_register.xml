@@ -48,7 +48,7 @@
                     android:layout_toRightOf="@id/iv_user"
                     android:background="@null"
                     android:hint="用户名"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:maxLength="20"
                     android:maxLines="1"
                     android:paddingLeft="5dp"

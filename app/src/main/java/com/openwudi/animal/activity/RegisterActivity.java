@@ -298,8 +298,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void register() {
-        if (!RegexUtils.isMobileSimple(account.getText().toString())) {
-            ToastUtils.showShortToast(mContext, "请输入正确的手机号");
+        if (!RegexUtils.isUsername(account.getText().toString())) {
+            ToastUtils.showShortToast(mContext, "请输入正确的格式");
             return;
         }
 
