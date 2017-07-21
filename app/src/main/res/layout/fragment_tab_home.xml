@@ -23,7 +23,7 @@
             <GridView
                 android:id="@+id/gview"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="320dp"
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
                 android:layout_margin="18dp"/>
