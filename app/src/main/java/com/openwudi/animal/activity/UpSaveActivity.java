@@ -18,10 +18,9 @@ import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.UpSaveContract;
 import com.openwudi.animal.contract.model.UpSaveModel;
 import com.openwudi.animal.contract.presenter.UpSavePresenter;
-import com.openwudi.animal.db.UpEntity;
-import com.openwudi.animal.db.manager.UpEntityManager;
 import com.openwudi.animal.event.UpEvent;
 import com.openwudi.animal.model.UpObject;
+import com.openwudi.animal.view.EmptyView;
 import com.openwudi.animal.view.TitleBarView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,6 +44,8 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
     TitleBarView titlebar;
     @BindView(R.id.lv)
     ListView lv;
+    @BindView(R.id.empty_view)
+    EmptyView emptyView;
 
     private UpSaveAdapter adapter;
     private UpSavePresenter presenter;
@@ -58,6 +59,9 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
         ButterKnife.bind(this);
         adapter = new UpSaveAdapter();
         lv.setAdapter(adapter);
+        emptyView.setImage(R.drawable.tips_ghost);
+        emptyView.setText("还没有待上报的信息");
+        lv.setEmptyView(emptyView);
         presenter.refresh();
 
         titlebar.setLeftListener(new View.OnClickListener() {

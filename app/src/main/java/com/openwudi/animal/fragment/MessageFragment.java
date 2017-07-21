@@ -19,12 +19,10 @@ import com.openwudi.animal.activity.MessageDetailActivity;
 import com.openwudi.animal.base.BaseFragment;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Message;
-import com.openwudi.animal.utils.TimeUtil;
+import com.openwudi.animal.view.EmptyView;
+import com.openwudi.animal.view.TitleBarView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,12 +38,16 @@ import rx.schedulers.Schedulers;
  * Created by diwu on 17/4/24.
  */
 
-public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.lv)
     ListView lv;
     Unbinder unbinder;
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
+    @BindView(R.id.title_bar_tbv)
+    TitleBarView titleBarTbv;
+    @BindView(R.id.empty_view)
+    EmptyView emptyView;
 
     private MessageAdapter adapter;
 
@@ -61,6 +63,10 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
         unbinder = ButterKnife.bind(this, view);
         adapter = new MessageAdapter();
         lv.setAdapter(adapter);
+
+        emptyView.setImage(R.drawable.tips_fail);
+        emptyView.setText("暂无通知喔~");
+        lv.setEmptyView(emptyView);
         srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
         srl.setOnRefreshListener(this);
         return view;
@@ -155,7 +161,7 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
             viewHolder.tvText1.setText(message.getTitle());
             viewHolder.tvText2.setText(message.getContent());
             try {
-                viewHolder.tvRight.setText(TimeUtils.date2String(TimeUtils.string2Date(message.getDate().replaceAll("T"," "))));
+                viewHolder.tvRight.setText(TimeUtils.date2String(TimeUtils.string2Date(message.getDate().replaceAll("T", " "))));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -13,6 +13,13 @@
         android:layout_height="wrap_content"
         app:tbv_title="通知信息" />
 
+    <com.openwudi.animal.view.EmptyView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fillViewport="true"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl"
         android:layout_width="match_parent"

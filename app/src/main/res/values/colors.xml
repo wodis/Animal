@@ -47,4 +47,6 @@
     <color name="underline">#C7C7C7</color>
     <color name="splash_bg">#1b5970</color>
     <color name="green_light">#27c58b</color>
+
+    <color name="loading_indicator">#bdbdbd</color>
 </resources>

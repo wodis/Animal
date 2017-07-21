@@ -38,10 +38,12 @@ public class UpDetailPresenter extends UpDetailContract.Presenter {
     }
 
     public Item findByCode(String encode, String code) {
-        List<Item> items = ApiManager.getItemsList(encode);
-        for (Item item : items) {
-            if (code.equals(item.getCode())) {
-                return item;
+        if (EmptyUtils.isNotEmpty(code)){
+            List<Item> items = ApiManager.getItemsList(encode);
+            for (Item item : items) {
+                if (code.equals(item.getCode())) {
+                    return item;
+                }
             }
         }
         return null;
@@ -138,6 +140,7 @@ public class UpDetailPresenter extends UpDetailContract.Presenter {
             public void onError(Throwable e) {
                 mView.hideLoading();
                 ToastUtils.showShortToast(mContext, e.getMessage());
+                e.printStackTrace();
             }
 
             @Override

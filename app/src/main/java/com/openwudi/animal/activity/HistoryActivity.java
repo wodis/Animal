@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.EmptyUtils;
@@ -19,7 +18,7 @@ import com.openwudi.animal.contract.model.HistoryModel;
 import com.openwudi.animal.contract.presenter.HistoryPresenter;
 import com.openwudi.animal.event.IdEvent;
 import com.openwudi.animal.model.DataAcquisition;
-import com.openwudi.animal.model.UpObject;
+import com.openwudi.animal.view.EmptyView;
 import com.openwudi.animal.view.MoreListView;
 import com.openwudi.animal.view.TitleBarView;
 
@@ -54,6 +53,8 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     MoreListView lv;
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
+    @BindView(R.id.empty_view)
+    EmptyView emptyView;
 
     private HistoryPresenter presenter;
     private HistoryAdapter adapter;
@@ -69,6 +70,8 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         presenter.setVM(this, this, new HistoryModel());
         adapter = new HistoryAdapter();
         lv.setAdapter(adapter);
+        emptyView.setImage(R.drawable.tips_fail);
+        emptyView.setText("暂无上报记录");
         srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
         srl.setOnRefreshListener(this);
         lv.setOnLoadMoreListener(this);
@@ -88,11 +91,11 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onIdEvent(IdEvent event){
+    public void onIdEvent(IdEvent event) {
         List<DataAcquisition> list = adapter.getData();
         DataAcquisition remove = null;
-        for (DataAcquisition data : list){
-            if (data.getId().equals(event.getId())){
+        for (DataAcquisition data : list) {
+            if (data.getId().equals(event.getId())) {
                 remove = data;
                 break;
             }
