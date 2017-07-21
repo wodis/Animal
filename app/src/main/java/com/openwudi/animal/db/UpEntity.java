@@ -17,6 +17,9 @@ public class UpEntity {
     private Long id;
 
     @NotNull
+    private String userId;
+
+    @NotNull
     private String animal;
 
     private String qixidi;
@@ -35,11 +38,12 @@ public class UpEntity {
     @NotNull
     private Date date;
 
-    @Generated(hash = 261897516)
-    public UpEntity(Long id, @NotNull String animal, String qixidi,
-            String zhuangtai, String juli, String fangwei, String weizhi,
-            @NotNull String data, @NotNull Date date) {
+    @Generated(hash = 296538277)
+    public UpEntity(Long id, @NotNull String userId, @NotNull String animal,
+            String qixidi, String zhuangtai, String juli, String fangwei,
+            String weizhi, @NotNull String data, @NotNull Date date) {
         this.id = id;
+        this.userId = userId;
         this.animal = animal;
         this.qixidi = qixidi;
         this.zhuangtai = zhuangtai;
@@ -60,6 +64,14 @@ public class UpEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getAnimal() {
@@ -125,4 +137,5 @@ public class UpEntity {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }

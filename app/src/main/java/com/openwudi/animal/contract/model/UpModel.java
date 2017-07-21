@@ -6,6 +6,8 @@ import com.openwudi.animal.contract.UpContract;
 import com.openwudi.animal.db.DaoSession;
 import com.openwudi.animal.db.UpEntity;
 import com.openwudi.animal.db.UpEntityDao;
+import com.openwudi.animal.manager.AccountManager;
+import com.openwudi.animal.model.Account;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.Item;
@@ -29,6 +31,7 @@ public class UpModel implements UpContract.Model {
                                     Item weizhi) {
 
         UpEntity entity = new UpEntity();
+        entity.setUserId(AccountManager.getAccount().getUserId());
         entity.setAnimal(JSON.toJSONString(animal));
         entity.setData(JSON.toJSONString(dataAcquisition));
         entity.setDate(new Date());

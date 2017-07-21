@@ -8,6 +8,7 @@ import com.blankj.utilcode.utils.EmptyUtils;
 import com.openwudi.animal.base.AnimalApplication;
 import com.openwudi.animal.db.UpEntity;
 import com.openwudi.animal.db.UpEntityDao;
+import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.Item;
@@ -24,7 +25,7 @@ import java.util.Set;
 public class UpEntityManager {
     public static List<UpObject> listAll() {
         UpEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getUpEntityDao();
-        List<UpEntity> entityList = dao.queryBuilder().orderDesc(UpEntityDao.Properties.Id).limit(1000).list();
+        List<UpEntity> entityList = dao.queryBuilder().where(UpEntityDao.Properties.UserId.eq(AccountManager.getAccount().getUserId())).orderDesc(UpEntityDao.Properties.Id).limit(1000).list();
         List<UpObject> list = new ArrayList<>();
         for (UpEntity entity : entityList) {
             list.add(buildUpObject(entity));
