@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import com.baidu.location.Address;
+import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.utils.ConstUtils;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.FileUtils;
@@ -19,6 +20,7 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.R;
+import com.openwudi.animal.activity.MapActivity;
 import com.openwudi.animal.activity.PhotoActivity;
 import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.base.BaseActivity;
@@ -475,7 +477,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void onNext(String string) {
-                if (EmptyUtils.isEmpty(string)){
+                if (EmptyUtils.isEmpty(string)) {
                     ((BaseActivity) mContext).startActivity(new Intent(mContext, UpSaveActivity.class));
                     ((BaseActivity) mContext).finish();
                 } else {
@@ -486,7 +488,16 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
     }
 
     public void gps() {
-        LocationHelper.build(mContext, new OnLocationListener() {
+        if (latitude != 0) {
+            Intent i = new Intent(mContext, MapActivity.class);
+            i.putExtra("lat", latitude + "");
+            i.putExtra("lon", longtitude + "");
+            i.putExtra("onlyShow", false);
+            mView.startMap(i);
+        } else {
+
+        }
+        final LocationHelper helper = LocationHelper.build(mContext, new OnLocationListener() {
             @Override
             public void locSuccess(Address add, double lat, double lon, double alt) {
                 LogUtils.d("L", "定位经纬度：latitude：" + lat + ",longitude:" + lon + ",altitude:" + altitude);
@@ -506,7 +517,8 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             public void locError() {
                 ToastUtils.showShortToast(mContext, "定位失败, 请检查是否开启定位权限");
             }
-        }).start();
+        });
+        helper.start();
     }
 
     public void getTime() {
@@ -549,5 +561,10 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         System.out.println(millseconds);
         String time = TimeUtils.milliseconds2String(millseconds);
         mView.setTime(time);
+    }
+
+    public void setLatLng(LatLng latLng){
+        latitude = latLng.latitude;
+        longtitude = latLng.longitude;
     }
 }

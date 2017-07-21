@@ -343,7 +343,8 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onNext(String s) {
-                ToastUtils.showShortToast(mContext, s);
+                ToastUtils.showShortToast(mContext, "注册成功");
+                startActivity(new Intent(mContext, LoginActivity.class));
             }
         });
     }

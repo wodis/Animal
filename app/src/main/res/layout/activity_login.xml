@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg">
+    android:background="@drawable/reg_bg">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,9 +13,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="250dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/reg_logo"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/reg_s"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -42,15 +53,15 @@
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/color6"
-                    android:textColorHint="@color/color6"
+                    android:textColor="@color/green_light"
+                    android:textColorHint="@color/color2"
                     android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/color10" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -79,15 +90,15 @@
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/color6"
-                    android:textColorHint="@color/color6"
+                    android:textColor="@color/green_light"
+                    android:textColorHint="@color/color2"
                     android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/color10" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <Button
@@ -113,7 +124,7 @@
                 android:textSize="16sp"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/green_light"
                 android:text="注册"/>
 
         </LinearLayout>

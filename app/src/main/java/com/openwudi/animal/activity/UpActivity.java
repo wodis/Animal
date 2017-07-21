@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.utils.RegexUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -51,6 +52,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     public static final int REQ_CODE_HEALTH_PIC = 102;
     public static final int REQ_CODE_ILL_PIC = 103;
     public static final int REQ_CODE_DEATH_PIC = 104;
+    public static final int REQ_CODE_MAP = 105;
 
     @BindView(R.id.title_bar_tbv)
     TitleBarView titleBarTbv;
@@ -386,6 +388,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     presenter.setDeath(item);
                 }
             }
+        } else if (REQ_CODE_MAP == requestCode) {
+            LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
+            presenter.setLatLng(latLng);
+            setGps(latLng.latitude + "," + latLng.longitude);
         }
     }
 
@@ -424,7 +430,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
-    public String bubao(){
+    public String bubao() {
         return bubaoEt.getText().toString();
     }
 
@@ -456,6 +462,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     @Override
     public void setTime(String string) {
         time.setRightText(string);
+    }
+
+    @Override
+    public void startMap(Intent intent) {
+        startActivityForResult(intent, REQ_CODE_MAP);
     }
 
     @Override

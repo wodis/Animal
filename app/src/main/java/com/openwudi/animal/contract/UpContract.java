@@ -1,5 +1,7 @@
 package com.openwudi.animal.contract;
 
+import android.content.Intent;
+
 import com.openwudi.animal.base.BaseModel;
 import com.openwudi.animal.base.BasePresenter;
 import com.openwudi.animal.base.BaseView;
@@ -50,6 +52,8 @@ public interface UpContract {
         void setWeizhi(String string);
 
         void setTime(String string);
+
+        void startMap(Intent intent);
 
         void setGps(String string);
     }

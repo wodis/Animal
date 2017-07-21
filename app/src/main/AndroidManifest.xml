@@ -77,6 +77,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.MapActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.AnimalSelectActivity"
             android:screenOrientation="portrait" />
 

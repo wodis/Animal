@@ -226,6 +226,8 @@ public class UpDetailActivity extends BaseActivity implements UpDetailContract.V
         }
 
         gps.setRightText(object.getDataAcquisition().getLatitude().trim() + "," + object.getDataAcquisition().getLongtitude().trim());
+        gps.setOnClickListener(this);
+
         time.setRightText(object.getDataAcquisition().getCollectionTime().replaceAll("T", " "));
         if (object.getDataAcquisition().getBubao() == 1) {
             bubaoEt.setText(object.getDataAcquisition().getBubaoDesc());
@@ -374,6 +376,14 @@ public class UpDetailActivity extends BaseActivity implements UpDetailContract.V
                 break;
             case R.id.status:
                 ToastUtils.showShortToast(mContext, status.getRightText());
+                break;
+            case R.id.gps:
+                if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getLatitude().trim()) && EmptyUtils.isNotEmpty(object.getDataAcquisition().getLongtitude().trim())) {
+                    i = new Intent(mContext, MapActivity.class);
+                    i.putExtra("lat", object.getDataAcquisition().getLatitude().trim());
+                    i.putExtra("lon", object.getDataAcquisition().getLongtitude().trim());
+                    startActivity(i);
+                }
                 break;
         }
     }

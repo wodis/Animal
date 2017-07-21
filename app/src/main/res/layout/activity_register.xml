@@ -16,17 +16,17 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/reg_logo"/>
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/reg_logo" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/reg_s"/>
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/reg_s" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -47,21 +47,21 @@
                     android:layout_height="30dp"
                     android:layout_toRightOf="@id/iv_user"
                     android:background="@null"
-                    android:hint="手机号"
+                    android:hint="用户名"
                     android:inputType="phone"
                     android:maxLength="20"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/color5"
-                    android:textColorHint="@color/colorPrimary"
+                    android:textColor="@color/green_light"
+                    android:textColorHint="@color/color2"
                     android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -85,20 +85,20 @@
                     android:layout_toRightOf="@id/iv_pass"
                     android:background="@null"
                     android:hint="密码"
-                    android:maxLength="20"
                     android:inputType="textPassword"
+                    android:maxLength="20"
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/color5"
-                    android:textColorHint="@color/colorPrimary"
+                    android:textColor="@color/green_light"
+                    android:textColorHint="@color/color2"
                     android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -113,7 +113,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:padding="8dp"
-                    android:src="@drawable/pass" />
+                    android:src="@drawable/icon_diqu" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -131,8 +131,8 @@
                         android:maxLines="1"
                         android:paddingLeft="5dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/color5"
-                        android:textColorHint="@color/colorPrimary"
+                        android:textColor="@color/green_light"
+                        android:textColorHint="@color/color2"
                         android:textSize="16sp" />
 
                 </HorizontalScrollView>
@@ -141,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -156,7 +156,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:padding="8dp"
-                    android:src="@drawable/pass" />
+                    android:src="@drawable/icon_jiancezhan" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -174,8 +174,8 @@
                         android:maxLines="1"
                         android:paddingLeft="5dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/color5"
-                        android:textColorHint="@color/colorPrimary"
+                        android:textColor="@color/green_light"
+                        android:textColorHint="@color/color2"
                         android:textSize="16sp" />
 
                 </HorizontalScrollView>
@@ -184,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -199,7 +199,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:padding="8dp"
-                    android:src="@drawable/pass" />
+                    android:src="@drawable/icon_shangbaotujing" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -217,8 +217,8 @@
                         android:maxLines="1"
                         android:paddingLeft="5dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/color5"
-                        android:textColorHint="@color/colorPrimary"
+                        android:textColor="@color/green_light"
+                        android:textColorHint="@color/color2"
                         android:textSize="16sp" />
 
                 </HorizontalScrollView>
@@ -227,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/green_light" />
             </RelativeLayout>
 
             <Button
@@ -248,12 +248,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:text="登录"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/green_light"
                 android:textSize="16sp" />
 
         </LinearLayout>
