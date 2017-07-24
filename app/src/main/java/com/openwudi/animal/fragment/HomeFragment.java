@@ -68,9 +68,7 @@ public class HomeFragment extends Fragment {
             data.add(new SortItem("保存列表", R.drawable.icon_ip));
             data.add(new SortItem("历史记录", R.drawable.icon_lishi));
             data.add(new SortItem("路径信息", R.drawable.icon_lujing));
-            data.add(new SortItem("通知信息", R.drawable.icon_tongzhi));
             data.add(new SortItem("紧急电话", R.drawable.icon_jinjidianhua));
-            data.add(new SortItem("GPS频率", R.drawable.icon_gps));
             data.add(new SortItem("科普知识", R.drawable.icon_kepuzhishi));
         }
         adapter.set(data);
@@ -177,18 +175,10 @@ public class HomeFragment extends Fragment {
                     gps();
                     break;
                 case 4:
-                    EventBus.getDefault().post(new TabEvent(1));
-                    break;
-                case 5:
                     call();
                     break;
-                case 6:
-                    context.startActivity(new Intent(context, TraceOptionsActivity.class));
-                    break;
-                case 7:
+                case 5:
                     context.startActivity(new Intent(context, AnimalDetailSelectActivity.class));
-                    break;
-                case 8:
                     break;
             }
         }
