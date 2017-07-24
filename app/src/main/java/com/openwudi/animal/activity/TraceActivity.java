@@ -35,6 +35,9 @@ import com.baidu.trace.model.TraceLocation;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.AnimalApplication;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.contract.TraceContract;
+import com.openwudi.animal.contract.model.TraceModel;
+import com.openwudi.animal.contract.presenter.TracePresenter;
 import com.openwudi.animal.model.CurrentLocation;
 import com.openwudi.animal.receiver.TrackReceiver;
 import com.openwudi.animal.utils.CommonUtil;
@@ -46,7 +49,7 @@ import com.openwudi.animal.utils.ViewUtil;
  * Created by diwu on 17/6/28.
  */
 
-public class TraceActivity extends BaseActivity implements View.OnClickListener {
+public class TraceActivity extends BaseActivity implements View.OnClickListener, TraceContract.View {
 
     private static final String TAG = TraceActivity.class.getSimpleName();
 
@@ -100,9 +103,13 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener 
      */
     public int packInterval = Constants.DEFAULT_PACK_INTERVAL;
 
+    private TracePresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new TracePresenter();
+        presenter.setVM(this, this, new TraceModel());
         setContentView(R.layout.activity_trace);
         setOnClickListener(this);
         init();
@@ -300,6 +307,11 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener 
                     mapUtil.updateStatus(currentLatLng, true);
                 }
                 Log.d(TAG + " onLatestPointCallback", "latitude:" + currentLatLng.latitude + " longitude:" + currentLatLng.longitude);
+                boolean isGatherStarted = trackApp.trackConf.getBoolean("is_gather_started", false);
+                if (isGatherStarted){
+                    Log.d(TAG + " onLatestPointCallback", "存储采集结果至DB");
+                    presenter.saveGps(currentLatLng.latitude, currentLatLng.longitude);
+                }
             }
         };
 
@@ -324,6 +336,11 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener 
                     mapUtil.updateStatus(currentLatLng, true);
                 }
                 Log.d(TAG + " onReceiveLocation", "latitude:" + currentLatLng.latitude + " longitude:" + currentLatLng.longitude);
+                boolean isGatherStarted = trackApp.trackConf.getBoolean("is_gather_started", false);
+                if (isGatherStarted){
+                    Log.d(TAG + " onReceiveLocation", "存储采集结果至DB");
+                    presenter.saveGps(currentLatLng.latitude, currentLatLng.longitude);
+                }
             }
 
         };
