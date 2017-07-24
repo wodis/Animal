@@ -8,14 +8,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
         android:orientation="vertical">
 
         <com.openwudi.animal.view.TitleBarView
             android:id="@+id/title_bar_tbv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tbv_title="设置" />
+            app:tbv_title="设置"
+            app:tbv_right_text="退出登录"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -26,19 +26,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/gps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_title="GPS频率"
+                    app:tcv_type="indicator" />
+
+                <View style="@style/Widget.Divider" />
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_logout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:background="@color/color6"
-        android:gravity="center"
-        android:text="退出登录"
-        android:textColor="@color/color8"
-        android:textSize="17sp" />
 
 </FrameLayout>
