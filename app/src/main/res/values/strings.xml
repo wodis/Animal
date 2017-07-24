@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">野生动物保护平台</string>
     <string name="app_title">百度鹰眼Android SDK</string>
 
