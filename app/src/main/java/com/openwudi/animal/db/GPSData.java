@@ -5,7 +5,9 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.Date;
+
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by diwu on 17/7/24.
@@ -25,6 +27,7 @@ public class GPSData {
     double longtitude;
 
     @NotNull
+    @Unique
     Date createTime;
 
     @NotNull
@@ -34,8 +37,8 @@ public class GPSData {
 
     @Generated(hash = 1080573256)
     public GPSData(Long id, @NotNull String terminalId, double latitude,
-            double longtitude, @NotNull Date createTime, @NotNull String userId,
-            String uuid) {
+                   double longtitude, @NotNull Date createTime, @NotNull String userId,
+                   String uuid) {
         this.id = id;
         this.terminalId = terminalId;
         this.latitude = latitude;

@@ -44,6 +44,7 @@ import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.Constants;
 import com.openwudi.animal.utils.MapUtil;
 import com.openwudi.animal.utils.ViewUtil;
+import com.openwudi.animal.view.TitleBarView;
 
 /**
  * Created by diwu on 17/6/28.
@@ -60,6 +61,8 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
     private Button traceBtn = null;
 
     private Button gatherBtn = null;
+
+    private TitleBarView titleBarView = null;
 
     private NotificationManager notificationManager = null;
 
@@ -111,7 +114,6 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
         presenter = new TracePresenter();
         presenter.setVM(this, this, new TraceModel());
         setContentView(R.layout.activity_trace);
-        setOnClickListener(this);
         init();
     }
 
@@ -127,9 +129,12 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
 
         traceBtn = (Button) findViewById(R.id.btn_trace);
         gatherBtn = (Button) findViewById(R.id.btn_gather);
+        titleBarView = (TitleBarView) findViewById(R.id.titlebar);
 
         traceBtn.setOnClickListener(this);
         gatherBtn.setOnClickListener(this);
+        titleBarView.setLeftListener(this);
+        titleBarView.setRightListener(this);
         setTraceBtnStyle();
         setGatherBtnStyle();
 
@@ -159,6 +164,14 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     trackApp.mClient.startGather(traceListener);
                 }
+                break;
+
+            case R.id.left:
+                finish();
+                break;
+            case R.id.right_btn:
+            case R.id.right_tv:
+                presenter.up();
                 break;
 
             default:

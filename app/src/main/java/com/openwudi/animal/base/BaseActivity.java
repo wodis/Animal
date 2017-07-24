@@ -73,17 +73,6 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
     }
 
     /**
-     * 设置点击监听器
-     *
-     * @param listener
-     */
-    public void setOnClickListener(View.OnClickListener listener) {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_top);
-        LinearLayout optionsButton = (LinearLayout) layout.findViewById(R.id.btn_activity_options);
-        optionsButton.setOnClickListener(listener);
-    }
-
-    /**
      * 回退事件
      *
      * @param v

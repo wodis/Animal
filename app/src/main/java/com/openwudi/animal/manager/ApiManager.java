@@ -15,6 +15,7 @@ import com.openwudi.animal.model.Account;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.Area;
 import com.openwudi.animal.model.DataAcquisition;
+import com.openwudi.animal.model.GPSDataModel;
 import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.Message;
 import com.openwudi.animal.model.MonitorStation;
@@ -93,7 +94,7 @@ public class ApiManager {
                 // 解析服务器响应的SOAP消息
                 //出现失败表示异常
                 if (!TextUtils.isEmpty(result) && result.contains("失败")) {
-                    throw new AnimalException(result, RES_STATUS.RESP_ERROR);
+                    throw new AnimalException(result, RES_STATUS.RESP_FAIL_ERROR);
                 }
                 return result;
             } else {
@@ -287,6 +288,13 @@ public class ApiManager {
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(dataAcquisition));
         String result = send("SaveDataAcquisition", params);
+        return result;
+    }
+
+    public static String saveGpsData(GPSDataModel gpsDataModel){
+        Map<String, String> params = new HashMap<>(1);
+        params.put("json", JSON.toJSONString(gpsDataModel));
+        String result = send("AddGPSData", params);
         return result;
     }
 }

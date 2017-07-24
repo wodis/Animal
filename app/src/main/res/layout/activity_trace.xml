@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,13 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <include layout="@layout/activity_top"></include>
+        <com.openwudi.animal.view.TitleBarView
+            android:id="@+id/titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tbv_left="@drawable/icon_back_white"
+            app:tbv_right_text="上报"
+            app:tbv_title="路径采集" />
 
     </LinearLayout>
 
@@ -20,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_top"
-        android:clickable="true"/>
+        android:clickable="true" />
 
 
     <!--<ImageButton-->
@@ -35,10 +42,10 @@
 
     <LinearLayout
         android:id="@+id/layout_tracing_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
         android:orientation="horizontal"
         android:weightSum="1">
 
@@ -46,24 +53,24 @@
             android:id="@+id/btn_trace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:layout_marginLeft="55dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="0.5"
             android:background="@mipmap/bg_btn_cancel"
             android:text="开启服务"
-            android:textColor="@color/layout_title"/>
+            android:textColor="@color/layout_title" />
 
         <Button
             android:id="@+id/btn_gather"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="55dp"
-            android:text="开始采集"
+            android:layout_weight="0.5"
             android:background="@mipmap/bg_btn_cancel"
-            android:textColor="@color/layout_title"
-            android:onClick="onTraceControl"/>
+            android:onClick="onTraceControl"
+            android:text="开始采集"
+            android:textColor="@color/layout_title" />
 
     </LinearLayout>
 

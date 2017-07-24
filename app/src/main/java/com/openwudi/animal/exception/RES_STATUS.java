@@ -14,6 +14,8 @@ public enum RES_STATUS {
 
     JSON_PARSE_ERROR(40001, "呃! 服务器出小差了"),
 
+    RESP_FAIL_ERROR(40002, "呃! 服务器出小差了"),
+
     NO_CONNECTION_ERROR(50002, "哎唷, 好像没有网络哦~"),
     NETWORK_ERROR(50003, "您的网络可能有问题哦! "),
     TIMEOUT_ERROR(50004, "抱歉, 请求超时啦! "),
