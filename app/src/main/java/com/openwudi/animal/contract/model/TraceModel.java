@@ -6,6 +6,7 @@ import com.openwudi.animal.contract.TraceContract;
 import com.openwudi.animal.db.DaoSession;
 import com.openwudi.animal.db.GPSData;
 import com.openwudi.animal.db.GPSDataDao;
+import com.openwudi.animal.db.UpEntityDao;
 import com.openwudi.animal.manager.AccountManager;
 
 import java.util.ArrayList;
@@ -29,7 +30,10 @@ public class TraceModel implements TraceContract.Model {
         data.setLongtitude(lng);
         data.setTerminalId(AccountManager.getAccount().getTerminalId());
         data.setUserId(AccountManager.getAccount().getUserId());
-        dao.insert(data);
+
+        if (EmptyUtils.isEmpty(dao.queryBuilder().where(GPSDataDao.Properties.CreateTime.eq(data.getCreateTime())).list())) {
+            dao.insert(data);
+        }
     }
 
 
@@ -46,7 +50,7 @@ public class TraceModel implements TraceContract.Model {
     }
 
     @Override
-    public void deleteById(long id){
+    public void deleteById(long id) {
         DaoSession daoSession = AnimalApplication.INSTANCE.getDaoSession();
         GPSDataDao dao = daoSession.getGPSDataDao();
         dao.deleteByKey(id);
