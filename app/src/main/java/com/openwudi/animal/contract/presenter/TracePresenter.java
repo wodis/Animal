@@ -1,5 +1,6 @@
 package com.openwudi.animal.contract.presenter;
 
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.ThreadPoolUtils;
 import com.openwudi.animal.contract.TraceContract;
 
@@ -11,13 +12,15 @@ import java.util.UUID;
 
 public class TracePresenter extends TraceContract.Presenter {
 
-    String uuid;
+    static String uuid;
     ThreadPoolUtils poolUtils;
 
     @Override
     public void onStart() {
         poolUtils = new ThreadPoolUtils(ThreadPoolUtils.Type.SingleThread, 1);
-        uuid = UUID.randomUUID().toString();
+        if (EmptyUtils.isEmpty(uuid)) {
+            uuid = UUID.randomUUID().toString();
+        }
     }
 
     public void saveGps(final double lat, final double lng) {
