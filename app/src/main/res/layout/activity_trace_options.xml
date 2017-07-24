@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_title="GPS频率" />
+
+    <com.openwudi.animal.view.TableCellView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tcv_right_drawable="@drawable/icon_arrow"
+        app:tcv_title="采集、打包频率(单位:秒)"
+        app:tcv_type="normal" />
+
+    <View style="@style/Widget.Divider" />
+
+    <com.openwudi.animal.view.TableCellView
+        android:id="@+id/caijipinlv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tcv_right_drawable="@drawable/icon_arrow"
+        app:tcv_right_hint="默认5"
+        app:tcv_title="采集频率"
+        app:tcv_type="input" />
+
+    <View style="@style/Widget.Divider" />
+
+    <com.openwudi.animal.view.TableCellView
+        android:id="@+id/dabaopinlv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tcv_right_drawable="@drawable/icon_arrow"
+        app:tcv_right_hint="默认30"
+        app:tcv_title="打包频率"
+        app:tcv_type="input" />
+
+    <View style="@style/Widget.Divider" />
+
+    <TextView
+        android:id="@+id/save_tv"
+        style="@style/Widget.Blue.Button"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:text="保存" />
+
+</LinearLayout>

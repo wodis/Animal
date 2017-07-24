@@ -22,6 +22,7 @@ import com.openwudi.animal.activity.AnimalDetailSelectActivity;
 import com.openwudi.animal.activity.HistoryActivity;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
+import com.openwudi.animal.activity.TraceOptionsActivity;
 import com.openwudi.animal.activity.UpActivity;
 import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.event.TabEvent;
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
             data.add(new SortItem("通知信息", R.drawable.icon_tongzhi));
             data.add(new SortItem("紧急电话", R.drawable.icon_jinjidianhua));
             data.add(new SortItem("GPS频率", R.drawable.icon_gps));
-            data.add(new SortItem("科普知识", R.drawable.icon_wuzhongjiansuo));
+            data.add(new SortItem("科普知识", R.drawable.icon_kepuzhishi));
         }
         adapter.set(data);
         return view;
@@ -182,6 +183,7 @@ public class HomeFragment extends Fragment {
                     call();
                     break;
                 case 6:
+                    context.startActivity(new Intent(context, TraceOptionsActivity.class));
                     break;
                 case 7:
                     context.startActivity(new Intent(context, AnimalDetailSelectActivity.class));

@@ -101,10 +101,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.TraceOptionsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <service
             android:name="com.baidu.trace.LBSTraceService"
