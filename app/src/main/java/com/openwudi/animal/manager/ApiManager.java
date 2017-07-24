@@ -56,7 +56,7 @@ public class ApiManager {
      * @return
      */
     private static String send(String method, Map<String, String> params) {
-        HttpTransportSE ht = new HttpTransportSE(URL, 10000);
+        HttpTransportSE ht = new HttpTransportSE(URL);
         try {
             ht.debug = true;
             // 使用SOAP1.1协议创建Envelop对象

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
+import com.openwudi.animal.activity.AnimalDetailSelectActivity;
 import com.openwudi.animal.activity.HistoryActivity;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
@@ -180,6 +181,13 @@ public class HomeFragment extends Fragment {
                     break;
                 case 5:
                     call();
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    context.startActivity(new Intent(context, AnimalDetailSelectActivity.class));
+                    break;
+                case 8:
                     break;
             }
         }

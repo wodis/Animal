@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_title="" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="动物名称"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
+            <ImageView
+                android:id="@+id/pic_iv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_round_corner_color10"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/pic_line"
+                style="@style/Widget.Divider"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="分布" />
+
+                <TextView
+                    android:id="@+id/fenbu"
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:enabled="false"
+                    android:gravity="end"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
+            <View
+                style="@style/Widget.Divider"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="体貌特征" />
+
+                <TextView
+                    android:id="@+id/timaotezheng"
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:enabled="false"
+                    android:gravity="end"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
+            <View
+                style="@style/Widget.Divider"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/default_padding_normal"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/TextAppearance.Cell.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="生活环境" />
+
+                <TextView
+                    android:id="@+id/shenghuohuanjing"
+                    style="@style/TextAppearance.Cell.Desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:enabled="false"
+                    android:gravity="end"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textCursorDrawable="@drawable/color_cursor" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
