@@ -70,8 +70,7 @@ public class HomeFragment extends Fragment {
             data.add(new SortItem("通知信息", R.drawable.icon_tongzhi));
             data.add(new SortItem("紧急电话", R.drawable.icon_jinjidianhua));
             data.add(new SortItem("GPS频率", R.drawable.icon_gps));
-            data.add(new SortItem("物种检索", R.drawable.icon_wuzhongjiansuo));
-            data.add(new SortItem("科普知识", R.drawable.icon_kepuzhishi));
+            data.add(new SortItem("科普知识", R.drawable.icon_wuzhongjiansuo));
         }
         adapter.set(data);
         return view;

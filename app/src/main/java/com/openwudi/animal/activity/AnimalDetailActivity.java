@@ -39,6 +39,8 @@ public class AnimalDetailActivity extends BaseActivity implements View.OnClickLi
     TextView timaotezheng;
     @BindView(R.id.shenghuohuanjing)
     TextView shenghuohuanjing;
+    @BindView(R.id.ldname)
+    TableCellView ldname;
 
     private Animal animal;
 
@@ -64,6 +66,10 @@ public class AnimalDetailActivity extends BaseActivity implements View.OnClickLi
 
         titleBarTbv.setTitle(animal.getName());
         name.setRightText(animal.getName());
+        ldname.setRightText(animal.getLdname());
+        name.setRightDrawable(0);
+        ldname.setRightDrawable(0);
+        ldname.setOnClickListener(this);
         if (EmptyUtils.isNotEmpty(animal.getPhoto())) {
             picIv.setVisibility(View.VISIBLE);
             findViewById(R.id.pic_line).setVisibility(View.VISIBLE);
@@ -72,9 +78,24 @@ public class AnimalDetailActivity extends BaseActivity implements View.OnClickLi
             picIv.setOnClickListener(this);
         }
 
-        fenbu.setText(animal.getDistribution());
-        timaotezheng.setText(animal.getPhysicalFeatures());
-        shenghuohuanjing.setText(animal.getEnvironment());
+        if (EmptyUtils.isNotEmpty(animal.getDistribution())){
+            fenbu.setText(animal.getDistribution());
+        } else {
+            fenbu.setText("未记录");
+        }
+
+        if (EmptyUtils.isNotEmpty(animal.getPhysicalFeatures())){
+            timaotezheng.setText(animal.getPhysicalFeatures());
+        } else {
+            timaotezheng.setText("未记录");
+        }
+
+        if (EmptyUtils.isNotEmpty(animal.getEnvironment())){
+            shenghuohuanjing.setText(animal.getEnvironment());
+        } else {
+            shenghuohuanjing.setText("未记录");
+        }
+
     }
 
     @Override
@@ -86,6 +107,9 @@ public class AnimalDetailActivity extends BaseActivity implements View.OnClickLi
                 i = new Intent(mContext, PhotoActivity.class);
                 i.putExtra("pic", pic);
                 startActivity(i);
+                break;
+            case R.id.ldname:
+                ToastUtils.showShortToast(mContext, animal.getLdname());
                 break;
         }
     }

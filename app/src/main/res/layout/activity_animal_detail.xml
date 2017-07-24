@@ -32,6 +32,17 @@
 
             <View style="@style/Widget.Divider" />
 
+            <com.openwudi.animal.view.TableCellView
+                android:id="@+id/ldname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tcv_right_drawable="@drawable/icon_arrow"
+                app:tcv_right_hint="@string/please_select"
+                app:tcv_title="拉丁名称"
+                app:tcv_type="indicator" />
+
+            <View style="@style/Widget.Divider" />
+
             <ImageView
                 android:id="@+id/pic_iv"
                 android:layout_width="match_parent"
