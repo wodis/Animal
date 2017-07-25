@@ -31,6 +31,7 @@ import com.openwudi.animal.db.DaoMaster;
 import com.openwudi.animal.db.DaoSession;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.NetUtil;
+import com.tencent.bugly.Bugly;
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -98,6 +99,7 @@ public class AnimalApplication extends Application {
         super.onCreate();
         INSTANCE = this;
         initBD();
+        Bugly.init(getApplicationContext(), getString(R.string.BUGLY_APPID), true);
     }
 
     @Override
