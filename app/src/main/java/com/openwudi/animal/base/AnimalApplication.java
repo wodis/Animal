@@ -166,13 +166,13 @@ public class AnimalApplication extends Application {
         Intent notificationIntent = new Intent(this, TraceActivity.class);
 
         Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
-                R.mipmap.icon_tracing);
+                R.mipmap.ic_launcher);
 
         // 设置PendingIntent
         builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
                 .setLargeIcon(icon)  // 设置下拉列表中的图标(大图标)
                 .setContentTitle("动物保护平台") // 设置下拉列表里的标题
-                .setSmallIcon(R.mipmap.icon_tracing) // 设置状态栏内的小图标
+                .setSmallIcon(R.mipmap.ic_launcher) // 设置状态栏内的小图标
                 .setContentText("服务正在运行...") // 设置上下文内容
                 .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 
