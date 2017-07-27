@@ -163,7 +163,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 mView.setQixidi(items[i]);
                 tujing = list.get(i);
             }
@@ -235,7 +235,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 mView.setQixidi(items[i]);
                 qixidi = list.get(i);
             }
@@ -257,7 +257,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String item = items[i];
-                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setJuli(item);
                 juli = list.get(i);
             }
@@ -279,7 +279,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String item = items[i];
-                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setFangwei(item);
                 fangwei = list.get(i);
             }
@@ -301,7 +301,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String item = items[i];
-                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, item, Toast.LENGTH_SHORT).show();
                 mView.setWeizhi(item);
                 weizhi = list.get(i);
             }

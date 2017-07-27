@@ -244,7 +244,7 @@ public class RegisterActivity extends BaseActivity {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 tvTujing.setText(items[i]);
                 tujing = list.get(i);
             }
@@ -265,7 +265,7 @@ public class RegisterActivity extends BaseActivity {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 tvArea.setText(items[i]);
                 area = list.get(i);
                 monitorStation = null;
@@ -288,7 +288,7 @@ public class RegisterActivity extends BaseActivity {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, items[i], Toast.LENGTH_SHORT).show();
                 tvMonitor.setText(items[i]);
                 monitorStation = list.get(i);
             }
