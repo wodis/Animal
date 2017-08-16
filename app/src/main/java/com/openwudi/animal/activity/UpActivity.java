@@ -468,7 +468,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     public void setTime(String string) {
         time.setRightText(string);
         String currentTime = TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
-        bubaoLy.setVisibility(currentTime.equals(string.substring(0, 10)) ? View.GONE : View.VISIBLE);
+        boolean isToday = currentTime.equals(string.substring(0, 10));
+        bubaoLy.setVisibility(isToday ? View.GONE : View.VISIBLE);
+        if (isToday){
+            bubaoEt.setText("");
+        }
     }
 
     @Override
