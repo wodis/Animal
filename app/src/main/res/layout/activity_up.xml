@@ -371,6 +371,7 @@
             <View style="@style/Widget.Divider" />
 
             <LinearLayout
+                android:id="@+id/ly_bubao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color6"

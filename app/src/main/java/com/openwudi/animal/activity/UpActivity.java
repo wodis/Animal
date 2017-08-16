@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.utils.RegexUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
@@ -35,7 +36,9 @@ import com.openwudi.animal.view.TableCellView;
 import com.openwudi.animal.view.TitleBarView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,6 +117,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     EditText siwangEt;
     @BindView(R.id.bubaoEt)
     EditText bubaoEt;
+    @BindView(R.id.ly_bubao)
+    View bubaoLy;
 
     private String pic;
 
@@ -462,6 +467,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     @Override
     public void setTime(String string) {
         time.setRightText(string);
+        String currentTime = TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
+        bubaoLy.setVisibility(currentTime.equals(string.substring(0, 10)) ? View.GONE : View.VISIBLE);
     }
 
     @Override
