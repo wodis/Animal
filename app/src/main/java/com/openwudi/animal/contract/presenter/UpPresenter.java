@@ -360,16 +360,18 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             msg = "请填写方位";
         } else if (weizhi == null) {
             msg = "请填写位置";
-        } else if (mView.getHealthNum() > 0 && health == null) {
-            msg = "请上传图片";
-        } else if (mView.getIllNum() > 0 && ill == null) {
-            msg = "请上传图片";
-        } else if (mView.getDeathNum() > 0 && death == null) {
-            msg = "请上传图片";
+//        } else if (mView.getHealthNum() > 0 && health == null) {
+//            msg = "请上传图片";
+//        } else if (mView.getIllNum() > 0 && ill == null) {
+//            msg = "请上传图片";
+//        } else if (mView.getDeathNum() > 0 && death == null) {
+//            msg = "请上传图片";
         } else if (address == null) {
             msg = "请重新定位";
         } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
+        } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum() + mView.getDeathNum())){
+            msg = "请保证健康数、生病数、死亡数与总数匹配";
         }
 
         if (!TextUtils.isEmpty(msg)) {
