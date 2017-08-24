@@ -223,6 +223,7 @@ public class ApiManager {
         Map<String, String> params = new HashMap<>(1);
         params.put("username", account);
         params.put("userpassword", password);
+        params.put("serialnumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
         String result = send("CheckLogin", params);
         Account a = JSON.parseObject(result, Account.class);
         return a;
