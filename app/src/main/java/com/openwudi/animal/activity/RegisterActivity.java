@@ -299,19 +299,19 @@ public class RegisterActivity extends BaseActivity {
 
     private void register() {
         if (!RegexUtils.isUsername(account.getText().toString())) {
-            ToastUtils.showShortToast(mContext, "请输入正确的格式");
+            ToastUtils.showShortToast(mContext, "用户名必须是6-20位字母或数字");
             return;
         }
 
         if (!RegexUtils.isUsername(password.getText().toString())) {
-            ToastUtils.showShortToast(mContext, "请输入正确的密码格式");
+            ToastUtils.showShortToast(mContext, "密码必须是6-20位字母或数字");
             return;
         }
 
         final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                String tid = ApiManager.getTerminalId(tujing.getCode());
+                String tid = ApiManager.getTerminalId(tujing.getCode(), area.getId(), monitorStation.getId());
                 String uid = ApiManager.addUser(account.getText().toString(), tid, area.getId(), monitorStation.getId());
                 String result = ApiManager.addPassword(uid, password.getText().toString());
                 subscriber.onNext(result);

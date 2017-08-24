@@ -156,12 +156,14 @@ public class ApiManager {
         return items;
     }
 
-    public static String getTerminalId(String useObjectId) {
+    public static String getTerminalId(String useObjectId, String areaId, String monitor) {
         JSONObject object = new JSONObject();
         object.put("F_DeviceModel", DeviceUtils.getModel());
         object.put("F_SerialNumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
         object.put("F_MAC", DeviceUtils.getMacAddress(AnimalApplication.INSTANCE));
         object.put("F_UseObject_Id", useObjectId);
+        object.put("F_Area_Id", areaId);
+        object.put("F_MonitorStation_Id", monitor);
 
         Map<String, String> params = new HashMap<>(1);
         params.put("json", object.toJSONString());
@@ -261,7 +263,7 @@ public class ApiManager {
         return JSON.parseObject(result, DataAcquisition.class);
     }
 
-    public static String deleteDataAcquisition(String key){
+    public static String deleteDataAcquisition(String key) {
         Map<String, String> params = new HashMap<>(1);
         params.put("keyValue", key);
         String result = send("DeleteDataAcquisition", params);
@@ -271,11 +273,11 @@ public class ApiManager {
     public static List<DataAcquisition> getDataAcquisitionList(int index) {
         Map<String, String> params = new HashMap<>(2);
         params.put("terminalid", AccountManager.getAccount().getTerminalId());
-        params.put("pageIndex", index+"");
+        params.put("pageIndex", index + "");
         String result = send("GetDataAcquisitionList", params);
         List<DataAcquisition> items = JSON.parseArray(result, DataAcquisition.class);
         for (DataAcquisition data : items) {
-            if (EmptyUtils.isEmpty(data.getAnimalName())){
+            if (EmptyUtils.isEmpty(data.getAnimalName())) {
                 data.setAnimalName(getAnimalModel(data.getAnimalId()).getName());
             }
         }
@@ -291,7 +293,7 @@ public class ApiManager {
         return result;
     }
 
-    public static String saveGpsData(GPSDataModel gpsDataModel){
+    public static String saveGpsData(GPSDataModel gpsDataModel) {
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(gpsDataModel));
         String result = send("AddGPSData", params);
