@@ -70,8 +70,8 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         presenter.setVM(this, this, new HistoryModel());
         adapter = new HistoryAdapter();
         lv.setAdapter(adapter);
-        emptyView.setImage(R.drawable.tips_fail);
-        emptyView.setText("暂无上报记录");
+        emptyView.setImage(R.drawable.tips_ghost);
+        emptyView.setText("暂无已上报记录");
         srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
         srl.setOnRefreshListener(this);
         lv.setOnLoadMoreListener(this);
@@ -115,6 +115,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     public void setData(List<DataAcquisition> data) {
         adapter.setData(data);
         srl.setRefreshing(false);
+        lv.setEmptyView(emptyView);
     }
 
     @Override

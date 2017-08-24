@@ -19,22 +19,29 @@
         style="@style/Widget.Divider"
         android:background="@color/underline" />
 
-    <com.openwudi.animal.view.EmptyView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:fillViewport="true"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.openwudi.animal.view.MoreListView
-            android:id="@+id/lv"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.openwudi.animal.view.EmptyView
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:fillViewport="true"/>
+
+            <com.openwudi.animal.view.MoreListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
