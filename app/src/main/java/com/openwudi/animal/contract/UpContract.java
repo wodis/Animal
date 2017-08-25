@@ -35,6 +35,8 @@ public interface UpContract {
 
         int getDeathNum();
 
+        int setHealthNum(int healthNum);
+
         String illDesc();
 
         String deathDesc();

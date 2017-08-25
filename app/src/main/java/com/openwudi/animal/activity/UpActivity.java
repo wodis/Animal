@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.RegexUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
@@ -192,6 +193,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 if (!checkNumber(s) && s.length() > 0) {
                     s = s.subSequence(0, s.length() - 1);
                     caijishuliang.setRightText(s.toString());
+                } else {
+                    jiangkangshuliang.setRightText(s.toString());
+                    shengbingshuliang.setRightText("0");
+                    siwangshuliang.setRightText("0");
                 }
             }
 
@@ -239,6 +244,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 shengbingtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                presenter.equalsAllNumbers();
             }
 
             @Override
@@ -263,6 +269,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 siwangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                presenter.equalsAllNumbers();
             }
 
             @Override
@@ -275,7 +282,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     private boolean checkNumber(CharSequence s) {
+        s = EmptyUtils.isEmpty(s.toString()) ? "0" : s;
         boolean check = RegexUtils.isMatch(REGEX_POSITIVE_INTEGER, s);
+        if ("0".equals(s.toString())){
+            check = true;
+        }
         if (!check) {
             ToastUtils.showShortToast(mContext, "请输入正确的数字");
         }
@@ -425,6 +436,12 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
+    public int setHealthNum(int healthNum) {
+        jiangkangshuliang.setRightText(String.valueOf(healthNum));
+        return healthNum;
+    }
+
+    @Override
     public String illDesc() {
         return shengbingEt.getText().toString();
     }
@@ -470,7 +487,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         String currentTime = TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
         boolean isToday = currentTime.equals(string.substring(0, 10));
         bubaoLy.setVisibility(isToday ? View.GONE : View.VISIBLE);
-        if (isToday){
+        if (isToday) {
             bubaoEt.setText("");
         }
     }

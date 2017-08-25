@@ -592,4 +592,21 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         latitude = latLng.latitude;
         longtitude = latLng.longitude;
     }
+
+    public void equalsAllNumbers() {
+        int total = mView.getTotal();
+        int heal = mView.getHealthNum();
+        int ill = mView.getIllNum();
+        int death = mView.getDeathNum();
+        if (total <= 0) {
+            return;
+        }
+
+        heal = total - ill - death;
+        if (heal < 0) {
+            ToastUtils.showShortToast(mContext, "请保证健康数、生病数、死亡数与总数匹配");
+        } else {
+            mView.setHealthNum(heal);
+        }
+    }
 }
