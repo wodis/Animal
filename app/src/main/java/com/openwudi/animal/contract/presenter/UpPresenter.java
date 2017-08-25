@@ -25,6 +25,7 @@ import com.openwudi.animal.activity.PhotoActivity;
 import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.UpContract;
+import com.openwudi.animal.db.manager.UpEntityManager;
 import com.openwudi.animal.location.LocationHelper;
 import com.openwudi.animal.location.OnLocationListener;
 import com.openwudi.animal.manager.AccountManager;
@@ -370,7 +371,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             msg = "请重新定位";
         } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
-        } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum() + mView.getDeathNum())){
+        } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum() + mView.getDeathNum())) {
             msg = "请保证健康数、生病数、死亡数与总数匹配";
         }
 
@@ -443,6 +444,28 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         if (!check()) {
             return;
         }
+        if (mView.getDeathNum() > 0 || mView.getIllNum() > 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage("出现异常情况，请确认后保存或上报?");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    go(saveOnly);
+                }
+            });
+            //    设置一个NegativeButton
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.show();
+        } else {
+            go(saveOnly);
+        }
+    }
+
+    public void go(final boolean saveOnly) {
         final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -565,7 +588,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         mView.setTime(time);
     }
 
-    public void setLatLng(LatLng latLng){
+    public void setLatLng(LatLng latLng) {
         latitude = latLng.latitude;
         longtitude = latLng.longitude;
     }
