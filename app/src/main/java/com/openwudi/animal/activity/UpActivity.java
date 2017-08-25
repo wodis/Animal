@@ -1,8 +1,10 @@
 package com.openwudi.animal.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -43,6 +45,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.blankj.utilcode.utils.ConstUtils.REGEX_POSITIVE_INTEGER;
 
@@ -50,7 +54,7 @@ import static com.blankj.utilcode.utils.ConstUtils.REGEX_POSITIVE_INTEGER;
  * Created by diwu on 17/7/14.
  */
 
-public class UpActivity extends BaseActivity implements UpContract.View, View.OnClickListener {
+public class UpActivity extends BaseActivity implements UpContract.View, View.OnClickListener,EasyPermissions.PermissionCallbacks {
 
     public static final int REQ_CODE_NAME = 101;
     public static final int REQ_CODE_HEALTH_PIC = 102;
@@ -278,7 +282,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             }
         });
 
-        presenter.gps();
+        checkPermission();
     }
 
     private boolean checkNumber(CharSequence s) {
@@ -525,5 +529,63 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 .openClickSound(false)// 是否开启点击声音
 //                .selectionMedia(selectList)// 是否传入已选图片
                 .forResult(requestCode);//结果回调onActivityResult code
+    }
+
+    public static final int REQ_PERMISSION = 1000;
+    private static final int REQ_SETTING_RESULT = 201;
+
+    /**
+     * 所需权限
+     */
+    private String[] mPerms = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+    };
+
+
+    private void checkPermission(){
+        if (!EasyPermissions.hasPermissions(this, mPerms)) {
+            EasyPermissions.requestPermissions(this, "需要相关权限, 否则无法运行",
+                    REQ_PERMISSION, mPerms);
+        } else {
+            presenter.gps();
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (requestCode == REQ_PERMISSION && perms.size() >= mPerms.length) {
+            presenter.gps();
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        try {
+            new AppSettingsDialog.Builder(UpActivity.this, "需要相关权限, 否则无法运行")
+                    .setPositiveButton("确定")
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setRequestCode(REQ_SETTING_RESULT)
+                    .build()
+                    .show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.showShortToast(UpActivity.this, "需要相关权限, 否则无法运行");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 }
