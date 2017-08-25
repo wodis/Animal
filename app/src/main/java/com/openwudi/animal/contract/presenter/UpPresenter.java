@@ -22,6 +22,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.MapActivity;
 import com.openwudi.animal.activity.PhotoActivity;
+import com.openwudi.animal.activity.UpActivity;
 import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.UpContract;
@@ -503,9 +504,12 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void onNext(String string) {
                 if (EmptyUtils.isEmpty(string)) {
-                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpSaveActivity.class));
+                    ToastUtils.showShortToast(mContext, "保存成功");
+                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpActivity.class));
                     ((BaseActivity) mContext).finish();
                 } else {
+                    ToastUtils.showShortToast(mContext, "上报成功");
+                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpActivity.class));
                     ((BaseActivity) mContext).finish();
                 }
             }
