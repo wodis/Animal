@@ -76,6 +76,10 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 3
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':picture_library')

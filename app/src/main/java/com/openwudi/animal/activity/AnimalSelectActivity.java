@@ -11,9 +11,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.db.manager.AnimalEntityManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.view.ClearEditText;
@@ -94,7 +96,12 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         final Observable.OnSubscribe<List<Animal>> onSubscribe = new Observable.OnSubscribe<List<Animal>>() {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
-                List<Animal> animalList = ApiManager.getAnimalListByName(name);
+                List<Animal> animalList;
+                if (EmptyUtils.isEmpty(name)){
+                    animalList = AnimalEntityManager.listAll();
+                } else {
+                    animalList = ApiManager.getAnimalList(name);
+                }
                 subscriber.onNext(animalList);
                 subscriber.onCompleted();
             }
@@ -131,6 +138,9 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void call(Subscriber<? super Animal> subscriber) {
                 Animal animal = ApiManager.getAnimalModel(id);
+                if (animal != null){
+                    AnimalEntityManager.update(animal);
+                }
                 subscriber.onNext(animal);
                 subscriber.onCompleted();
             }
