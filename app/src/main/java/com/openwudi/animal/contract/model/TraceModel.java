@@ -19,8 +19,10 @@ import java.util.List;
 
 public class TraceModel implements TraceContract.Model {
 
+    private int times = 1;
+
     @Override
-    public void save2Db(double lat, double lng, String uuid) {
+    public GPSData save2Db(double lat, double lng, String uuid) {
         DaoSession daoSession = AnimalApplication.INSTANCE.getDaoSession();
         GPSDataDao dao = daoSession.getGPSDataDao();
 
@@ -33,9 +35,16 @@ public class TraceModel implements TraceContract.Model {
 
         if (EmptyUtils.isEmpty(dao.queryBuilder().where(GPSDataDao.Properties.CreateTime.eq(data.getCreateTime())).list())) {
             dao.insert(data);
+            times++;
+            return data;
         }
+        return null;
     }
 
+    @Override
+    public int getTimes(){
+        return times;
+    }
 
     @Override
     public List<GPSData> list() {

@@ -14,7 +14,9 @@ import java.util.List;
 public interface TraceContract {
     interface Model extends BaseModel {
 
-        void save2Db(double lat, double lng, String uuid);
+        GPSData save2Db(double lat, double lng, String uuid);
+
+        int getTimes();
 
         List<GPSData> list();
 

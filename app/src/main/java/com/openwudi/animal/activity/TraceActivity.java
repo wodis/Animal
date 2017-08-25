@@ -167,6 +167,7 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.left:
+                presenter.up();
                 finish();
                 break;
             case R.id.right_btn:
@@ -370,8 +371,12 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
              */
             @Override
             public void onBindServiceCallback(int errorNo, String message) {
-                viewUtil.showToast(TraceActivity.this,
-                        String.format("onBindServiceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                if (errorNo == 0){
+                    viewUtil.showToast(TraceActivity.this, message);
+//                } else {
+//                    viewUtil.showToast(TraceActivity.this,
+//                            String.format("onBindServiceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                }
             }
 
             /**
@@ -398,8 +403,13 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                     setTraceBtnStyle();
                     registerReceiver();
                 }
-                viewUtil.showToast(TraceActivity.this,
-                        String.format("onStartTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                if (errorNo == 0){
+//                    viewUtil.showToast(TraceActivity.this, message);
+//                } else {
+//                    viewUtil.showToast(TraceActivity.this,
+//                            String.format("onStartTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                }
+                viewUtil.showToast(TraceActivity.this, message);
             }
 
             /**
@@ -427,8 +437,9 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                     setGatherBtnStyle();
                     unregisterPowerReceiver();
                 }
-                viewUtil.showToast(TraceActivity.this,
-                        String.format("onStopTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(TraceActivity.this,
+//                        String.format("onStopTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+                viewUtil.showToast(TraceActivity.this, message);
             }
 
             /**
@@ -450,8 +461,9 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                     editor.apply();
                     setGatherBtnStyle();
                 }
-                viewUtil.showToast(TraceActivity.this,
-                        String.format("onStartGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(TraceActivity.this,
+//                        String.format("onStartGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+                viewUtil.showToast(TraceActivity.this, message);
             }
 
             /**
@@ -473,8 +485,9 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                     editor.apply();
                     setGatherBtnStyle();
                 }
-                viewUtil.showToast(TraceActivity.this,
-                        String.format("onStopGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(TraceActivity.this,
+//                        String.format("onStopGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+                viewUtil.showToast(TraceActivity.this, message);
             }
 
             /**

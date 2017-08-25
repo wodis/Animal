@@ -1,9 +1,11 @@
 package com.openwudi.animal.contract.presenter;
 
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ThreadPoolUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.contract.TraceContract;
+import com.openwudi.animal.contract.model.TraceModel;
 import com.openwudi.animal.db.GPSData;
 import com.openwudi.animal.exception.AnimalException;
 import com.openwudi.animal.manager.ApiManager;
@@ -41,7 +43,11 @@ public class TracePresenter extends TraceContract.Presenter {
         poolUtils.execute(new Runnable() {
             @Override
             public void run() {
-                mModel.save2Db(lat, lng, uuid);
+                GPSData data = mModel.save2Db(lat, lng, uuid);
+                if (mModel.getTimes() % 10 == 0){
+                    LogUtils.d(mModel.getTimes() % 10);
+                    upAll();
+                }
             }
         });
     }
@@ -50,24 +56,7 @@ public class TracePresenter extends TraceContract.Presenter {
         final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                List<GPSData> list = mModel.list();
-                while (EmptyUtils.isNotEmpty(list)) {
-                    for (GPSData data : list) {
-                        try {
-                            ApiManager.saveGpsData(new GPSDataModel(data));
-                        } catch (AnimalException e) {
-                            if (e.getErrorCode() == RESP_FAIL_ERROR.code || e.getMessage().contains("重复键值")) {
-
-                            } else {
-                                throw e;
-                            }
-                            e.printStackTrace();
-                        }
-                        mModel.deleteById(data.getId());
-                    }
-                    list.clear();
-                    list = mModel.list();
-                }
+                upAll();
                 String result = "";
                 subscriber.onNext(result);
                 subscriber.onCompleted();
@@ -98,5 +87,26 @@ public class TracePresenter extends TraceContract.Presenter {
                 ToastUtils.showShortToast(mContext, "上报成功");
             }
         });
+    }
+
+    private void upAll(){
+        List<GPSData> list = mModel.list();
+        while (EmptyUtils.isNotEmpty(list)) {
+            for (GPSData data : list) {
+                try {
+                    ApiManager.saveGpsData(new GPSDataModel(data));
+                    mModel.deleteById(data.getId());
+                } catch (AnimalException e) {
+                    if (e.getErrorCode() == RESP_FAIL_ERROR.code || e.getMessage().contains("重复键值")) {
+                        mModel.deleteById(data.getId());
+                    } else {
+                        throw e;
+                    }
+                    e.printStackTrace();
+                }
+            }
+            list.clear();
+            list = mModel.list();
+        }
     }
 }
