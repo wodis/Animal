@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
  * Created by diwu on 17/7/20.
  */
 
-public class HistoryActivity extends BaseActivity implements HistoryContract.View, SwipeRefreshLayout.OnRefreshListener, MoreListView.OnLoadMoreListener {
+public class HistoryActivity extends BaseActivity implements HistoryContract.View, MoreListView.OnLoadMoreListener {
     @BindView(R.id.titlebar)
     TitleBarView titlebar;
     @BindView(R.id.tv_date)
@@ -51,8 +51,8 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     TextView total;
     @BindView(R.id.lv)
     MoreListView lv;
-    @BindView(R.id.srl)
-    SwipeRefreshLayout srl;
+//    @BindView(R.id.srl)
+//    SwipeRefreshLayout srl;
     @BindView(R.id.empty_view)
     EmptyView emptyView;
 
@@ -72,8 +72,8 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         lv.setAdapter(adapter);
         emptyView.setImage(R.drawable.tips_ghost);
         emptyView.setText("暂无已上报记录");
-        srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
-        srl.setOnRefreshListener(this);
+//        srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
+//        srl.setOnRefreshListener(this);
         lv.setOnLoadMoreListener(this);
         titlebar.setLeftListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,6 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         adapter.notifyDataSetChanged();
     }
 
-    @Override
     public void onRefresh() {
         lv.onLoadMoreEnable();
         index = 0;
@@ -114,7 +113,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     @Override
     public void setData(List<DataAcquisition> data) {
         adapter.setData(data);
-        srl.setRefreshing(false);
+//        srl.setRefreshing(false);
         lv.setEmptyView(emptyView);
     }
 

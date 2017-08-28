@@ -191,21 +191,38 @@ public class UpDetailActivity extends BaseActivity implements UpDetailContract.V
         if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getHealthPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getHealthPic(), Base64.DEFAULT)).into(healthLeftIv);
             healthLeftIv.setOnClickListener(this);
+        } else {
+            healthLeftIv.setVisibility(View.GONE);
+            jiangkangtupian.setVisibility(View.GONE);
         }
 
         shengbingshuliang.setRightText(object.getDataAcquisition().getIllNum() + "");
         if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getIllPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getIllPic(), Base64.DEFAULT)).into(illLeftIv);
             illLeftIv.setOnClickListener(this);
+        } else {
+            illLeftIv.setVisibility(View.GONE);
+            shengbingtupian.setVisibility(View.GONE);
         }
-        shengbingEt.setText(object.getDataAcquisition().getIllDesc());
+        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getIllDesc())){
+            shengbingEt.setText(object.getDataAcquisition().getIllDesc());
+        } else {
+            shengbingmiaoshu.setVisibility(View.GONE);
+        }
 
         siwangshuliang.setRightText(object.getDataAcquisition().getDeathNum() + "");
         if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getDeathPic())) {
             Glide.with(mContext).load(Base64.decode(object.getDataAcquisition().getDeathPic(), Base64.DEFAULT)).into(deathLeftIv);
             deathLeftIv.setOnClickListener(this);
+        } else {
+            deathLeftIv.setVisibility(View.GONE);
+            siwangtupian.setVisibility(View.GONE);
         }
-        siwangEt.setText(object.getDataAcquisition().getDeathDesc());
+        if (EmptyUtils.isNotEmpty(object.getDataAcquisition().getDeathDesc())){
+            siwangEt.setText(object.getDataAcquisition().getDeathDesc());
+        } else {
+            siwangmiaoshu.setVisibility(View.GONE);
+        }
 
         if (EmptyUtils.isNotEmpty(object.getJuli())) {
             juli.setRightText(object.getJuli().getName());

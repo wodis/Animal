@@ -61,5 +61,6 @@ public interface UpContract {
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {
+        public abstract void setLatest(DataAcquisition dataAcquisition);
     }
 }

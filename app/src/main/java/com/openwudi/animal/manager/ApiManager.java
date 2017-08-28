@@ -106,6 +106,9 @@ public class ApiManager {
         }
     }
 
+
+    private static Map<String, List<Item>> cacheItems = new HashMap<>();
+
     /**
      * 根据代码获取字典列表
      *
@@ -113,10 +116,15 @@ public class ApiManager {
      * @return
      */
     public static List<Item> getItemsList(String encode) {
-        Map<String, String> params = new HashMap<>(1);
-        params.put("encode", encode);
-        String result = send("GetItemsList", params);
-        List<Item> items = JSON.parseArray(result, Item.class);
+        List<Item> items = null;
+        if (cacheItems.get(encode) != null) {
+            items = cacheItems.get(encode);
+        } else {
+            Map<String, String> params = new HashMap<>(1);
+            params.put("encode", encode);
+            String result = send("GetItemsList", params);
+            items = JSON.parseArray(result, Item.class);
+        }
         return items;
     }
 
@@ -288,6 +296,8 @@ public class ApiManager {
     public static String saveDataAcquisition(DataAcquisition dataAcquisition) {
         dataAcquisition.setUploadTime(TimeUtil.getDateTime());
         dataAcquisition.setUploadName(AccountManager.getAccount().getUserName());
+        dataAcquisition.setCreatorUserId(AccountManager.getAccount().getUserId());
+        dataAcquisition.setCreatorTime(TimeUtil.getDateTime());
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(dataAcquisition));
         String result = send("SaveDataAcquisition", params);
@@ -298,6 +308,14 @@ public class ApiManager {
         Map<String, String> params = new HashMap<>(1);
         params.put("json", JSON.toJSONString(gpsDataModel));
         String result = send("AddGPSData", params);
+        return result;
+    }
+
+    public static String getGPSDataList(String date) {
+        Map<String, String> params = new HashMap<>(2);
+        params.put("terminalid", AccountManager.getAccount().getTerminalId());
+        params.put("date", date + "");
+        String result = send("GetGPSDataList", params);
         return result;
     }
 }

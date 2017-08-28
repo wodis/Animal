@@ -96,6 +96,12 @@ public class DataAcquisition implements Serializable {
     @JSONField(name = "F_UseObject_Id")
     private String useObjectId;
 
+    @JSONField(name = "F_CreatorUserId")
+    private String creatorUserId;
+
+    @JSONField(name = "F_CreatorTime")
+    private String creatorTime;
+
     public String getId() {
         return id;
     }
@@ -326,5 +332,21 @@ public class DataAcquisition implements Serializable {
 
     public void setAnimalName(String animalName) {
         this.animalName = animalName;
+    }
+
+    public String getCreatorUserId() {
+        return creatorUserId;
+    }
+
+    public void setCreatorUserId(String creatorUserId) {
+        this.creatorUserId = creatorUserId;
+    }
+
+    public String getCreatorTime() {
+        return creatorTime;
+    }
+
+    public void setCreatorTime(String creatorTime) {
+        this.creatorTime = creatorTime;
     }
 }

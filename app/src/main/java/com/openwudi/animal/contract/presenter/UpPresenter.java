@@ -43,6 +43,7 @@ import com.openwudi.animal.view.pickerview.listener.OnDateSetListener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -79,7 +80,9 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
     @Override
     public void onStart() {
-
+        String date = TimeUtil.getDateTime();
+        mView.setTime(date);
+        collectionTime = TimeUtils.string2Milliseconds(date);
     }
 
     public void setAnimal(Animal animal) {
@@ -372,8 +375,10 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             msg = "请重新定位";
         } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
-        } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum() + mView.getDeathNum())) {
-            msg = "请保证健康数、生病数、死亡数与总数匹配";
+        } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum())) {
+            msg = "请保证健康数、异常数与总数匹配";
+        } else if (mView.getIllNum() < mView.getDeathNum()){
+            msg = "请保证异常总数大于死亡数";
         }
 
         if (!TextUtils.isEmpty(msg)) {
@@ -467,16 +472,16 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
     }
 
     public void go(final boolean saveOnly) {
-        final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
+        final Observable.OnSubscribe<DataAcquisition> onSubscribe = new Observable.OnSubscribe<DataAcquisition>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void call(Subscriber<? super DataAcquisition> subscriber) {
                 DataAcquisition dataAcquisition = getData();
                 if (saveOnly) {
                     mModel.saveDataAcquisition(animal, dataAcquisition, qixidi, zhuangtai, juli, fangwei, weizhi);
-                    subscriber.onNext("");
+                    subscriber.onNext(dataAcquisition);
                 } else {
                     String result = ApiManager.saveDataAcquisition(dataAcquisition);
-                    subscriber.onNext(result);
+                    subscriber.onNext(dataAcquisition);
                 }
                 subscriber.onCompleted();
             }
@@ -489,7 +494,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
                     public void call() {
                         mView.showLoading();
                     }
-                }).subscribe(new Subscriber<String>() {
+                }).subscribe(new Subscriber<DataAcquisition>() {
             @Override
             public void onCompleted() {
                 mView.hideLoading();
@@ -502,16 +507,16 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             }
 
             @Override
-            public void onNext(String string) {
-                if (EmptyUtils.isEmpty(string)) {
+            public void onNext(DataAcquisition dataAcquisition) {
+                if (saveOnly) {
                     ToastUtils.showShortToast(mContext, "保存成功");
-                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpActivity.class));
-                    ((BaseActivity) mContext).finish();
                 } else {
                     ToastUtils.showShortToast(mContext, "上报成功");
-                    ((BaseActivity) mContext).startActivity(new Intent(mContext, UpActivity.class));
-                    ((BaseActivity) mContext).finish();
                 }
+                Intent i = new Intent(mContext, UpActivity.class);
+                i.putExtra(DataAcquisition.class.toString(), dataAcquisition);
+                ((BaseActivity) mContext).startActivity(i);
+                ((BaseActivity) mContext).finish();
             }
         });
     }
@@ -601,16 +606,79 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         int total = mView.getTotal();
         int heal = mView.getHealthNum();
         int ill = mView.getIllNum();
-        int death = mView.getDeathNum();
+//        int death = mView.getDeathNum();
         if (total <= 0) {
             return;
         }
 
-        heal = total - ill - death;
+        heal = total - ill;
         if (heal < 0) {
-            ToastUtils.showShortToast(mContext, "请保证健康数、生病数、死亡数与总数匹配");
+            ToastUtils.showShortToast(mContext, "请保证健康数、异常数与总数匹配");
         } else {
             mView.setHealthNum(heal);
         }
+    }
+
+    @Override
+    public void setLatest(final DataAcquisition dataAcquisition) {
+        if (dataAcquisition == null){
+            return;
+        }
+
+        final Observable.OnSubscribe<List<List<Item>>> onSubscribe = new Observable.OnSubscribe<List<List<Item>>>() {
+            @Override
+            public void call(Subscriber<? super List<List<Item>>> subscriber) {
+                List<List<Item>> lists = new ArrayList<>();
+                lists.add(ApiManager.getItemsList(ItemEncode.CJJL));
+                lists.add(ApiManager.getItemsList(ItemEncode.CJFW));
+                lists.add(ApiManager.getItemsList(ItemEncode.CJWZ));
+                subscriber.onNext(lists);
+                subscriber.onCompleted();
+            }
+        };
+
+        Observable.create(onSubscribe)
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mView.showLoading();
+                    }
+                }).subscribe(new Subscriber<List<List<Item>>>() {
+            @Override
+            public void onCompleted() {
+                mView.hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                ToastUtils.showShortToast(mContext, e.getMessage());
+            }
+
+            @Override
+            public void onNext(List<List<Item>> itemList) {
+                for (Item item : itemList.get(0)){
+                    if (dataAcquisition.getDistance().equals(item.getCode())){
+                        mView.setJuli(item.getName());
+                        juli = item;
+                    }
+                }
+
+                for (Item item : itemList.get(1)){
+                    if (dataAcquisition.getAzimuth().equals(item.getCode())){
+                        mView.setFangwei(item.getName());
+                        fangwei = item;
+                    }
+                }
+
+                for (Item item : itemList.get(2)){
+                    if (dataAcquisition.getPosition().equals(item.getCode())){
+                        mView.setWeizhi(item.getName());
+                        weizhi = item;
+                    }
+                }
+            }
+        });
     }
 }

@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.KeyboardUtils;
 import com.blankj.utilcode.utils.RegexUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
@@ -34,7 +36,9 @@ import com.openwudi.animal.contract.UpContract;
 import com.openwudi.animal.contract.model.UpModel;
 import com.openwudi.animal.contract.presenter.UpPresenter;
 import com.openwudi.animal.model.Animal;
+import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.ItemEncode;
+import com.openwudi.animal.utils.TimeUtil;
 import com.openwudi.animal.view.TableCellView;
 import com.openwudi.animal.view.TitleBarView;
 
@@ -54,7 +58,7 @@ import static com.blankj.utilcode.utils.ConstUtils.REGEX_POSITIVE_INTEGER;
  * Created by diwu on 17/7/14.
  */
 
-public class UpActivity extends BaseActivity implements UpContract.View, View.OnClickListener,EasyPermissions.PermissionCallbacks {
+public class UpActivity extends BaseActivity implements UpContract.View, View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     public static final int REQ_CODE_NAME = 101;
     public static final int REQ_CODE_HEALTH_PIC = 102;
@@ -199,8 +203,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     caijishuliang.setRightText(s.toString());
                 } else {
                     jiangkangshuliang.setRightText(s.toString());
-                    shengbingshuliang.setRightText("0");
-                    siwangshuliang.setRightText("0");
+                    shengbingshuliang.setRightText("");
+                    siwangshuliang.setRightText("");
                 }
             }
 
@@ -222,7 +226,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     jiangkangshuliang.setRightText(s.toString());
                 }
-                healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+//                healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 jiangkangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
             }
 
@@ -244,7 +248,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     shengbingshuliang.setRightText(s.toString());
                 }
-                illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+//                illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
@@ -269,11 +273,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     siwangshuliang.setRightText(s.toString());
                 }
-                deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+//                deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
-                presenter.equalsAllNumbers();
+//                presenter.equalsAllNumbers();
             }
 
             @Override
@@ -282,13 +286,27 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             }
         });
 
+        healthLeftIv.setVisibility(View.GONE);
+        illLeftIv.setVisibility(View.GONE);
+        deathLeftIv.setVisibility(View.GONE);
+
+        DataAcquisition dataAcquisition = (DataAcquisition) getIntent().getSerializableExtra(DataAcquisition.class.toString());
+        presenter.setLatest(dataAcquisition);
+
         checkPermission();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     private boolean checkNumber(CharSequence s) {
         s = EmptyUtils.isEmpty(s.toString()) ? "0" : s;
         boolean check = RegexUtils.isMatch(REGEX_POSITIVE_INTEGER, s);
-        if ("0".equals(s.toString())){
+        if ("0".equals(s.toString())) {
             check = true;
         }
         if (!check) {
@@ -388,6 +406,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     String path = item.getPath();
                     Glide.with(mContext).load(new File(path)).into(healthLeftIv);
                     presenter.setHealth(item);
+                    healthLeftIv.setVisibility(View.VISIBLE);
                 }
             }
         } else if (REQ_CODE_ILL_PIC == requestCode) {
@@ -397,6 +416,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     String path = item.getPath();
                     Glide.with(mContext).load(new File(path)).into(illLeftIv);
                     presenter.setIll(item);
+                    illLeftIv.setVisibility(View.VISIBLE);
                 }
             }
         } else if (REQ_CODE_DEATH_PIC == requestCode) {
@@ -406,6 +426,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     String path = item.getPath();
                     Glide.with(mContext).load(new File(path)).into(deathLeftIv);
                     presenter.setDeath(item);
+                    deathLeftIv.setVisibility(View.VISIBLE);
                 }
             }
         } else if (REQ_CODE_MAP == requestCode) {
@@ -463,26 +484,31 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     @Override
     public void setQixidi(String string) {
         qixidi.setRightText(string);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     @Override
     public void setZhuangTai(String string) {
         status.setRightText(string);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     @Override
     public void setJuli(String string) {
         juli.setRightText(string);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     @Override
     public void setFangwei(String string) {
         fangwei.setRightText(string);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     @Override
     public void setWeizhi(String string) {
         weizhi.setRightText(string);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     @Override
@@ -547,7 +573,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     };
 
 
-    private void checkPermission(){
+    private void checkPermission() {
         if (!EasyPermissions.hasPermissions(this, mPerms)) {
             EasyPermissions.requestPermissions(this, "需要相关权限, 否则无法运行",
                     REQ_PERMISSION, mPerms);

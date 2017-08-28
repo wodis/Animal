@@ -8,12 +8,14 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.KeyboardUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
@@ -191,6 +193,7 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
                 Intent i = new Intent();
                 i.putExtra(Animal.class.getSimpleName(), animal);
                 setResult(RESULT_OK, i);
+                KeyboardUtils.hideSoftInput(mContext);
                 finish();
             }
         });

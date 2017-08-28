@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         app:tcv_right_drawable="@drawable/icon_arrow"
                         app:tcv_right_hint="0"
-                        app:tcv_title="生病数量"
+                        app:tcv_title="@string/ill_num"
                         app:tcv_type="input" />
 
                     <View
@@ -180,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         app:tcv_right_drawable="@drawable/icon_cams"
-                        app:tcv_title="生病图片"
+                        app:tcv_title="@string/ill_pic"
                         app:tcv_type="indicator" />
 
                 </LinearLayout>
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:gravity="center_vertical"
-                    android:text="生病描述" />
+                    android:text="@string/ill_desc" />
 
                 <EditText
                     android:id="@+id/shengbingEt"
