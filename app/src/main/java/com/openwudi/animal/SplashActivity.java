@@ -58,7 +58,11 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
                     activity = MainActivity.class;
                 }
 
-                startActivity(new Intent(SplashActivity.this, activity));
+                if (activity == MainActivity.class) {
+                    startActivities(new Intent[]{new Intent(SplashActivity.this, activity), new Intent(SplashActivity.this, TraceActivity.class)});
+                } else {
+                    startActivity(new Intent(SplashActivity.this, activity));
+                }
                 finish();
                 overridePendingTransition(0, 0);
             }

@@ -84,7 +84,7 @@ public class TracePresenter extends TraceContract.Presenter {
 
             @Override
             public void onNext(String string) {
-                ToastUtils.showShortToast(mContext, "上报成功");
+//                ToastUtils.showShortToast(mContext, "上报成功");
             }
         });
     }

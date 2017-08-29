@@ -139,6 +139,21 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
         setGatherBtnStyle();
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+    }
+
+    private void defaultOpen(){
+        if (!trackApp.isTraceStarted){
+            trackApp.mClient.startTrace(trackApp.mTrace, traceListener);
+            if (Constants.DEFAULT_PACK_INTERVAL != packInterval) {
+                stopRealTimeLoc();
+                startRealTimeLoc(packInterval);
+            }
+        }
+
+        if (!trackApp.isGatherStarted) {
+            trackApp.mClient.startGather(traceListener);
+        }
     }
 
     @Override
