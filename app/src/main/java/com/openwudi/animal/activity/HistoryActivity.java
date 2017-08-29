@@ -81,6 +81,13 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
                 finish();
             }
         });
+
+        titlebar.setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.startGps();
+            }
+        });
         EventBus.getDefault().register(this);
     }
 

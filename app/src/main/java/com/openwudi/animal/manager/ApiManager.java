@@ -311,11 +311,12 @@ public class ApiManager {
         return result;
     }
 
-    public static String getGPSDataList(String date) {
+    public static List<GPSDataModel> getGPSDataList(String date) {
         Map<String, String> params = new HashMap<>(2);
         params.put("terminalid", AccountManager.getAccount().getTerminalId());
         params.put("date", date + "");
         String result = send("GetGPSDataList", params);
-        return result;
+        List<GPSDataModel> items = JSON.parseArray(result, GPSDataModel.class);
+        return items;
     }
 }
