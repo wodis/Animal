@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <View
+        style="@style/Widget.Divider"/>
+
+    <com.openwudi.animal.view.TableCellView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tcv_right_drawable="@drawable/icon_arrow"
+        app:tcv_right_hint=""
+        app:tcv_title="名称"
+        app:tcv_type="input" />
+
+    <View
+        style="@style/Widget.Divider"/>
+
+    <com.openwudi.animal.view.TableCellView
+        android:id="@+id/tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tcv_right_drawable="@drawable/icon_arrow"
+        app:tcv_right_hint=""
+        app:tcv_title="电话"
+        app:tcv_type="input" />
+
+    <View
+        style="@style/Widget.Divider"/>
+
+</LinearLayout>

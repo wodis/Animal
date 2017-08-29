@@ -96,6 +96,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.CallListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.PhotoActivity"
             android:screenOrientation="portrait" />
 

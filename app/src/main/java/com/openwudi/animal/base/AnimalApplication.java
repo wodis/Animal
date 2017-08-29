@@ -222,7 +222,7 @@ public class AnimalApplication extends Application {
         return mSequenceGenerator.incrementAndGet();
     }
 
-    public DaoSession daoSession = null;
+    private DaoSession daoSession = null;
 
     /**
      * GreenDao

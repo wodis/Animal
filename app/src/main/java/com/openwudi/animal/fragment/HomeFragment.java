@@ -19,6 +19,7 @@ import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.AnimalDetailSelectActivity;
+import com.openwudi.animal.activity.CallListActivity;
 import com.openwudi.animal.activity.HistoryActivity;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
@@ -184,13 +185,14 @@ public class HomeFragment extends Fragment {
         }
 
         private void call() {
-            String phone = "62021756";
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            String phone = "62021756";
+//            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent intent = new Intent(context, CallListActivity.class);
             context.startActivity(intent);
         }
 
-        private void gps(){
+        private void gps() {
             context.startActivity(new Intent(context, TraceActivity.class));
         }
     }
