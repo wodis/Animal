@@ -377,8 +377,21 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             msg = "请选择采集时间";
         } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum())) {
             msg = "请保证健康数、异常数与总数匹配";
-        } else if (mView.getIllNum() < mView.getDeathNum()){
+        } else if (mView.getIllNum() < mView.getDeathNum()) {
             msg = "请保证异常总数大于死亡数";
+        } else if (EmptyUtils.isNotEmpty(zhuangtai)) {
+            for (Item item : zhuangtai) {
+                if ("健康".equals(item.getName()) && mView.getHealthNum() <= 0) {
+                    msg = "已选中健康状态,请保证健康数量大于0";
+                    break;
+                } else if ("异常".equals(item.getName()) && mView.getIllNum() <= 0) {
+                    msg = "已选中异常状态,请保证异常数量大于0";
+                    break;
+                } else if ("死亡".equals(item.getName()) && mView.getDeathNum() <= 0) {
+                    msg = "已选中死亡状态,请保证死亡数量大于0";
+                    break;
+                }
+            }
         }
 
         if (!TextUtils.isEmpty(msg)) {
@@ -621,7 +634,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
     @Override
     public void setLatest(final DataAcquisition dataAcquisition) {
-        if (dataAcquisition == null){
+        if (dataAcquisition == null) {
             return;
         }
 
@@ -658,22 +671,22 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void onNext(List<List<Item>> itemList) {
-                for (Item item : itemList.get(0)){
-                    if (dataAcquisition.getDistance().equals(item.getCode())){
+                for (Item item : itemList.get(0)) {
+                    if (dataAcquisition.getDistance().equals(item.getCode())) {
                         mView.setJuli(item.getName());
                         juli = item;
                     }
                 }
 
-                for (Item item : itemList.get(1)){
-                    if (dataAcquisition.getAzimuth().equals(item.getCode())){
+                for (Item item : itemList.get(1)) {
+                    if (dataAcquisition.getAzimuth().equals(item.getCode())) {
                         mView.setFangwei(item.getName());
                         fangwei = item;
                     }
                 }
 
-                for (Item item : itemList.get(2)){
-                    if (dataAcquisition.getPosition().equals(item.getCode())){
+                for (Item item : itemList.get(2)) {
+                    if (dataAcquisition.getPosition().equals(item.getCode())) {
                         mView.setWeizhi(item.getName());
                         weizhi = item;
                     }
