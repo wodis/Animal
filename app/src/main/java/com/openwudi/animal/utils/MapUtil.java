@@ -100,7 +100,6 @@ public class MapUtil {
      * 将轨迹实时定位点转换为地图坐标
      *
      * @param location
-     *
      * @return
      */
     public static LatLng convertTraceLocation2Map(TraceLocation location) {
@@ -127,7 +126,6 @@ public class MapUtil {
      * 将地图坐标转换轨迹坐标
      *
      * @param latLng
-     *
      * @return
      */
     public static com.baidu.trace.model.LatLng convertMap2Trace(LatLng latLng) {
@@ -138,7 +136,6 @@ public class MapUtil {
      * 将轨迹坐标对象转换为地图坐标对象
      *
      * @param traceLatLng
-     *
      * @return
      */
     public static LatLng convertTrace2Map(com.baidu.trace.model.LatLng traceLatLng) {
@@ -208,6 +205,9 @@ public class MapUtil {
      */
     public void addMarker(LatLng currentPoint) {
         if (null == mMoveMarker) {
+            if (BitmapUtil.bmArrowPoint == null) {
+                BitmapUtil.init();
+            }
             mMoveMarker = addOverlay(currentPoint, BitmapUtil.bmArrowPoint, null);
             return;
         }
