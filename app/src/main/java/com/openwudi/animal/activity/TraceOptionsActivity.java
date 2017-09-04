@@ -75,14 +75,14 @@ public class TraceOptionsActivity extends BaseActivity implements View.OnClickLi
     private boolean check() {
         String caiji = caijipinlv.getRightRealString();
         boolean check = false;
-        if (RegexUtils.isMatch(caiji, ConstUtils.REGEX_POSITIVE_INTEGER)) {
+        if (RegexUtils.isMatch(ConstUtils.REGEX_POSITIVE_INTEGER, caiji)) {
             check = true;
         } else {
             return false;
         }
 
         String dabao = dabaopinlv.getRightRealString();
-        if (RegexUtils.isMatch(dabao, ConstUtils.REGEX_POSITIVE_INTEGER)) {
+        if (RegexUtils.isMatch(ConstUtils.REGEX_POSITIVE_INTEGER, dabao)) {
             check = true;
         } else {
             return false;
