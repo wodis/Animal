@@ -18,7 +18,9 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
@@ -27,6 +29,9 @@ import com.openwudi.animal.model.GPSDataModel;
 import com.openwudi.animal.view.TitleBarView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,6 +61,7 @@ public class MapLineActivity extends BaseActivity {
     private BitmapDescriptor bmGcoding = null;
     private BitmapDescriptor bmStart = null;
     private BitmapDescriptor bmEnd = null;
+    private BitmapDescriptor bmPanda = null;
 
     private boolean onlyShow = true;
     private String date = "";
@@ -69,6 +75,7 @@ public class MapLineActivity extends BaseActivity {
         bmGcoding = BitmapDescriptorFactory.fromResource(R.mipmap.icon_gcoding);
         bmStart = BitmapDescriptorFactory.fromResource(R.mipmap.icon_start);
         bmEnd = BitmapDescriptorFactory.fromResource(R.mipmap.icon_end);
+        bmPanda = BitmapDescriptorFactory.fromResource(R.mipmap.icon_panda);
         try {
 //            lat = Double.parseDouble(getIntent().getStringExtra("lat"));
 //            lon = Double.parseDouble(getIntent().getStringExtra("lon"));
@@ -174,9 +181,39 @@ public class MapLineActivity extends BaseActivity {
     }
 
     private Polyline addOverlayLine(List<GPSDataModel> list) {
+        Collections.sort(list, new Comparator<GPSDataModel>() {
+            @Override
+            public int compare(GPSDataModel o1, GPSDataModel o2) {
+                long d1 = TimeUtils.string2Milliseconds(o1.getUploadTime().replaceAll("T", " "));
+                long d2 = TimeUtils.string2Milliseconds(o2.getUploadTime().replaceAll("T", " "));
+                if (d1 > d2) {
+                    return 1;
+                } else if (d1 < d2) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+
         List<LatLng> latLngs = new ArrayList<>();
-        for (GPSDataModel dataModel : list) {
-            latLngs.add(new LatLng(Double.parseDouble(dataModel.getLat()), Double.parseDouble(dataModel.getLng())));
+        double dis = 0;
+        for (int i = 0; i < list.size(); i++) {
+            GPSDataModel dataModel = list.get(i);
+            LatLng latLng = new LatLng(Double.parseDouble(dataModel.getLat()), Double.parseDouble(dataModel.getLng()));
+
+            //如果距离大于10才画一个熊猫
+            if (i != 0 && i != list.size() - 1) {
+                GPSDataModel dataModelLast = list.get(i - 1);
+                LatLng latLngLast = new LatLng(Double.parseDouble(dataModelLast.getLat()), Double.parseDouble(dataModelLast.getLng()));
+                dis += DistanceUtil.getDistance(latLngLast, latLng);
+
+                System.out.println(dis);
+                if (dis > 10d) {
+                    addOverlay(latLng, bmPanda, null);
+                    dis = 0;
+                }
+            }
+            latLngs.add(latLng);
         }
 
         MapStatusUpdate mapstatusUpdatePoint = MapStatusUpdateFactory.newLatLng(latLngs.get(0));
@@ -185,7 +222,7 @@ public class MapLineActivity extends BaseActivity {
         addOverlay(latLngs.get(latLngs.size() - 1), bmEnd, null);
 
 
-        OverlayOptions ooPolyline = new PolylineOptions().width(13).color(0xAAFF0000).points(latLngs);
+        OverlayOptions ooPolyline = new PolylineOptions().width(16).color(mContext.getResources().getColor(R.color.colorPrimary)).points(latLngs);
 
         //在地图上画出线条图层，mPolyline：线条图层
         Polyline mPolyline = (Polyline) baiduMap.addOverlay(ooPolyline);
