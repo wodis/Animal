@@ -43,6 +43,7 @@ import com.openwudi.animal.view.TableCellView;
 import com.openwudi.animal.view.TitleBarView;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -94,10 +95,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     ImageView illLeftIv;
     @BindView(R.id.death_left_iv)
     ImageView deathLeftIv;
-    @BindView(R.id.save_tv)
-    TextView saveTv;
-    @BindView(R.id.submit_tv)
-    TextView submitTv;
+//    @BindView(R.id.save_tv)
+//    TextView saveTv;
+//    @BindView(R.id.submit_tv)
+//    TextView submitTv;
     @BindView(R.id.siwangshuliang)
     TableCellView siwangshuliang;
     @BindView(R.id.jiangkangtupian)
@@ -171,6 +172,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 builder.show();
             }
         });
+        titleBarTbv.setRightListener(this);
 
         name.setOnClickListener(this);
         picIv.setOnClickListener(this);
@@ -182,8 +184,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         jiangkangtupian.setOnClickListener(this);
         shengbingtupian.setOnClickListener(this);
         siwangtupian.setOnClickListener(this);
-        saveTv.setOnClickListener(this);
-        submitTv.setOnClickListener(this);
+//        saveTv.setOnClickListener(this);
+//        submitTv.setOnClickListener(this);
         healthLeftIv.setOnClickListener(this);
         illLeftIv.setOnClickListener(this);
         deathLeftIv.setOnClickListener(this);
@@ -226,7 +228,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     jiangkangshuliang.setRightText(s.toString());
                 }
-//                healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                healthLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 jiangkangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
             }
 
@@ -248,7 +250,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     shengbingshuliang.setRightText(s.toString());
                 }
-//                illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                illLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 shengbingline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
@@ -273,7 +275,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     s = s.subSequence(0, s.length() - 1);
                     siwangshuliang.setRightText(s.toString());
                 }
-//                deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                deathLeftIv.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangtupian.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangmiaoshu.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
                 siwangline.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
@@ -375,13 +377,35 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             case R.id.time:
                 presenter.getTime();
                 break;
-            case R.id.save_tv:
-                presenter.submit(true);
+            case R.id.right_tv:
+                submit();
                 break;
-            case R.id.submit_tv:
-                presenter.submit(false);
-                break;
+//            case R.id.save_tv:
+//                presenter.submit(true);
+//                break;
+//            case R.id.submit_tv:
+//                presenter.submit(false);
+//                break;
         }
+    }
+
+    private void submit(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("确定提交吗?");
+        builder.setPositiveButton("直接上报", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.submit(false);
+            }
+        });
+        //    设置一个NegativeButton
+        builder.setNegativeButton("保存", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.submit(true);
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -432,7 +456,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         } else if (REQ_CODE_MAP == requestCode) {
             LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
             presenter.setLatLng(latLng);
-            setGps(latLng.latitude + "," + latLng.longitude);
+            DecimalFormat df = new DecimalFormat("#.00000");
+            setGps(df.format(latLng.latitude) + "," + df.format(latLng.longitude));
         }
     }
 

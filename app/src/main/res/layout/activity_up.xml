@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tbv_left="@drawable/icon_back_white"
+        app:tbv_right_text="提交"
         app:tbv_title="信息采集" />
 
     <ScrollView
@@ -21,23 +22,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="动物名称"
-                app:tcv_type="indicator" />
-
-            <View style="@style/Widget.Divider" />
-
             <ImageView
                 android:id="@+id/pic_iv"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bg_round_corner_color10"
                 android:scaleType="fitCenter"
                 android:visibility="gone" />
@@ -47,57 +37,82 @@
                 style="@style/Widget.Divider"
                 android:visibility="gone" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/caijishuliang"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="0"
-                app:tcv_title="采集数量"
-                app:tcv_type="input" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="动物名称"
+                    app:tcv_type="indicator" />
+
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/caijishuliang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="0"
+                    app:tcv_title="采集数量"
+                    app:tcv_type="input" />
+
+            </LinearLayout>
 
             <View style="@style/Widget.Divider" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/qixidi"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="栖息地"
-                app:tcv_type="indicator" />
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <View style="@style/Widget.Divider" />
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/qixidi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="栖息地"
+                    app:tcv_type="indicator" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="状态"
-                app:tcv_type="indicator" />
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="状态"
+                    app:tcv_type="indicator" />
 
-            <View style="@style/Widget.Divider" />
+            </LinearLayout>
 
             <View style="@style/Widget.Divider" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/color6"
                 android:paddingLeft="@dimen/default_padding_normal">
 
                 <ImageView
                     android:id="@+id/health_left_iv"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/bg_round_corner_color10"
                     android:scaleType="centerCrop"
                     android:visibility="gone" />
@@ -137,19 +152,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/color6"
                 android:paddingLeft="@dimen/default_padding_normal">
 
                 <ImageView
                     android:id="@+id/ill_left_iv"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/bg_round_corner_color10"
                     android:scaleType="centerCrop"
                     android:visibility="gone" />
@@ -227,19 +242,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/color6"
                 android:paddingLeft="@dimen/default_padding_normal">
 
                 <ImageView
                     android:id="@+id/death_left_iv"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/bg_round_corner_color10"
                     android:scaleType="centerCrop"
                     android:visibility="gone" />
@@ -314,48 +329,65 @@
 
             <View style="@style/Widget.Divider" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/juli"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="估计距离"
-                app:tcv_type="indicator" />
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/juli"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="估计距离"
+                    app:tcv_type="indicator" />
+
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/fangwei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="方位"
+                    app:tcv_type="indicator" />
+
+            </LinearLayout>
 
             <View style="@style/Widget.Divider" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/fangwei"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="方位"
-                app:tcv_type="indicator" />
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <View style="@style/Widget.Divider" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/weizhi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="位置"
-                app:tcv_type="indicator" />
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/weizhi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="位置"
+                    app:tcv_type="indicator" />
 
-            <View style="@style/Widget.Divider" />
+                <com.openwudi.animal.view.TableCellView
+                    android:id="@+id/gps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:tcv_right_drawable="@drawable/icon_arrow"
+                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_title="采集经纬度"
+                    app:tcv_type="indicator" />
 
-            <com.openwudi.animal.view.TableCellView
-                android:id="@+id/gps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tcv_right_drawable="@drawable/icon_arrow"
-                app:tcv_right_hint="@string/please_select"
-                app:tcv_title="采集经纬度"
-                app:tcv_type="indicator" />
+            </LinearLayout>
 
             <View style="@style/Widget.Divider" />
 
@@ -403,20 +435,20 @@
                     android:textCursorDrawable="@drawable/color_cursor" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/save_tv"
-                style="@style/Widget.Blue.Button"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:clickable="true"
-                android:text="保存" />
+            <!--<TextView-->
+                <!--android:id="@+id/save_tv"-->
+                <!--style="@style/Widget.Blue.Button"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:clickable="true"-->
+                <!--android:text="保存" />-->
 
-            <TextView
-                android:id="@+id/submit_tv"
-                style="@style/Widget.Blue.Button"
-                android:layout_marginBottom="15dp"
-                android:clickable="true"
-                android:text="直接上报" />
+            <!--<TextView-->
+                <!--android:id="@+id/submit_tv"-->
+                <!--style="@style/Widget.Blue.Button"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:clickable="true"-->
+                <!--android:text="直接上报" />-->
 
         </LinearLayout>
 

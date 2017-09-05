@@ -42,6 +42,7 @@ import com.openwudi.animal.view.pickerview.data.Type;
 import com.openwudi.animal.view.pickerview.listener.OnDateSetListener;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -548,7 +549,8 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             @Override
             public void locSuccess(Address add, double lat, double lon, double alt) {
                 LogUtils.d("L", "定位经纬度：latitude：" + lat + ",longitude:" + lon + ",altitude:" + altitude);
-                mView.setGps(lat + "," + lon);
+                DecimalFormat df = new DecimalFormat("#.00000");
+                mView.setGps(df.format(lat) + "," + df.format(lon));
                 if (!TextUtils.isEmpty(add.address)) {
 //                    ToastUtils.showShortToast(mContext, add.street);
                 }
