@@ -7,6 +7,7 @@ import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.MapLineActivity;
+import com.openwudi.animal.activity.MapQueryActivity;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.HistoryContract;
 import com.openwudi.animal.manager.ApiManager;
@@ -165,7 +166,7 @@ public class HistoryPresenter extends HistoryContract.Presenter implements OnDat
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         String date = TimeUtils.milliseconds2String(millseconds, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
         Log.d(this.getClass().getSimpleName(), "onDateSet: " + date);
-        Intent i = new Intent(mContext, MapLineActivity.class);
+        Intent i = new Intent(mContext, MapQueryActivity.class);
         i.putExtra("onlyShow", true);
         i.putExtra("date", date);
         mContext.startActivity(i);

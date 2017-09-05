@@ -31,9 +31,9 @@ import java.util.List;
  * Created by baidu on 17/2/9.
  */
 
-public class MapUtil {
+public class MapUtil2 {
 
-    private static MapUtil INSTANCE = new MapUtil();
+    private static MapUtil2 INSTANCE = new MapUtil2();
 
     private MapStatus mapStatus = null;
 
@@ -50,10 +50,10 @@ public class MapUtil {
      */
     public Overlay polylineOverlay = null;
 
-    private MapUtil() {
+    private MapUtil2() {
     }
 
-    public static MapUtil getInstance() {
+    public static MapUtil2 getInstance() {
         return INSTANCE;
     }
 

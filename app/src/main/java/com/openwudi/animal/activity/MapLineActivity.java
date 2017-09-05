@@ -181,6 +181,20 @@ public class MapLineActivity extends BaseActivity {
     }
 
     private Polyline addOverlayLine(List<GPSDataModel> list) {
+        //构造纹理资源
+        BitmapDescriptor custom1 = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_road_red_arrow);
+        BitmapDescriptor custom2 = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_road_green_arrow);
+        BitmapDescriptor custom3 = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_road_blue_arrow);
+
+        //构造纹理队列
+        List<BitmapDescriptor> customList = new ArrayList<BitmapDescriptor>();
+        customList.add(custom1);
+        customList.add(custom2);
+        customList.add(custom3);
+
         Collections.sort(list, new Comparator<GPSDataModel>() {
             @Override
             public int compare(GPSDataModel o1, GPSDataModel o2) {
@@ -196,24 +210,26 @@ public class MapLineActivity extends BaseActivity {
         });
 
         List<LatLng> latLngs = new ArrayList<>();
+        List<Integer> index = new ArrayList<Integer>();
         double dis = 0;
         for (int i = 0; i < list.size(); i++) {
             GPSDataModel dataModel = list.get(i);
             LatLng latLng = new LatLng(Double.parseDouble(dataModel.getLat()), Double.parseDouble(dataModel.getLng()));
 
             //如果距离大于10才画一个熊猫
-            if (i != 0 && i != list.size() - 1) {
-                GPSDataModel dataModelLast = list.get(i - 1);
-                LatLng latLngLast = new LatLng(Double.parseDouble(dataModelLast.getLat()), Double.parseDouble(dataModelLast.getLng()));
-                dis += DistanceUtil.getDistance(latLngLast, latLng);
-
-                System.out.println(dis);
-                if (dis > 10d) {
-                    addOverlay(latLng, bmPanda, null);
-                    dis = 0;
-                }
-            }
+//            if (i != 0 && i != list.size() - 1) {
+//                GPSDataModel dataModelLast = list.get(i - 1);
+//                LatLng latLngLast = new LatLng(Double.parseDouble(dataModelLast.getLat()), Double.parseDouble(dataModelLast.getLng()));
+//                dis += DistanceUtil.getDistance(latLngLast, latLng);
+//
+//                System.out.println(dis);
+//                if (dis > 10d) {
+//                    addOverlay(latLng, bmPanda, null);
+//                    dis = 0;
+//                }
+//            }
             latLngs.add(latLng);
+            index.add(1);
         }
 
         MapStatusUpdate mapstatusUpdatePoint = MapStatusUpdateFactory.newLatLng(latLngs.get(0));
@@ -222,10 +238,11 @@ public class MapLineActivity extends BaseActivity {
         addOverlay(latLngs.get(latLngs.size() - 1), bmEnd, null);
 
 
-        OverlayOptions ooPolyline = new PolylineOptions().width(16).color(mContext.getResources().getColor(R.color.colorPrimary)).points(latLngs);
+        OverlayOptions ooPolyline = new PolylineOptions().width(16).color(mContext.getResources().getColor(R.color.colorPrimary)).points(latLngs).textureIndex(index).customTextureList(customList);
 
         //在地图上画出线条图层，mPolyline：线条图层
         Polyline mPolyline = (Polyline) baiduMap.addOverlay(ooPolyline);
+        mPolyline.setDottedLine(true);
         mPolyline.setZIndex(3);
         return mPolyline;
     }

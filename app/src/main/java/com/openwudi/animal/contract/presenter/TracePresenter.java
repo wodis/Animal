@@ -2,6 +2,7 @@ package com.openwudi.animal.contract.presenter;
 
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.LogUtils;
+import com.blankj.utilcode.utils.NetworkUtils;
 import com.blankj.utilcode.utils.ThreadPoolUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.contract.TraceContract;
@@ -44,7 +45,7 @@ public class TracePresenter extends TraceContract.Presenter {
             @Override
             public void run() {
                 GPSData data = mModel.save2Db(lat, lng, uuid);
-                if (mModel.getTimes() % 10 == 0){
+                if (mModel.getTimes() % 10 == 0) {
                     LogUtils.d(mModel.getTimes() % 10);
                     upAll();
                 }
@@ -89,7 +90,11 @@ public class TracePresenter extends TraceContract.Presenter {
         });
     }
 
-    private void upAll(){
+    private void upAll() {
+        if (!NetworkUtils.isConnected(mContext)) {
+            ToastUtils.showShortToast(mContext,"暂无网络");
+            return;
+        }
         List<GPSData> list = mModel.list();
         while (EmptyUtils.isNotEmpty(list)) {
             for (GPSData data : list) {

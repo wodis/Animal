@@ -88,6 +88,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.MapQueryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.AnimalSelectActivity"
             android:screenOrientation="portrait" />
 
