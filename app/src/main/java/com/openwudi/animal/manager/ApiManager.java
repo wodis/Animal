@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.utils.DeviceUtils;
 import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.EncryptUtils;
 import com.blankj.utilcode.utils.SPUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.AnimalApplication;
@@ -161,6 +162,36 @@ public class ApiManager {
         params.put("keyword", keyword);
         String result = send("GetAnimalList", params);
         List<Animal> items = JSON.parseArray(result, Animal.class);
+        return items;
+    }
+
+    private static Map<String, List<Animal>> cacheAnimalSelect = new HashMap<>();
+
+    /**
+     * 获取物种分类
+     *
+     * @param level   1,2,3,4,5
+     * @param fid     主键 例如:AV01000000000000
+     * @param keyword 汉字和拼音
+     * @return
+     */
+    public static List<Animal> getAnimalSelectList(String level, String fid, String keyword) {
+        if (cacheAnimalSelect == null) {
+            cacheAnimalSelect = new HashMap<>();
+        }
+        String cacheKey = EncryptUtils.encryptMD5ToString(level + "=" + fid + "=" + keyword);
+        List<Animal> items = cacheAnimalSelect.get(cacheKey);
+        if (EmptyUtils.isEmpty(items)) {
+            Map<String, String> params = new HashMap<>(3);
+            params.put("type", level);
+            params.put("keyValue", fid);
+            params.put("keyword", keyword);
+            String result = send("GetAnimalSelectList", params);
+            items = JSON.parseArray(result, Animal.class);
+            if (EmptyUtils.isNotEmpty(items) && items.size() < 100) {
+                cacheAnimalSelect.put(cacheKey, items);
+            }
+        }
         return items;
     }
 

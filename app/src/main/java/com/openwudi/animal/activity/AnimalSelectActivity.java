@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,14 +19,20 @@ import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.KeyboardUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
+import com.openwudi.animal.adapter.ListDropDownAdapter;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.contract.AnimalSelectContract;
+import com.openwudi.animal.contract.model.AnimalSelectModel;
+import com.openwudi.animal.contract.presenter.AnimalSelectPresenter;
 import com.openwudi.animal.db.manager.AnimalEntityManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.view.ClearEditText;
 import com.openwudi.animal.view.TitleBarView;
+import com.yyydjk.library.DropDownMenu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +47,7 @@ import rx.schedulers.Schedulers;
  * Created by diwu on 17/7/17.
  */
 
-public class AnimalSelectActivity extends BaseActivity implements View.OnClickListener {
+public class AnimalSelectActivity extends BaseActivity implements View.OnClickListener, AnimalSelectContract.View {
     @BindView(R.id.title_bar_tbv)
     TitleBarView titleBarTbv;
     @BindView(R.id.search_tv)
@@ -50,15 +57,30 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.content_lv)
     ListView contentLv;
 
+    private AnimalSelectPresenter presenter;
+
+    private View contentView;
+    private DropDownMenu mDropDownMenu;
+
     private AnimalSelectAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_select);
-        ButterKnife.bind(this);
+        presenter = new AnimalSelectPresenter();
+        mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
+        contentView = View.inflate(mContext, R.layout.activity_animal_select_view, null);
+        ButterKnife.bind(this, contentView);
         initView();
-        search("");
+        presenter.setVM(this, this, new AnimalSelectModel());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        KeyboardUtils.hideSoftInput(mContext);
     }
 
     private void initView() {
@@ -93,7 +115,7 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (EmptyUtils.isNotEmpty(s.toString()) && s.length() > 1){
+                if (EmptyUtils.isNotEmpty(s.toString()) && s.length() > 1) {
                     search(s.toString());
                 }
             }
@@ -106,6 +128,16 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    public DropDownMenu getDropDownMenu() {
+        return mDropDownMenu;
+    }
+
+    @Override
+    public View getContentView() {
+        return contentView;
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_tv:
@@ -115,12 +147,13 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void search(final String name){
+    @Override
+    public void search(final String name) {
         final Observable.OnSubscribe<List<Animal>> onSubscribe = new Observable.OnSubscribe<List<Animal>>() {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
                 List<Animal> animalList;
-                if (EmptyUtils.isEmpty(name)){
+                if (EmptyUtils.isEmpty(name)) {
                     animalList = AnimalEntityManager.listAll();
                 } else {
                     animalList = ApiManager.getAnimalList(name);
@@ -156,12 +189,12 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void getAnimalById(final String id){
+    private void getAnimalById(final String id) {
         final Observable.OnSubscribe<Animal> onSubscribe = new Observable.OnSubscribe<Animal>() {
             @Override
             public void call(Subscriber<? super Animal> subscriber) {
                 Animal animal = ApiManager.getAnimalModel(id);
-                if (animal != null){
+                if (animal != null) {
                     AnimalEntityManager.update(animal);
                 }
                 subscriber.onNext(animal);
@@ -197,6 +230,16 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //退出activity前关闭菜单
+        if (mDropDownMenu.isShowing()) {
+            mDropDownMenu.closeMenu();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -247,7 +290,7 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
             }
         }
 
-        public void setData(List<Animal> newData){
+        public void setData(List<Animal> newData) {
             data.clear();
             data.addAll(newData);
             notifyDataSetChanged();
