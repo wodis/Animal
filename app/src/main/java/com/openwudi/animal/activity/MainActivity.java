@@ -14,22 +14,38 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.EmptyUtils;
+import com.blankj.utilcode.utils.SPUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.db.AnimalServerEntity;
+import com.openwudi.animal.db.manager.AnimalServerEntityManager;
 import com.openwudi.animal.event.NewMessageEvent;
 import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.fragment.HomeFragment;
 import com.openwudi.animal.fragment.MessageFragment;
 import com.openwudi.animal.fragment.MyFragment;
+import com.openwudi.animal.manager.ApiManager;
+import com.openwudi.animal.model.Animal;
+import com.openwudi.animal.model.ItemEncode;
+import com.openwudi.animal.utils.Constants;
 import com.openwudi.animal.view.MainTabViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by diwu on 17/7/11.
@@ -90,6 +106,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ButterKnife.bind(this);
         initView();
         EventBus.getDefault().register(this);
+        download();
     }
 
     @Override
@@ -210,5 +227,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewMessageEvent(NewMessageEvent event) {
         reminder.setVisibility(event.same ? View.GONE : View.VISIBLE);
+    }
+
+    private void download() {
+        final SPUtils spUtils = new SPUtils(mContext, Constants.SP_CONFIG);
+        final String version = spUtils.getString(Constants.SP_CONFIG_V, "0");
+        final Observable.OnSubscribe<String> onSubscribe = new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                String serverVersion = ApiManager.getInterfaceVersion();
+                if (!version.equals(serverVersion)) {
+                    List<Animal> all = ApiManager.getAnimalAll();
+                    AnimalServerEntityManager.add(all);
+                    ApiManager.getItemsList(ItemEncode.CJFW);
+                    ApiManager.getItemsList(ItemEncode.CJJL);
+                    ApiManager.getItemsList(ItemEncode.CJWZ);
+                    ApiManager.getItemsList(ItemEncode.DWZT);
+                    ApiManager.getItemsList(ItemEncode.SJTZ);
+                    ApiManager.getItemsList(ItemEncode.SYDX);
+                    spUtils.putString(Constants.SP_CONFIG_V, serverVersion);
+                }
+                subscriber.onNext("");
+                subscriber.onCompleted();
+            }
+        };
+
+        Observable.create(onSubscribe)
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoading();
+                    }
+                }).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideLoading();
+            }
+
+            @Override
+            public void onNext(String s) {
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.blankj.utilcode.utils.DeviceUtils;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.EncryptUtils;
+import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.SPUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.AnimalApplication;
@@ -30,6 +31,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,9 +109,6 @@ public class ApiManager {
         }
     }
 
-
-    private static Map<String, List<Item>> cacheItems = new HashMap<>();
-
     /**
      * 根据代码获取字典列表
      *
@@ -117,14 +116,17 @@ public class ApiManager {
      * @return
      */
     public static List<Item> getItemsList(String encode) {
+        File cache = new File(AnimalApplication.INSTANCE.getCacheDir(), encode);
         List<Item> items = null;
-        if (cacheItems.get(encode) != null) {
-            items = cacheItems.get(encode);
+        if (cache.exists()) {
+            String result = FileUtils.readFile2String(cache, "utf-8");
+            items = JSON.parseArray(result, Item.class);
         } else {
             Map<String, String> params = new HashMap<>(1);
             params.put("encode", encode);
             String result = send("GetItemsList", params);
             items = JSON.parseArray(result, Item.class);
+            FileUtils.writeFileFromString(cache, result, false);
         }
         return items;
     }
@@ -162,10 +164,23 @@ public class ApiManager {
         params.put("keyword", keyword);
         String result = send("GetAnimalList", params);
         List<Animal> items = JSON.parseArray(result, Animal.class);
-        if (items == null){
+        if (items == null) {
             items = new ArrayList<>();
         }
         return items;
+    }
+
+    public static List<Animal> getAnimalAll() {
+        Map<String, String> params = new HashMap<>(0);
+        String result = send("GetAnimalAllList", params);
+        List<Animal> items = JSON.parseArray(result, Animal.class);
+        return items;
+    }
+
+    public static String getInterfaceVersion() {
+        Map<String, String> params = new HashMap<>(0);
+        String result = send("GetInterfaceVersion", params);
+        return result;
     }
 
     private static Map<String, List<Animal>> cacheAnimalSelect = new HashMap<>();

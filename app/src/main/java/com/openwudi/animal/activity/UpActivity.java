@@ -3,14 +3,20 @@ package com.openwudi.animal.activity;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -21,6 +27,7 @@ import android.widget.TextView;
 import com.baidu.mapapi.model.LatLng;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.KeyboardUtils;
+import com.blankj.utilcode.utils.NetworkUtils;
 import com.blankj.utilcode.utils.RegexUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
@@ -45,6 +52,7 @@ import com.openwudi.animal.view.TitleBarView;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -95,7 +103,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     ImageView illLeftIv;
     @BindView(R.id.death_left_iv)
     ImageView deathLeftIv;
-//    @BindView(R.id.save_tv)
+    //    @BindView(R.id.save_tv)
 //    TextView saveTv;
 //    @BindView(R.id.submit_tv)
 //    TextView submitTv;
@@ -389,7 +397,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         }
     }
 
-    private void submit(){
+    private void submit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage("确定提交吗?");
         builder.setPositiveButton("直接上报", new DialogInterface.OnClickListener() {
@@ -603,14 +611,90 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             EasyPermissions.requestPermissions(this, "需要相关权限, 否则无法运行",
                     REQ_PERMISSION, mPerms);
         } else {
-            presenter.gps();
+            if (NetworkUtils.isConnected(mContext)){
+                presenter.gps();
+            } else {
+                startGpsWithoutNetwork();
+            }
         }
     }
+
+    //gps
+    private LocationManager gpsManager;
+
+    private void startGpsWithoutNetwork() {
+        // 获取到LocationManager对象
+        gpsManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        //provider可为gps定位，也可为为基站和WIFI定位
+        String provider = gpsManager.getProvider(LocationManager.GPS_PROVIDER).getName();
+
+        //3000ms为定位的间隔时间，10m为距离变化阀值，gpsListener为回调接口
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        gpsManager.requestLocationUpdates(provider, 3000, 1, gpsListener);
+    }
+
+    private void stopGpsWithoutNetwork() {
+        gpsManager.removeUpdates(gpsListener);
+    }
+
+    // 创建位置监听器
+    private LocationListener gpsListener = new LocationListener() {
+
+        // 位置发生改变时调用
+        @Override
+        public void onLocationChanged(Location location) {
+            Log.e("Location", "onLocationChanged");
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            float speed = location.getSpeed();
+            long time = location.getTime();
+            String s = "latitude--->" + latitude
+                    + "  longitude--->" + longitude
+                    + "  speed--->" + speed
+                    + "  time--->" + new Date(time).toLocaleString();
+            LatLng latLng = new LatLng(latitude, longitude);
+            presenter.setLatLng(latLng);
+            DecimalFormat df = new DecimalFormat("#.00000");
+            setGps(df.format(latitude) + "," + df.format(longitude));
+        }
+
+        // provider失效时调用
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.e("Location", "onProviderDisabled");
+        }
+
+        // provider启用时调用
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.e("Location", "onProviderEnabled");
+        }
+
+        // 状态改变时调用
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.e("Location", "onStatusChanged");
+        }
+    };
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (requestCode == REQ_PERMISSION && perms.size() >= mPerms.length) {
-            presenter.gps();
+            if (NetworkUtils.isConnected(mContext)){
+                presenter.gps();
+            } else {
+                startGpsWithoutNetwork();
+            }
         }
     }
 

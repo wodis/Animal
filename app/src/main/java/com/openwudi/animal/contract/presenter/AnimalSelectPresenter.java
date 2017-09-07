@@ -9,6 +9,7 @@ import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.adapter.ListDropDownAdapter;
 import com.openwudi.animal.contract.AnimalSelectContract;
+import com.openwudi.animal.db.manager.AnimalServerEntityManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
 import com.yyydjk.library.DropDownMenu;
@@ -114,6 +115,9 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
                 dropDownMenu.setTabText(6, animal.getName());
                 dropDownMenu.closeMenu();
                 fourItem = animal;
+                if (view != null){
+                    mergeSearch("");
+                }
             }
         });
 
@@ -128,7 +132,8 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
                 List<Animal> animalList;
-                animalList = ApiManager.getAnimalSelectList(level, fid, keyword);
+//                animalList = ApiManager.getAnimalSelectList(level, fid, keyword);
+                animalList = AnimalServerEntityManager.getAnimalSelectList(level, fid, keyword);
                 subscriber.onNext(animalList);
                 subscriber.onCompleted();
             }
@@ -196,14 +201,15 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
         final Observable.OnSubscribe<List<Animal>> onSubscribe = new Observable.OnSubscribe<List<Animal>>() {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
-                List<Animal> animalListClass = ApiManager.getAnimalSelectList("5", fourItem.getId(), keyword);
-                List<Animal> animalList = ApiManager.getAnimalList(keyword);
-                for (Animal an : animalList) {
-                    //过滤已存在的,并且必须属于5级的动物
-                    if (!animalListClass.contains(an) && an.getLevel() == 5) {
-                        animalListClass.add(an);
-                    }
-                }
+//                List<Animal> animalListClass = ApiManager.getAnimalSelectList("5", fourItem.getId(), keyword);
+                List<Animal> animalListClass = AnimalServerEntityManager.getAnimalSelectList("5", fourItem.getId(), keyword);
+//                List<Animal> animalList = ApiManager.getAnimalList(keyword);
+//                for (Animal an : animalList) {
+//                    //过滤已存在的,并且必须属于5级的动物
+//                    if (!animalListClass.contains(an) && an.getLevel() == 5) {
+//                        animalListClass.add(an);
+//                    }
+//                }
                 subscriber.onNext(animalListClass);
                 subscriber.onCompleted();
             }

@@ -1,50 +1,68 @@
-package com.openwudi.animal.model;
+package com.openwudi.animal.db;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.openwudi.animal.db.AnimalServerEntity;
+import com.openwudi.animal.model.Animal;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by diwu on 17/7/4.
  */
+@Entity
+public class AnimalServerEntity {
+    @Id
+    private Long id;
 
-public class Animal implements Serializable {
-    @JSONField(name = "F_Id")
-    private String id;
+    @Unique
+    private String fid;
 
-    @JSONField(name = "F_Name")
     private String name;
 
-    @JSONField(name = "F_LDName")
     private String ldname;
 
-    @JSONField(name = "F_Level")
     private int level;
 
-    @JSONField(name = "F_Distribution")
     private String distribution;
 
-    @JSONField(name = "F_PhysicalFeatures")
     private String physicalFeatures;
 
-    @JSONField(name = "F_Photo")
     private String photo;
 
-    @JSONField(name = "F_Environment")
     private String environment;
 
-    @JSONField(name = "F_Pinyin")
     private String pinyin;
 
-    @JSONField(name = "F_PinyinInitials")
     private String pinyinInitials;
 
-    public Animal() {
+    @Generated(hash = 2051686404)
+    public AnimalServerEntity(Long id, String fid, String name, String ldname,
+                              int level, String distribution, String physicalFeatures, String photo,
+                              String environment, String pinyin, String pinyinInitials) {
+        this.id = id;
+        this.fid = fid;
+        this.name = name;
+        this.ldname = ldname;
+        this.level = level;
+        this.distribution = distribution;
+        this.physicalFeatures = physicalFeatures;
+        this.photo = photo;
+        this.environment = environment;
+        this.pinyin = pinyin;
+        this.pinyinInitials = pinyinInitials;
     }
 
-    public Animal(AnimalServerEntity animal) {
-        this.id = animal.getFid();
+    @Generated(hash = 899930202)
+    public AnimalServerEntity() {
+    }
+
+    public AnimalServerEntity(Animal animal) {
+        this.fid = animal.getId();
         this.name = animal.getName();
         this.ldname = animal.getLdname();
         this.level = animal.getLevel();
@@ -56,16 +74,24 @@ public class Animal implements Serializable {
         this.pinyinInitials = animal.getPinyinInitials();
     }
 
-    public String getId() {
-        return id;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
+    public String getFid() {
+        return this.fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -73,7 +99,7 @@ public class Animal implements Serializable {
     }
 
     public String getLdname() {
-        return ldname;
+        return this.ldname;
     }
 
     public void setLdname(String ldname) {
@@ -81,7 +107,7 @@ public class Animal implements Serializable {
     }
 
     public int getLevel() {
-        return level;
+        return this.level;
     }
 
     public void setLevel(int level) {
@@ -89,7 +115,7 @@ public class Animal implements Serializable {
     }
 
     public String getDistribution() {
-        return distribution;
+        return this.distribution;
     }
 
     public void setDistribution(String distribution) {
@@ -97,7 +123,7 @@ public class Animal implements Serializable {
     }
 
     public String getPhysicalFeatures() {
-        return physicalFeatures;
+        return this.physicalFeatures;
     }
 
     public void setPhysicalFeatures(String physicalFeatures) {
@@ -105,7 +131,7 @@ public class Animal implements Serializable {
     }
 
     public String getPhoto() {
-        return photo;
+        return this.photo;
     }
 
     public void setPhoto(String photo) {
@@ -113,7 +139,7 @@ public class Animal implements Serializable {
     }
 
     public String getEnvironment() {
-        return environment;
+        return this.environment;
     }
 
     public void setEnvironment(String environment) {
@@ -121,7 +147,7 @@ public class Animal implements Serializable {
     }
 
     public String getPinyin() {
-        return pinyin;
+        return this.pinyin;
     }
 
     public void setPinyin(String pinyin) {
@@ -129,32 +155,10 @@ public class Animal implements Serializable {
     }
 
     public String getPinyinInitials() {
-        return pinyinInitials;
+        return this.pinyinInitials;
     }
 
     public void setPinyinInitials(String pinyinInitials) {
         this.pinyinInitials = pinyinInitials;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = result * 31 + name.hashCode();
-        result = result * 31 + id.hashCode();
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        } else {
-            if (obj instanceof Animal) {
-                return this.hashCode() == obj.hashCode();
-            } else {
-                return super.equals(obj);
-            }
-        }
     }
 }

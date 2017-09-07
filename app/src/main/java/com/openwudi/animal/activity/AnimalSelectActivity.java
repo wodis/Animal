@@ -281,7 +281,15 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getAnimalById(animal.getId());
+//                    getAnimalById(animal.getId());
+
+                    // TODO: 2017/9/7 关闭
+                    AnimalEntityManager.update(animal);
+                    Intent i = new Intent();
+                    i.putExtra(Animal.class.getSimpleName(), animal);
+                    setResult(RESULT_OK, i);
+                    KeyboardUtils.hideSoftInput(mContext);
+                    finish();
                 }
             });
             return convertView;

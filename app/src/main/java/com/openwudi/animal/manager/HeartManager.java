@@ -36,7 +36,13 @@ public class HeartManager {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                List<com.openwudi.animal.model.Message> list = ApiManager.listMessage();
+                List<com.openwudi.animal.model.Message> list = new ArrayList<>();
+                try {
+                    list = ApiManager.listMessage();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 List<String> fids = new ArrayList<>();
                 for (com.openwudi.animal.model.Message message : list) {
                     fids.add(message.getId());

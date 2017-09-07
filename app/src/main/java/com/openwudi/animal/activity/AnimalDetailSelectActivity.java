@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.db.manager.AnimalServerEntityManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.view.ClearEditText;
@@ -34,7 +35,7 @@ import rx.schedulers.Schedulers;
  * Created by diwu on 17/7/24.
  */
 
-public class AnimalDetailSelectActivity extends BaseActivity implements View.OnClickListener{
+public class AnimalDetailSelectActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.title_bar_tbv)
     TitleBarView titleBarTbv;
     @BindView(R.id.search_tv)
@@ -90,11 +91,12 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         }
     }
 
-    private void search(final String name){
+    private void search(final String name) {
         final Observable.OnSubscribe<List<Animal>> onSubscribe = new Observable.OnSubscribe<List<Animal>>() {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
-                List<Animal> animalList = ApiManager.getAnimalList(name);
+//                List<Animal> animalList = ApiManager.getAnimalList(name);
+                List<Animal> animalList = AnimalServerEntityManager.getAnimalSelectList("5", "", name);
                 subscriber.onNext(animalList);
                 subscriber.onCompleted();
             }
@@ -126,7 +128,7 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         });
     }
 
-    private void getAnimalById(final String id){
+    private void getAnimalById(final String id) {
         final Observable.OnSubscribe<Animal> onSubscribe = new Observable.OnSubscribe<Animal>() {
             @Override
             public void call(Subscriber<? super Animal> subscriber) {
@@ -212,7 +214,7 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
             }
         }
 
-        public void setData(List<Animal> newData){
+        public void setData(List<Animal> newData) {
             data.clear();
             data.addAll(newData);
             notifyDataSetChanged();

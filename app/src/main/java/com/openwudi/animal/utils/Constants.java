@@ -6,6 +6,9 @@ package com.openwudi.animal.utils;
 
 public final class Constants {
 
+    public static final String SP_CONFIG = "sp_cfg";
+    public static final String SP_CONFIG_V = "sp_cfg_v";
+
     public static final String TAG = "BaiduTraceSDK_V3";
 
     public static final int REQUEST_CODE = 1;
