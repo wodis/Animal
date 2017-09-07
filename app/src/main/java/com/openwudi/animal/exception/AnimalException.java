@@ -25,7 +25,7 @@ public class AnimalException extends RuntimeException {
     }
 
     public AnimalException(RES_STATUS status) {
-        super(status.name());
+        super(status.msg);
         this.errorCode = status.code;
         this.errorMsg = status.msg;
     }

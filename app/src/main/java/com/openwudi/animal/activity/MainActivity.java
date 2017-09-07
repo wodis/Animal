@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
-import com.openwudi.animal.base.StatusBarCompat;
+import com.openwudi.animal.event.NewMessageEvent;
 import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.fragment.HomeFragment;
 import com.openwudi.animal.fragment.MessageFragment;
@@ -61,6 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout tabMy;
     @BindView(R.id.root)
     FrameLayout root;
+    @BindView(R.id.reminder)
+    ImageView reminder;
 
     public static final int CLICK_BACK_INTERVAL = 2000;
     private long mLastClickTime;
@@ -146,6 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case TAB_READ:
                 helpDrawable = ContextCompat.getDrawable(this, R.drawable.icon_msg);
                 helpTextColor = ContextCompat.getColor(this, R.color.color6);
+                reminder.setVisibility(View.GONE);
                 break;
             case TAB_MY:
                 myDrawable = ContextCompat.getDrawable(this, R.drawable.settings);
@@ -199,8 +202,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTabEvent(
-            TabEvent event){
+            TabEvent event) {
         selectMainTab(event.getPosition());
         mainVp.setCurrentItem(event.getPosition(), false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewMessageEvent(NewMessageEvent event) {
+        reminder.setVisibility(event.same ? View.GONE : View.VISIBLE);
     }
 }

@@ -17,6 +17,8 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.MessageDetailActivity;
 import com.openwudi.animal.base.BaseFragment;
+import com.openwudi.animal.db.MessageEntity;
+import com.openwudi.animal.db.manager.MessageEntityManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Message;
 import com.openwudi.animal.view.EmptyView;
@@ -91,6 +93,17 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
             @Override
             public void call(Subscriber<? super List<Message>> subscriber) {
                 List<Message> messageList = ApiManager.listMessage();
+
+                if (EmptyUtils.isNotEmpty(messageList)){
+                    List<MessageEntity> list = new ArrayList<>();
+                    for (Message message : messageList){
+                        MessageEntity entity = new MessageEntity();
+                        entity.setFid(message.getId());
+                        list.add(entity);
+                    }
+                    MessageEntityManager.add(list);
+                }
+
                 subscriber.onNext(messageList);
                 subscriber.onCompleted();
             }

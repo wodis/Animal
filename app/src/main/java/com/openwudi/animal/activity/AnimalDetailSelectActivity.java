@@ -49,7 +49,7 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animal_select);
+        setContentView(R.layout.activity_animal_select_old);
         ButterKnife.bind(this);
         initView();
         search("");

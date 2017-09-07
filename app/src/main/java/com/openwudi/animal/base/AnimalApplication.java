@@ -29,6 +29,7 @@ import com.openwudi.animal.activity.TraceActivity;
 import com.openwudi.animal.db.AppOpenHelper;
 import com.openwudi.animal.db.DaoMaster;
 import com.openwudi.animal.db.DaoSession;
+import com.openwudi.animal.manager.HeartManager;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.NetUtil;
 import com.tencent.bugly.Bugly;
@@ -100,6 +101,7 @@ public class AnimalApplication extends Application {
         INSTANCE = this;
         initBD();
         Bugly.init(getApplicationContext(), getString(R.string.BUGLY_APPID), true);
+        HeartManager.getInstance().resendHeart();
     }
 
     @Override
