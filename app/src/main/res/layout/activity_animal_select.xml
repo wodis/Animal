@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.yyydjk.library.DropDownMenu
-    android:id="@+id/dropDownMenu"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:ddmenuTextSize="13sp"
-    app:ddtextUnselectedColor="@color/white"
-    app:ddtextSelectedColor="@color/white"
-    app:dddividerColor="@color/colorPrimary"
-    app:ddunderlineColor="@color/colorPrimary"
-    app:ddmenuMenuHeightPercent="0.5"
-    app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
-    app:ddmaskColor="@color/mask_color"
-    app:ddmenuBackgroundColor="@color/colorPrimary"
-    app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
-    />
+    android:background="@color/color6"
+    android:orientation="vertical">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_title="动物名称" />
+
+    <com.yyydjk.library.DropDownMenu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dropDownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dddividerColor="@color/colorPrimary"
+        app:ddmaskColor="@color/mask_color"
+        app:ddmenuBackgroundColor="@color/colorPrimary"
+        app:ddmenuMenuHeightPercent="0.5"
+        app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
+        app:ddmenuTextSize="13sp"
+        app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
+        app:ddtextSelectedColor="@color/white"
+        app:ddtextUnselectedColor="@color/white"
+        app:ddunderlineColor="@color/colorPrimary" />
+
+</LinearLayout>

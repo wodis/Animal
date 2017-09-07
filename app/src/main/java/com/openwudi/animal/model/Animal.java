@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by diwu on 17/7/4.
  */
 
-public class Animal implements Serializable{
+public class Animal implements Serializable {
     @JSONField(name = "F_Id")
     private String id;
 
@@ -95,5 +95,27 @@ public class Animal implements Serializable{
 
     public void setEnvironment(String environment) {
         this.environment = environment;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = result * 31 + name.hashCode();
+        result = result * 31 + id.hashCode();
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else {
+            if (obj instanceof Animal) {
+                return this.hashCode() == obj.hashCode();
+            } else {
+                return super.equals(obj);
+            }
+        }
     }
 }

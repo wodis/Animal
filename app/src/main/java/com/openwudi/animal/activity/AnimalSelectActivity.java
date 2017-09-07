@@ -48,7 +48,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class AnimalSelectActivity extends BaseActivity implements View.OnClickListener, AnimalSelectContract.View {
-    @BindView(R.id.title_bar_tbv)
+
     TitleBarView titleBarTbv;
     @BindView(R.id.search_tv)
     TextView searchTv;
@@ -69,6 +69,7 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_select);
         presenter = new AnimalSelectPresenter();
+        titleBarTbv = (TitleBarView) findViewById(R.id.title_bar_tbv);
         mDropDownMenu = (DropDownMenu) findViewById(R.id.dropDownMenu);
         contentView = View.inflate(mContext, R.layout.activity_animal_select_view, null);
         ButterKnife.bind(this, contentView);
@@ -99,8 +100,8 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    String name = searchInputEt.getText().toString();
-                    search(name);
+                    String s = searchInputEt.getText().toString();
+                    presenter.mergeSearch(s);
                     return true;
                 }
                 return false;
@@ -115,8 +116,8 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (EmptyUtils.isNotEmpty(s.toString()) && s.length() > 1) {
-                    search(s.toString());
+                if (EmptyUtils.isNotEmpty(s) && s.length() > 1) {
+                    presenter.mergeSearch(s.toString());
                 }
             }
 
@@ -141,8 +142,8 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_tv:
-                String name = searchInputEt.getText().toString();
-                search(name);
+                String s = searchInputEt.getText().toString();
+                presenter.mergeSearch(s);
                 break;
         }
     }
@@ -187,6 +188,11 @@ public class AnimalSelectActivity extends BaseActivity implements View.OnClickLi
                 adapter.setData(animalList);
             }
         });
+    }
+
+    @Override
+    public void setData(List<Animal> animalList) {
+        adapter.setData(animalList);
     }
 
     private void getAnimalById(final String id) {

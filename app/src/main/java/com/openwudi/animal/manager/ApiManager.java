@@ -162,6 +162,9 @@ public class ApiManager {
         params.put("keyword", keyword);
         String result = send("GetAnimalList", params);
         List<Animal> items = JSON.parseArray(result, Animal.class);
+        if (items == null){
+            items = new ArrayList<>();
+        }
         return items;
     }
 
@@ -190,6 +193,8 @@ public class ApiManager {
             items = JSON.parseArray(result, Animal.class);
             if (EmptyUtils.isNotEmpty(items) && items.size() < 100) {
                 cacheAnimalSelect.put(cacheKey, items);
+            } else {
+                items = new ArrayList<>();
             }
         }
         return items;
