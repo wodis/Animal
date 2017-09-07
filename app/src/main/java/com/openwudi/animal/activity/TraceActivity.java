@@ -187,7 +187,8 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.right_btn:
             case R.id.right_tv:
-                presenter.up();
+//                presenter.up();
+                presenter.startGpsHistory();
                 break;
 
             default:

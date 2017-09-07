@@ -51,8 +51,6 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     TextView total;
     @BindView(R.id.lv)
     MoreListView lv;
-//    @BindView(R.id.srl)
-//    SwipeRefreshLayout srl;
     @BindView(R.id.empty_view)
     EmptyView emptyView;
 
@@ -72,8 +70,6 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
         lv.setAdapter(adapter);
         emptyView.setImage(R.drawable.tips_ghost);
         emptyView.setText("暂无已上报记录");
-//        srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
-//        srl.setOnRefreshListener(this);
         lv.setOnLoadMoreListener(this);
         titlebar.setLeftListener(new View.OnClickListener() {
             @Override
@@ -114,7 +110,7 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     public void onRefresh() {
         lv.onLoadMoreEnable();
         index = 0;
-        presenter.refresh(index);
+        presenter.refresh(index, "");
     }
 
     @Override
@@ -139,6 +135,11 @@ public class HistoryActivity extends BaseActivity implements HistoryContract.Vie
     public void onLoadMore() {
         index++;
         presenter.refresh(index);
+    }
+
+    @Override
+    public void setTitle(String title){
+        titlebar.setTitle(title);
     }
 
 

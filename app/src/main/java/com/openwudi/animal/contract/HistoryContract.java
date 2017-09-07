@@ -20,6 +20,8 @@ public interface HistoryContract {
         void setData(List<DataAcquisition> data);
 
         void addData(List<DataAcquisition> data);
+
+        void setTitle(String title);
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

@@ -330,10 +330,11 @@ public class ApiManager {
         return result;
     }
 
-    public static List<DataAcquisition> getDataAcquisitionList(int index) {
-        Map<String, String> params = new HashMap<>(2);
+    public static List<DataAcquisition> getDataAcquisitionList(int index, String date) {
+        Map<String, String> params = new HashMap<>(3);
         params.put("terminalid", AccountManager.getAccount().getTerminalId());
         params.put("pageIndex", index + "");
+        params.put("date", date);
         String result = send("GetDataAcquisitionList", params);
         List<DataAcquisition> items = JSON.parseArray(result, DataAcquisition.class);
         for (DataAcquisition data : items) {

@@ -5,6 +5,8 @@ import com.openwudi.animal.db.AnimalServerEntity;
 import com.openwudi.animal.db.AnimalServerEntityDao;
 import com.openwudi.animal.model.Animal;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +28,15 @@ public class AnimalServerEntityManager {
     public static List<Animal> getAnimalSelectList(String level, String fid, String keyword) {
         fid = fid.trim().replaceAll("0*$", "");
         AnimalServerEntityDao dao = AnimalApplication.INSTANCE.getDaoSession().getAnimalServerEntityDao();
-        List<AnimalServerEntity> list = dao.queryBuilder().where(
+        QueryBuilder<AnimalServerEntity> qb = dao.queryBuilder();
+        qb.where(
                 AnimalServerEntityDao.Properties.Level.eq(level),
                 AnimalServerEntityDao.Properties.Fid.like(fid + "%"),
-                AnimalServerEntityDao.Properties.Name.like("%" + keyword + "%"),
-                AnimalServerEntityDao.Properties.Pinyin.like("%" + keyword + "%"),
-                AnimalServerEntityDao.Properties.PinyinInitials.like("%" + keyword + "%")
-        ).list();
+                qb.or(AnimalServerEntityDao.Properties.Name.like("%" + keyword + "%"),
+                        AnimalServerEntityDao.Properties.Pinyin.like("%" + keyword + "%"),
+                        AnimalServerEntityDao.Properties.PinyinInitials.like("%" + keyword + "%"))
+        );
+        List<AnimalServerEntity> list = qb.list();
         List<Animal> orig = new ArrayList<>();
         for (AnimalServerEntity entity : list) {
             Animal animal = new Animal(entity);

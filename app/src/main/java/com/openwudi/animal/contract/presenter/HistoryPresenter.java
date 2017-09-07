@@ -38,6 +38,7 @@ import rx.schedulers.Schedulers;
 
 public class HistoryPresenter extends HistoryContract.Presenter implements OnDateSetListener {
     private Map<String, String> map = new HashMap<>();
+    private String date = "";
 
     @Override
     public void onStart() {
@@ -78,7 +79,7 @@ public class HistoryPresenter extends HistoryContract.Presenter implements OnDat
                 for (Item item : itemList) {
                     map.put(item.getCode(), item.getName());
                 }
-                refresh(0);
+                refresh(0, date);
             }
         });
     }
@@ -87,11 +88,15 @@ public class HistoryPresenter extends HistoryContract.Presenter implements OnDat
         return map.get(encode);
     }
 
-    public void refresh(final int index) {
+    public void refresh(int index) {
+        refresh(index, date);
+    }
+
+    public void refresh(final int index, final String date) {
         final Observable.OnSubscribe<List<DataAcquisition>> onSubscribe = new Observable.OnSubscribe<List<DataAcquisition>>() {
             @Override
             public void call(Subscriber<? super List<DataAcquisition>> subscriber) {
-                List<DataAcquisition> list = ApiManager.getDataAcquisitionList(index);
+                List<DataAcquisition> list = ApiManager.getDataAcquisitionList(index, date);
                 subscriber.onNext(list);
                 subscriber.onCompleted();
             }
@@ -166,9 +171,12 @@ public class HistoryPresenter extends HistoryContract.Presenter implements OnDat
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         String date = TimeUtils.milliseconds2String(millseconds, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
         Log.d(this.getClass().getSimpleName(), "onDateSet: " + date);
-        Intent i = new Intent(mContext, MapQueryActivity.class);
-        i.putExtra("onlyShow", true);
-        i.putExtra("date", date);
-        mContext.startActivity(i);
+        this.date = date;
+        refresh(0, date);
+        mView.setTitle(date);
+//        Intent i = new Intent(mContext, MapQueryActivity.class);
+//        i.putExtra("onlyShow", true);
+//        i.putExtra("date", date);
+//        mContext.startActivity(i);
     }
 }

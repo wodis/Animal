@@ -125,6 +125,7 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
         MapStatusUpdate mapstatusUpdate = MapStatusUpdateFactory.zoomTo(19);
         baiduMap.setMapStatus(mapstatusUpdate);
 
+        titlebar.setTitle(date);
         titlebar.setLeftListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +134,7 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
         });
 
         startTime = TimeUtils.string2Milliseconds(date, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())) / 1000L;
-        endTime = startTime + 3600 *23;
+        endTime = startTime + 3600 * 23 + 3500;
         init();
     }
 
@@ -224,8 +225,8 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
         return false;
     }
 
-    private void draw(List<LatLng> points){
-        if (EmptyUtils.isEmpty(points)){
+    private void draw(List<LatLng> points) {
+        if (EmptyUtils.isEmpty(points)) {
             ToastUtils.showShortToast(mContext, "无记录");
             finish();
             return;

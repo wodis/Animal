@@ -1,18 +1,31 @@
 package com.openwudi.animal.contract.presenter;
 
+import android.content.Intent;
+import android.util.Log;
+
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.NetworkUtils;
 import com.blankj.utilcode.utils.ThreadPoolUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.openwudi.animal.R;
+import com.openwudi.animal.activity.MapQueryActivity;
+import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.contract.TraceContract;
 import com.openwudi.animal.contract.model.TraceModel;
 import com.openwudi.animal.db.GPSData;
 import com.openwudi.animal.exception.AnimalException;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.GPSDataModel;
+import com.openwudi.animal.utils.Utils;
+import com.openwudi.animal.view.pickerview.TimePickerDialog;
+import com.openwudi.animal.view.pickerview.data.Type;
+import com.openwudi.animal.view.pickerview.listener.OnDateSetListener;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import rx.Observable;
@@ -27,7 +40,7 @@ import static com.openwudi.animal.exception.RES_STATUS.RESP_FAIL_ERROR;
  * Created by diwu on 17/7/24.
  */
 
-public class TracePresenter extends TraceContract.Presenter {
+public class TracePresenter extends TraceContract.Presenter implements OnDateSetListener {
 
     static String uuid;
     ThreadPoolUtils poolUtils;
@@ -113,5 +126,46 @@ public class TracePresenter extends TraceContract.Presenter {
             list.clear();
             list = mModel.list();
         }
+    }
+
+    public void startGpsHistory() {
+        TimePickerDialog.Builder mBuilder = initBuilder();
+        long currentTime = System.currentTimeMillis();
+        mBuilder.setCurrentMillseconds(currentTime);
+        mBuilder.build().showDialog(((BaseActivity) mContext).getSupportFragmentManager(), "year_month");
+    }
+
+    private static int currentYear = 2017;
+    private static int maxYear = 2023;
+    private static int minYear = 2010;
+    private long maxMillSeconds;
+    private long minMillSeconds;
+
+    private TimePickerDialog.Builder initBuilder() {
+        TimePickerDialog.Builder mBuilder;
+        String timeMin = mContext.getString(R.string.graduation_time_limit, minYear, 1);
+        String timeMax = mContext.getString(R.string.graduation_time_limit, maxYear, 12);
+        maxMillSeconds = Utils.string2Long(timeMax, mContext.getString(R.string.time_format));
+        minMillSeconds = Utils.string2Long(timeMin, mContext.getString(R.string.time_format));
+        mBuilder = new TimePickerDialog.Builder()
+                .setType(Type.YEAR_MONTH_DAY)
+                .setThemeColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .setCallBack(this)
+                .setTitleStringId("采集时间")
+                .setWheelItemTextSize(14)
+                .setMinMillseconds(minMillSeconds)
+                .setMaxMillseconds(maxMillSeconds)
+        ;
+        return mBuilder;
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        String date = TimeUtils.milliseconds2String(millseconds, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
+        Log.d(this.getClass().getSimpleName(), "onDateSet: " + date);
+        Intent i = new Intent(mContext, MapQueryActivity.class);
+        i.putExtra("onlyShow", true);
+        i.putExtra("date", date);
+        mContext.startActivity(i);
     }
 }

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tbv_left="@drawable/icon_back_white"
-            app:tbv_right_text=""
+            app:tbv_right_text="历史记录"
             app:tbv_title="路径采集" />
 
     </LinearLayout>
