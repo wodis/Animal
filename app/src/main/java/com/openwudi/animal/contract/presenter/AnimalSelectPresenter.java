@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.openwudi.animal.R;
 import com.openwudi.animal.adapter.ListDropDownAdapter;
 import com.openwudi.animal.contract.AnimalSelectContract;
 import com.openwudi.animal.db.manager.AnimalServerEntityManager;
@@ -59,6 +60,12 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
         twoView = new ListView(mContext);
         threeView = new ListView(mContext);
         fourView = new ListView(mContext);
+
+        oneView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        twoView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        threeView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        fourView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+
         oneAdapter = new ListDropDownAdapter(mContext, one);
         twoAdapter = new ListDropDownAdapter(mContext, two);
         threeAdapter = new ListDropDownAdapter(mContext, three);
