@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_pedia">
+
+    <com.openwudi.animal.view.TitleBarView
+        android:id="@+id/title_bar_tbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbv_left="@drawable/icon_back_white"
+        app:tbv_right_text=""
+        app:tbv_title="科普知识" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp">
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/bird"
+                    layout="@layout/view_pedia_item" />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/cat"
+                    layout="@layout/view_pedia_item" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/snak"
+                    layout="@layout/view_pedia_item" />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/frog"
+                    layout="@layout/view_pedia_item" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+</LinearLayout>

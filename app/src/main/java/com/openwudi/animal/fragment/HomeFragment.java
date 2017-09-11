@@ -22,6 +22,7 @@ import com.openwudi.animal.activity.AnimalDetailSelectActivity;
 import com.openwudi.animal.activity.CallListActivity;
 import com.openwudi.animal.activity.HistoryActivity;
 import com.openwudi.animal.activity.LoginActivity;
+import com.openwudi.animal.activity.PediaActivity;
 import com.openwudi.animal.activity.TraceActivity;
 import com.openwudi.animal.activity.TraceOptionsActivity;
 import com.openwudi.animal.activity.UpActivity;
@@ -179,7 +180,7 @@ public class HomeFragment extends Fragment {
                     call();
                     break;
                 case 5:
-                    context.startActivity(new Intent(context, AnimalDetailSelectActivity.class));
+                    context.startActivity(new Intent(context, PediaActivity.class));
                     break;
             }
         }

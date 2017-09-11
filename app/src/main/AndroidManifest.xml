@@ -117,6 +117,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.PediaActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.TraceOptionsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

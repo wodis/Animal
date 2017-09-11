@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#A03FA43F</color>
     <color name="colorAccent">#3FA43F</color>
 
+    <color name="colorPrimaryDark2">#0B6E48</color>
+
     <color name="main_tab_text_normal">#B0B0B0</color>
 
     <color name="color1">#FF434A54</color>
@@ -49,4 +51,6 @@
     <color name="green_light">#27c58b</color>
 
     <color name="loading_indicator">#bdbdbd</color>
+
+    <color name="bg_pedia_white">#73FFFFFF</color>
 </resources>

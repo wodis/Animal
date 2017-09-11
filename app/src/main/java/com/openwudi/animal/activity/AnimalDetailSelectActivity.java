@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.db.manager.AnimalServerEntityManager;
@@ -45,6 +48,8 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
     @BindView(R.id.content_lv)
     ListView contentLv;
 
+    private Animal animal;
+
     private AnimalSelectAdapter adapter;
 
     @Override
@@ -53,7 +58,8 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         setContentView(R.layout.activity_animal_select_old);
         ButterKnife.bind(this);
         initView();
-        search("");
+        animal = (Animal) getIntent().getSerializableExtra(Animal.class.getSimpleName());
+        search(animal);
     }
 
     private void initView() {
@@ -73,7 +79,7 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     String name = searchInputEt.getText().toString();
-                    search(name);
+//                    search(name);
                     return true;
                 }
                 return false;
@@ -86,17 +92,16 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         switch (v.getId()) {
             case R.id.search_tv:
                 String name = searchInputEt.getText().toString();
-                search(name);
+//                search(name);
                 break;
         }
     }
 
-    private void search(final String name) {
+    private void search(final Animal animal) {
         final Observable.OnSubscribe<List<Animal>> onSubscribe = new Observable.OnSubscribe<List<Animal>>() {
             @Override
             public void call(Subscriber<? super List<Animal>> subscriber) {
-//                List<Animal> animalList = ApiManager.getAnimalList(name);
-                List<Animal> animalList = AnimalServerEntityManager.getAnimalSelectList("5", "", name);
+                List<Animal> animalList = AnimalServerEntityManager.getAnimalSelectList(animal.getLevel() + 1 + "", animal.getId(), "");
                 subscriber.onNext(animalList);
                 subscriber.onCompleted();
             }
@@ -128,42 +133,16 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         });
     }
 
-    private void getAnimalById(final String id) {
-        final Observable.OnSubscribe<Animal> onSubscribe = new Observable.OnSubscribe<Animal>() {
-            @Override
-            public void call(Subscriber<? super Animal> subscriber) {
-                Animal animal = ApiManager.getAnimalModel(id);
-                subscriber.onNext(animal);
-                subscriber.onCompleted();
-            }
-        };
-
-        Observable.create(onSubscribe)
-                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showLoading();
-                    }
-                }).subscribe(new Subscriber<Animal>() {
-            @Override
-            public void onCompleted() {
-                hideLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideLoading();
-                ToastUtils.showShortToast(mContext, e.getMessage());
-            }
-
-            @Override
-            public void onNext(Animal animal) {
-                Intent i = new Intent(mContext, AnimalDetailActivity.class);
-                i.putExtra(Animal.class.getSimpleName(), animal);
-                startActivity(i);
-            }
-        });
+    private void getAnimal(final Animal animal) {
+        if (animal.getLevel() == 5) {
+            Intent i = new Intent(mContext, AnimalDetailActivity.class);
+            i.putExtra(Animal.class.getSimpleName(), animal);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(mContext, AnimalDetailSelectActivity.class);
+            i.putExtra(Animal.class.getSimpleName(), animal);
+            startActivity(i);
+        }
     }
 
 
@@ -189,17 +168,22 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(mContext, R.layout.item_animal_select, null);
+                convertView = View.inflate(mContext, R.layout.item_animal_select_with_pic, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
 
             final Animal animal = getItem(position);
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             viewHolder.titleTv.setText(animal.getName());
+            if (EmptyUtils.isNotEmpty(animal.getPhoto())) {
+                viewHolder.iv.setVisibility(View.VISIBLE);
+                String pic = getString(R.string.PIC_URL) + animal.getPhoto();
+                Glide.with(mContext).load(pic).into(viewHolder.iv);
+            }
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getAnimalById(animal.getId());
+                    getAnimal(animal);
                 }
             });
             return convertView;
@@ -208,6 +192,8 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         class ViewHolder {
             @BindView(R.id.title_tv)
             TextView titleTv;
+            @BindView(R.id.iv)
+            ImageView iv;
 
             ViewHolder(View view) {
                 ButterKnife.bind(this, view);
