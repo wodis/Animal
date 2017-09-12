@@ -278,12 +278,27 @@ public class ApiManager {
         return result;
     }
 
-    public static Account login(String account, String password) {
+    public static Account checkLogin(String account, String password) {
         Map<String, String> params = new HashMap<>(1);
         params.put("username", account);
         params.put("userpassword", password);
         params.put("serialnumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
         String result = send("CheckLogin", params);
+        Account a = JSON.parseObject(result, Account.class);
+        return a;
+    }
+
+    public static Account login(String account, String password) {
+        Map<String, String> params = new HashMap<>(3);
+        JSONObject json = new JSONObject();
+        json.put("F_DeviceModel", DeviceUtils.getModel());
+        json.put("F_SerialNumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
+        json.put("F_MAC", DeviceUtils.getMacAddress(AnimalApplication.INSTANCE));
+
+        params.put("username", account);
+        params.put("userpassword", password);
+        params.put("json", json.toJSONString());
+        String result = send("Login", params);
         Account a = JSON.parseObject(result, Account.class);
         return a;
     }
