@@ -59,6 +59,7 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
         ButterKnife.bind(this);
         initView();
         animal = (Animal) getIntent().getSerializableExtra(Animal.class.getSimpleName());
+        titleBarTbv.setTitle(animal.getName());
         search(animal);
     }
 
@@ -179,6 +180,8 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
                 viewHolder.iv.setVisibility(View.VISIBLE);
                 String pic = getString(R.string.PIC_URL) + animal.getPhoto();
                 Glide.with(mContext).load(pic).into(viewHolder.iv);
+            } else {
+                viewHolder.iv.setImageDrawable(null);
             }
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
