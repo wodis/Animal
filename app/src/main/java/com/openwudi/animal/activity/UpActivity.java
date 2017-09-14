@@ -461,7 +461,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     deathLeftIv.setVisibility(View.VISIBLE);
                 }
             }
-        } else if (REQ_CODE_MAP == requestCode) {
+        } else if (REQ_CODE_MAP == requestCode && data != null) {
             LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
             presenter.setLatLng(latLng);
             DecimalFormat df = new DecimalFormat("#.00000");
