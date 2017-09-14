@@ -74,8 +74,8 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
     private LocalMedia death;
 
     private Address address;
-    private double latitude;
-    private double longtitude;
+    private double latitude = 0;
+    private double longtitude = 0;
     private double altitude = 0;
     private long collectionTime = 0;
 
@@ -372,8 +372,8 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 //            msg = "请上传图片";
 //        } else if (mView.getDeathNum() > 0 && death == null) {
 //            msg = "请上传图片";
-        } else if (address == null) {
-            msg = "请重新定位";
+        } else if (EmptyUtils.isEmpty(mView.getGps())) {
+            msg = "请定位";
         } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
         } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum())) {
@@ -550,7 +550,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
             public void locSuccess(Address add, double lat, double lon, double alt) {
                 LogUtils.d("L", "定位经纬度：latitude：" + lat + ",longitude:" + lon + ",altitude:" + altitude);
                 DecimalFormat df = new DecimalFormat("#.00000");
-                mView.setGps(df.format(lat) + "," + df.format(lon));
+                mView.setGps(df.format(lat) + "," + df.format(lon), latitude == 0);
                 if (!TextUtils.isEmpty(add.address)) {
 //                    ToastUtils.showShortToast(mContext, add.street);
                 }

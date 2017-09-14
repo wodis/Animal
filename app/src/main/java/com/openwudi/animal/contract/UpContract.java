@@ -57,7 +57,9 @@ public interface UpContract {
 
         void startMap(Intent intent);
 
-        void setGps(String string);
+        void setGps(String string, boolean isFirst);
+
+        String getGps();
     }
 
     abstract class Presenter extends BasePresenter<Model, View> {

@@ -465,7 +465,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
             presenter.setLatLng(latLng);
             DecimalFormat df = new DecimalFormat("#.00000");
-            setGps(df.format(latLng.latitude) + "," + df.format(latLng.longitude));
+            setGps(df.format(latLng.latitude) + "," + df.format(latLng.longitude), false);
         }
     }
 
@@ -561,7 +561,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
-    public void setGps(final String string) {
+    public void setGps(final String string, boolean isFirst) {
+        if (isFirst) {
+            return;
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -569,6 +573,11 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 gps.postInvalidate();
             }
         });
+    }
+
+    @Override
+    public String getGps(){
+        return gps.getRightText();
     }
 
     public void startAlbum(int requestCode) {
@@ -611,7 +620,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             EasyPermissions.requestPermissions(this, "需要相关权限, 否则无法运行",
                     REQ_PERMISSION, mPerms);
         } else {
-            if (NetworkUtils.isConnected(mContext)){
+            if (NetworkUtils.isConnected(mContext)) {
                 presenter.gps();
             } else {
                 startGpsWithoutNetwork();
@@ -665,7 +674,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             LatLng latLng = new LatLng(latitude, longitude);
             presenter.setLatLng(latLng);
             DecimalFormat df = new DecimalFormat("#.00000");
-            setGps(df.format(latitude) + "," + df.format(longitude));
+            setGps(df.format(latitude) + "," + df.format(longitude), false);
         }
 
         // provider失效时调用
@@ -690,7 +699,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (requestCode == REQ_PERMISSION && perms.size() >= mPerms.length) {
-            if (NetworkUtils.isConnected(mContext)){
+            if (NetworkUtils.isConnected(mContext)) {
                 presenter.gps();
             } else {
                 startGpsWithoutNetwork();
