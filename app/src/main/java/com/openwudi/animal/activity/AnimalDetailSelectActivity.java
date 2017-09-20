@@ -183,6 +183,11 @@ public class AnimalDetailSelectActivity extends BaseActivity implements View.OnC
             } else {
                 viewHolder.iv.setImageDrawable(null);
             }
+
+            if (animal.getLevel() == 1){
+                viewHolder.iv.setVisibility(View.GONE);
+            }
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

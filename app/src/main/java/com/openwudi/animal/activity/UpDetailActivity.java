@@ -347,9 +347,14 @@ public class UpDetailActivity extends BaseActivity implements UpDetailContract.V
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(final Throwable e) {
                 hideLoading();
-                ToastUtils.showShortToast(mContext, e.getMessage());
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtils.showShortToast(mContext, e.getMessage());
+                    }
+                });
             }
 
             @Override

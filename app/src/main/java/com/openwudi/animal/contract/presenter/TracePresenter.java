@@ -1,5 +1,6 @@
 package com.openwudi.animal.contract.presenter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
@@ -105,7 +106,12 @@ public class TracePresenter extends TraceContract.Presenter implements OnDateSet
 
     private void upAll() {
         if (!NetworkUtils.isConnected(mContext)) {
-            ToastUtils.showShortToast(mContext,"暂无网络");
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtils.showShortToast(mContext, "暂无网络");
+                }
+            });
             return;
         }
         List<GPSData> list = mModel.list();
@@ -114,11 +120,11 @@ public class TracePresenter extends TraceContract.Presenter implements OnDateSet
                 try {
                     ApiManager.saveGpsData(new GPSDataModel(data));
                     mModel.deleteById(data.getId());
-                } catch (AnimalException e) {
-                    if (e.getErrorCode() == RESP_FAIL_ERROR.code || e.getMessage().contains("重复键值")) {
-                        mModel.deleteById(data.getId());
-                    } else {
-                        throw e;
+                } catch (Exception e) {
+                    if (e instanceof AnimalException) {
+                        if (((AnimalException) e).getErrorCode() == RESP_FAIL_ERROR.code || e.getMessage().contains("重复键值")) {
+                            mModel.deleteById(data.getId());
+                        }
                     }
                     e.printStackTrace();
                 }

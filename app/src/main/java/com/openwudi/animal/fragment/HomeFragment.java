@@ -28,6 +28,7 @@ import com.openwudi.animal.activity.TraceOptionsActivity;
 import com.openwudi.animal.activity.UpActivity;
 import com.openwudi.animal.activity.UpSaveActivity;
 import com.openwudi.animal.event.TabEvent;
+import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.SortItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -180,7 +181,13 @@ public class HomeFragment extends Fragment {
                     call();
                     break;
                 case 5:
-                    context.startActivity(new Intent(context, PediaActivity.class));
+//                    context.startActivity(new Intent(context, PediaActivity.class));
+                    Animal animal = new Animal();
+                    animal.setLevel(0);
+                    animal.setId("");
+                    Intent i = new Intent(context, AnimalDetailSelectActivity.class);
+                    i.putExtra(Animal.class.getSimpleName(), animal);
+                    context.startActivity(i);
                     break;
             }
         }
