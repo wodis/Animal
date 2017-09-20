@@ -9,7 +9,7 @@
     <dimen name="activity_title_size">18sp</dimen>
     <dimen name="activity_title_height">40dp</dimen>
     <dimen name="default_padding_normal">10dp</dimen>
-    <dimen name="cell_height">40dp</dimen>
+    <dimen name="cell_height">60dp</dimen>
     <dimen name="default_line_height">0.5dp</dimen>
 
     <dimen name="blue_btn_height">48dp</dimen>

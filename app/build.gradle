@@ -48,7 +48,7 @@ android {
 
     buildTypes {
         debug {
-            resValue "string", "BD_SID", "144632"
+            resValue "string", "BD_SID", "144530"
             resValue "string", "API_URL", url
             resValue "string", "PIC_URL", pic
             resValue "string", "BUGLY_APPID", bugly
