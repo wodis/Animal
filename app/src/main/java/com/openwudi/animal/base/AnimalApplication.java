@@ -113,6 +113,7 @@ public class AnimalApplication extends Application {
     private void initBD(){
         serviceId = Long.parseLong(getString(R.string.BD_SID));
         entityName = CommonUtil.getImei(this);
+//        entityName = "359785072712329";
 
         // 若为创建独立进程，则不初始化成员变量
         if ("com.baidu.track:remote".equals(CommonUtil.getCurProcessName(INSTANCE))) {

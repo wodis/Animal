@@ -158,9 +158,9 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
         processOption.setRadiusThreshold(100);
         // 设置交通方式为驾车
         processOption.setTransportMode(TransportMode.walking);
-        historyTrackRequest.setProcessOption(processOption);
-        // 设置需要纠偏
-        historyTrackRequest.setProcessed(true);
+//        historyTrackRequest.setProcessOption(processOption);
+////        // 设置需要纠偏
+//        historyTrackRequest.setProcessed(true);
         initListener();
         queryHistoryTrack();
     }

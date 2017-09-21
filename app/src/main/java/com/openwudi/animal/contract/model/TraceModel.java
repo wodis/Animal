@@ -40,8 +40,12 @@ public class TraceModel implements TraceContract.Model {
         data.setUserId(account.getUserId());
 
         if (EmptyUtils.isEmpty(dao.queryBuilder().where(GPSDataDao.Properties.CreateTime.eq(data.getCreateTime())).list())) {
-            dao.insert(data);
-            times++;
+            try {
+                dao.insert(data);
+                times++;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return data;
         }
         return null;

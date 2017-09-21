@@ -20,6 +20,7 @@ import com.openwudi.animal.contract.model.UpSaveModel;
 import com.openwudi.animal.contract.presenter.UpSavePresenter;
 import com.openwudi.animal.event.UpEvent;
 import com.openwudi.animal.model.UpObject;
+import com.openwudi.animal.view.AlertDialogFragment;
 import com.openwudi.animal.view.EmptyView;
 import com.openwudi.animal.view.TitleBarView;
 
@@ -74,11 +75,11 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
         titlebar.setRightListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("确定上报吗?");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mContext, getSupportFragmentManager());
+                builder.setTitle("确定上报吗?");
+                builder.setPositiveButton("确定", new AlertDialogFragment.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                         List<UpObject> list = adapter.getData();
                         if (list.size() > 0) {
                             presenter.report(list);
@@ -87,12 +88,12 @@ public class UpSaveActivity extends BaseActivity implements UpSaveContract.View 
                         }
                     }
                 });
-                //    设置一个NegativeButton
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("取消", new AlertDialogFragment.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                     }
                 });
+                builder.setCancelable(true);
                 builder.show();
             }
         });

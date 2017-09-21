@@ -46,6 +46,7 @@ import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.DataAcquisition;
 import com.openwudi.animal.model.ItemEncode;
 import com.openwudi.animal.utils.TimeUtil;
+import com.openwudi.animal.view.AlertDialogFragment;
 import com.openwudi.animal.view.TableCellView;
 import com.openwudi.animal.view.TitleBarView;
 
@@ -163,20 +164,20 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
         titleBarTbv.setLeftListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("确定退出吗?");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mContext, getSupportFragmentManager());
+                builder.setTitle("确定退出吗?");
+                builder.setPositiveButton("确定", new AlertDialogFragment.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                         finish();
                     }
                 });
-                //    设置一个NegativeButton
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("取消", new AlertDialogFragment.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                     }
                 });
+                builder.setCancelable(true);
                 builder.show();
             }
         });
@@ -398,21 +399,21 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     private void submit() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage("确定提交吗?");
-        builder.setPositiveButton("直接上报", new DialogInterface.OnClickListener() {
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(this, getSupportFragmentManager());
+        builder.setTitle("确定提交吗?");
+        builder.setPositiveButton("直接上报", new AlertDialogFragment.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 presenter.submit(false);
             }
         });
-        //    设置一个NegativeButton
-        builder.setNegativeButton("保存", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("保存", new AlertDialogFragment.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 presenter.submit(true);
             }
         });
+        builder.setCancelable(true);
         builder.show();
     }
 

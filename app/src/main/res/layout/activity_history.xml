@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:tbv_left="@drawable/icon_back_white"
         app:tbv_title="历史记录"
-        app:tbv_right_text="日期"/>
+        app:tbv_right_text="日期选择"/>
 
     <include layout="@layout/view_save_item" />
 
