@@ -122,7 +122,7 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
                 dropDownMenu.setTabText(6, animal.getName());
                 dropDownMenu.closeMenu();
                 fourItem = animal;
-                if (view != null){
+                if (view != null) {
                     mergeSearch("");
                 }
             }
@@ -210,13 +210,15 @@ public class AnimalSelectPresenter extends AnimalSelectContract.Presenter {
             public void call(Subscriber<? super List<Animal>> subscriber) {
 //                List<Animal> animalListClass = ApiManager.getAnimalSelectList("5", fourItem.getId(), keyword);
                 List<Animal> animalListClass = AnimalServerEntityManager.getAnimalSelectList("5", fourItem.getId(), keyword);
-//                List<Animal> animalList = ApiManager.getAnimalList(keyword);
-//                for (Animal an : animalList) {
-//                    //过滤已存在的,并且必须属于5级的动物
-//                    if (!animalListClass.contains(an) && an.getLevel() == 5) {
-//                        animalListClass.add(an);
-//                    }
-//                }
+                if (EmptyUtils.isNotEmpty(keyword)) {
+                    List<Animal> animalList = AnimalServerEntityManager.getAnimalSelectList("5", "", keyword);
+                    for (Animal an : animalList) {
+                        //过滤已存在的,并且必须属于5级的动物
+                        if (!animalListClass.contains(an) && an.getLevel() == 5) {
+                            animalListClass.add(an);
+                        }
+                    }
+                }
                 subscriber.onNext(animalListClass);
                 subscriber.onCompleted();
             }
