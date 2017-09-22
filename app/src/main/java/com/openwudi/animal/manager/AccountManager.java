@@ -1,5 +1,6 @@
 package com.openwudi.animal.manager;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.openwudi.animal.model.Account;
 
 /**
@@ -7,9 +8,11 @@ import com.openwudi.animal.model.Account;
  */
 
 public class AccountManager {
+    private static final long INTERVAL = 1000 * 60 * 60 * 24;
     private static Account account;
 
     public static void setAccount(Account acc) {
+        acc.setExpTime(TimeUtils.getCurTimeMills() + INTERVAL);
         account = acc;
         ApiManager.saveAccount(account);
     }
@@ -20,6 +23,9 @@ public class AccountManager {
         }
 
         if (account != null) {
+            if ((account.getExpTime() - TimeUtils.getCurTimeMills()) < 0) {
+                return null;
+            }
             return account;
         } else {
             return null;

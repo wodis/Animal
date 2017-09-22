@@ -14,6 +14,7 @@ public class Account {
     private String LoginToken;
     private String TerminalId;
     private String UseObjectId;
+    private long ExpTime;
 
     public String getUserId() {
         return UserId;
@@ -85,5 +86,13 @@ public class Account {
 
     public void setUseObjectId(String useObjectId) {
         UseObjectId = useObjectId;
+    }
+
+    public long getExpTime() {
+        return ExpTime;
+    }
+
+    public void setExpTime(long expTime) {
+        ExpTime = expTime;
     }
 }
