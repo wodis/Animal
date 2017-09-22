@@ -295,6 +295,10 @@ public class ApiManager {
         json.put("F_SerialNumber", CommonUtil.getImei(AnimalApplication.INSTANCE));
         json.put("F_MAC", DeviceUtils.getMacAddress(AnimalApplication.INSTANCE));
 
+//        json.put("F_DeviceModel", "E6683");
+//        json.put("F_SerialNumber", "352189073017332");
+//        json.put("F_MAC", "58:48:22:92:f0:4a");
+
         params.put("username", account);
         params.put("userpassword", password);
         params.put("json", json.toJSONString());

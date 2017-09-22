@@ -38,13 +38,11 @@ import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.AnimalApplication;
 import com.openwudi.animal.base.BaseActivity;
-import com.openwudi.animal.model.GPSDataModel;
 import com.openwudi.animal.utils.BitmapUtil;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.Constants;
 import com.openwudi.animal.utils.MapUtil;
 import com.openwudi.animal.utils.MapUtil2;
-import com.openwudi.animal.utils.TimeUtil;
 import com.openwudi.animal.view.TitleBarView;
 
 import java.text.SimpleDateFormat;
@@ -236,7 +234,7 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
         BitmapDescriptor custom1 = BitmapDescriptorFactory
                 .fromResource(R.mipmap.icon_road_red_arrow);
         BitmapDescriptor custom2 = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_road_green_arrow);
+                .fromAsset("icon_road_green_arrow.png");
         BitmapDescriptor custom3 = BitmapDescriptorFactory
                 .fromResource(R.mipmap.icon_road_blue_arrow);
 
