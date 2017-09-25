@@ -463,9 +463,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                 }
             }
         } else if (REQ_CODE_MAP == requestCode && data != null) {
-            LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
-            presenter.setLatLng(latLng);
             DecimalFormat df = new DecimalFormat("#.00000");
+            LatLng latLng = data.getParcelableExtra(LatLng.class.getSimpleName());
+            latLng = new LatLng(Double.parseDouble(df.format(latLng.latitude)), Double.parseDouble(df.format(latLng.longitude)));
+            presenter.setLatLng(latLng);
             setGps(df.format(latLng.latitude) + "," + df.format(latLng.longitude), false);
         }
     }
@@ -577,7 +578,7 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     @Override
-    public String getGps(){
+    public String getGps() {
         return gps.getRightText();
     }
 
@@ -624,7 +625,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             if (NetworkUtils.isConnected(mContext)) {
                 presenter.gps();
             } else {
-                startGpsWithoutNetwork();
+//                startGpsWithoutNetwork();
+                presenter.gps();
             }
         }
     }
@@ -672,9 +674,10 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
                     + "  longitude--->" + longitude
                     + "  speed--->" + speed
                     + "  time--->" + new Date(time).toLocaleString();
-            LatLng latLng = new LatLng(latitude, longitude);
-            presenter.setLatLng(latLng);
             DecimalFormat df = new DecimalFormat("#.00000");
+            LatLng latLng = new LatLng(latitude, longitude);
+            latLng = new LatLng(Double.parseDouble(df.format(latLng.latitude)), Double.parseDouble(df.format(latLng.longitude)));
+            presenter.setLatLng(latLng);
             setGps(df.format(latitude) + "," + df.format(longitude), false);
         }
 
@@ -703,7 +706,8 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
             if (NetworkUtils.isConnected(mContext)) {
                 presenter.gps();
             } else {
-                startGpsWithoutNetwork();
+//                startGpsWithoutNetwork();
+                presenter.gps();
             }
         }
     }
