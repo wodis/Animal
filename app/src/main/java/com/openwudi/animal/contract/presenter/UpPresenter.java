@@ -564,7 +564,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 
             @Override
             public void locError() {
-                ToastUtils.showShortToast(mContext, "定位失败, 请检查是否开启定位权限");
+                ToastUtils.showShortToast(mContext, "定位失败, 请检查网络是否正常");
             }
         });
         helper.start();

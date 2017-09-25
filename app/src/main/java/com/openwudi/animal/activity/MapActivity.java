@@ -6,8 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.baidu.location.Address;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -21,11 +23,16 @@ import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.inner.GeoPoint;
+import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
+import com.openwudi.animal.location.LocationHelper;
+import com.openwudi.animal.location.OnLocationListener;
 import com.openwudi.animal.model.CurrentLocation;
 import com.openwudi.animal.view.TitleBarView;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,7 +89,6 @@ public class MapActivity extends BaseActivity {
             baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    ToastUtils.showShortToast(mContext, latLng.latitude + "," + latLng.longitude);
                     hmPos = latLng;
                     marker.setPosition(latLng);
                 }
@@ -103,6 +109,31 @@ public class MapActivity extends BaseActivity {
                     setResult(RESULT_OK, i);
                 }
                 finish();
+            }
+        });
+
+        titlebar.setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoading();
+                LocationHelper helper = LocationHelper.build(mContext, new OnLocationListener() {
+                    @Override
+                    public void locSuccess(Address add, double lat, double lon, double alt) {
+                        LatLng latLng = new LatLng(lat, lon);
+                        MapStatusUpdate mapstatusUpdatePoint = MapStatusUpdateFactory.newLatLng(latLng);
+                        baiduMap.setMapStatus(mapstatusUpdatePoint);
+                        hmPos = latLng;
+                        marker.setPosition(latLng);
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void locError() {
+                        ToastUtils.showShortToast(mContext, "定位失败, 请检查网络是否正常");
+                        hideLoading();
+                    }
+                });
+                helper.start();
             }
         });
     }
