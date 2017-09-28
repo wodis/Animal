@@ -242,8 +242,12 @@ public class UpDetailActivity extends BaseActivity implements UpDetailContract.V
             weizhi.setRightText("未选择");
         }
 
-        gps.setRightText(object.getDataAcquisition().getLatitude().trim() + "," + object.getDataAcquisition().getLongtitude().trim());
-        gps.setOnClickListener(this);
+        if ("0.0".equals(object.getDataAcquisition().getLatitude().trim())){
+            gps.setRightText("未选择");
+        } else {
+            gps.setRightText(object.getDataAcquisition().getLatitude().trim() + "," + object.getDataAcquisition().getLongtitude().trim());
+            gps.setOnClickListener(this);
+        }
 
         time.setRightText(object.getDataAcquisition().getCollectionTime().replaceAll("T", " "));
         if (object.getDataAcquisition().getBubao() == 1) {

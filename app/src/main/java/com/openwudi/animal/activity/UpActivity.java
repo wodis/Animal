@@ -399,8 +399,12 @@ public class UpActivity extends BaseActivity implements UpContract.View, View.On
     }
 
     private void submit() {
+        String msg = "";
+        if (EmptyUtils.isEmpty(getGps())) {
+            msg = "没有填写经纬度, ";
+        }
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(this, getSupportFragmentManager());
-        builder.setTitle("确定提交吗?");
+        builder.setTitle(msg + "确定提交吗?");
         builder.setPositiveButton("直接上报", new AlertDialogFragment.OnClickListener() {
             @Override
             public void onClick(View view) {

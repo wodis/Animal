@@ -205,6 +205,7 @@
     <string name="loc_failed">定位失败</string>
     <string name="font_type">微软雅黑</string>
     <string name="please_select">请选择</string>
+    <string name="select">选填</string>
     <string name="graduation_time_limit">%1$d年%2$d月</string>
     <string name="time_format">yyyy年MM月</string>
     <string name="reup_reason">补报原因</string>

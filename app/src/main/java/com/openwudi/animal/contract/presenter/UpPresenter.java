@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Toast;
 
 import com.baidu.location.Address;
@@ -37,6 +38,7 @@ import com.openwudi.animal.model.Item;
 import com.openwudi.animal.model.ItemEncode;
 import com.openwudi.animal.utils.TimeUtil;
 import com.openwudi.animal.utils.Utils;
+import com.openwudi.animal.view.AlertDialogFragment;
 import com.openwudi.animal.view.pickerview.TimePickerDialog;
 import com.openwudi.animal.view.pickerview.data.Type;
 import com.openwudi.animal.view.pickerview.listener.OnDateSetListener;
@@ -350,7 +352,7 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
         mContext.startActivity(intent);
     }
 
-    private boolean check() {
+    private boolean check(boolean saveOnly) {
         String msg = "";
         if (animal == null) {
             msg = "请选择动物类型";
@@ -372,8 +374,8 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
 //            msg = "请上传图片";
 //        } else if (mView.getDeathNum() > 0 && death == null) {
 //            msg = "请上传图片";
-        } else if (EmptyUtils.isEmpty(mView.getGps())) {
-            msg = "请定位";
+//        } else if (!saveOnly && EmptyUtils.isEmpty(mView.getGps())) {
+//            msg = "请定位";
         } else if (collectionTime <= 0) {
             msg = "请选择采集时间";
         } else if (mView.getTotal() != (mView.getHealthNum() + mView.getIllNum())) {
@@ -461,12 +463,22 @@ public class UpPresenter extends UpContract.Presenter implements OnDateSetListen
     }
 
     public void submit(final boolean saveOnly) {
-        if (!check()) {
+        if (!check(saveOnly)) {
             return;
         }
+
+//        boolean gpsEmpty = false;
+//        if (EmptyUtils.isEmpty(mView.getGps())) {
+//            gpsEmpty = true;
+//        }
+
         if (mView.getDeathNum() > 0 || mView.getIllNum() > 0) {
+            String msg = "已选中异常状态, 请确认后保存或上报?";
+//            if (gpsEmpty) {
+//                msg = "已选中异常状态, 同时无法获取经纬度, 确定继续保存吗?";
+//            }
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setMessage("出现异常情况，请确认后保存或上报?");
+            builder.setMessage(msg);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

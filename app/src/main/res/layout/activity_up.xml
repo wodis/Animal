@@ -383,7 +383,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:tcv_right_drawable="@drawable/icon_arrow"
-                    app:tcv_right_hint="@string/please_select"
+                    app:tcv_right_hint="@string/select"
                     app:tcv_title="采集经纬度"
                     app:tcv_type="indicator" />
 
