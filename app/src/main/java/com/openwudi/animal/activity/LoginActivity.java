@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.RegexUtils;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.openwudi.animal.R;
+import com.openwudi.animal.SplashActivity;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
 import com.openwudi.animal.manager.AccountManager;
@@ -107,7 +108,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onNext(Account account) {
                         ToastUtils.showShortToast(mContext, account.getUserCode() + "登录成功");
-                        startActivity(new Intent(mContext, MainActivity.class));
+                        startActivities(new Intent[]{new Intent(mContext, MapActivity.class), new Intent(mContext, TraceActivity.class)});
                         finish();
                     }
                 });

@@ -130,6 +130,7 @@ public class MapQueryActivity extends BaseActivity implements BaiduMap.OnMarkerC
                 finish();
             }
         });
+        titlebar.setRightImage(0);
 
         startTime = TimeUtils.string2Milliseconds(date, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())) / 1000L;
         endTime = startTime + 3600 * 23 + 3500;

@@ -35,10 +35,12 @@ public class GPSData {
 
     String uuid;
 
-    @Generated(hash = 1080573256)
-    public GPSData(Long id, @NotNull String terminalId, double latitude,
-                   double longtitude, @NotNull Date createTime, @NotNull String userId,
-                   String uuid) {
+    double lineLength;
+
+    @Generated(hash = 1790871638)
+    public GPSData(Long id, @NotNull String terminalId, double latitude, double longtitude,
+            @NotNull Date createTime, @NotNull String userId, String uuid,
+            double lineLength) {
         this.id = id;
         this.terminalId = terminalId;
         this.latitude = latitude;
@@ -46,6 +48,7 @@ public class GPSData {
         this.createTime = createTime;
         this.userId = userId;
         this.uuid = uuid;
+        this.lineLength = lineLength;
     }
 
     @Generated(hash = 311243752)
@@ -106,5 +109,13 @@ public class GPSData {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public double getLineLength() {
+        return this.lineLength;
+    }
+
+    public void setLineLength(double lineLength) {
+        this.lineLength = lineLength;
     }
 }

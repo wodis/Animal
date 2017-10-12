@@ -1,5 +1,7 @@
 package com.openwudi.animal.contract.model;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.openwudi.animal.base.AnimalApplication;
 import com.openwudi.animal.contract.TraceContract;
@@ -9,6 +11,7 @@ import com.openwudi.animal.db.GPSDataDao;
 import com.openwudi.animal.db.UpEntityDao;
 import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.model.Account;
+import com.openwudi.animal.utils.L;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +24,9 @@ import java.util.List;
 public class TraceModel implements TraceContract.Model {
 
     private int times = 1;
+
+    private static double LAT = 0;
+    private static double LNG = 0;
 
     @Override
     public GPSData save2Db(double lat, double lng, String uuid) {
@@ -38,6 +44,11 @@ public class TraceModel implements TraceContract.Model {
         data.setLongtitude(lng);
         data.setTerminalId(account.getTerminalId());
         data.setUserId(account.getUserId());
+        if (LAT != 0) {
+            LatLng last = new LatLng(LAT, LNG);
+            LatLng now = new LatLng(lat, lng);
+            data.setLineLength(DistanceUtil.getDistance(last, now));
+        }
 
         if (EmptyUtils.isEmpty(dao.queryBuilder().where(GPSDataDao.Properties.CreateTime.eq(data.getCreateTime())).list())) {
             try {
@@ -46,6 +57,8 @@ public class TraceModel implements TraceContract.Model {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            LAT = lat;
+            LNG = lng;
             return data;
         }
         return null;

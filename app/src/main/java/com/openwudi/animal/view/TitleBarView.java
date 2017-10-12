@@ -240,6 +240,8 @@ public class TitleBarView extends FrameLayout {
     public void setRightImage(int imageId) {
         if (imageId > 0 && mBtnRight != null) {
             mBtnRight.setImageResource(imageId);
+        } else if (mBtnRight != null){
+            mBtnRight.setVisibility(GONE);
         }
     }
 }

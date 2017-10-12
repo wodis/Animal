@@ -25,6 +25,9 @@ public class GPSDataModel {
     @JSONField(name = "F_CreatorUserId")
     private String userId;
 
+    @JSONField(name = "F_LineLength")
+    private String lineLength;
+
     public String getTerminalId() {
         return terminalId;
     }
@@ -65,6 +68,14 @@ public class GPSDataModel {
         this.userId = userId;
     }
 
+    public String getLineLength() {
+        return lineLength;
+    }
+
+    public void setLineLength(String lineLength) {
+        this.lineLength = lineLength;
+    }
+
     public GPSDataModel() {
 
     }
@@ -75,5 +86,11 @@ public class GPSDataModel {
         setLat(gpsData.getLatitude() + "");
         setLng(gpsData.getLongtitude() + "");
         setUploadTime(TimeUtils.date2String(gpsData.getCreateTime()));
+        try {
+            setLineLength(Integer.parseInt(gpsData.getLineLength() + "") + "");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            setLineLength("0");
+        }
     }
 }
