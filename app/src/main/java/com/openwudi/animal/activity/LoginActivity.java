@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onNext(Account account) {
                         ToastUtils.showShortToast(mContext, account.getUserCode() + "登录成功");
-                        startActivities(new Intent[]{new Intent(mContext, MapActivity.class), new Intent(mContext, TraceActivity.class)});
+                        startActivities(new Intent[]{new Intent(mContext, MainActivity.class), new Intent(mContext, TraceActivity.class)});
                         finish();
                     }
                 });
