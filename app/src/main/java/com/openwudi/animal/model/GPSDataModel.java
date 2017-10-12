@@ -86,11 +86,10 @@ public class GPSDataModel {
         setLat(gpsData.getLatitude() + "");
         setLng(gpsData.getLongtitude() + "");
         setUploadTime(TimeUtils.date2String(gpsData.getCreateTime()));
-        try {
-            setLineLength(Integer.parseInt(gpsData.getLineLength() + "") + "");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            setLineLength("0");
+        if (gpsData.getLineLength() < 1D) {
+            setLineLength("1");
+        } else {
+            setLineLength((int) Math.rint(gpsData.getLineLength()) + "");
         }
     }
 }
