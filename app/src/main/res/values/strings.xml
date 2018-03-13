@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">野生动物保护平台</string>
+    <string name="app_name">京津冀野生动物资源监测平台</string>
     <string name="app_title">百度鹰眼Android SDK</string>
 
     <!-- 公共字符串 -->

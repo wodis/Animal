@@ -30,6 +30,7 @@ import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Animal;
 import com.openwudi.animal.model.ItemEncode;
 import com.openwudi.animal.utils.Constants;
+import com.openwudi.animal.view.AlertDialogFragment;
 import com.openwudi.animal.view.MainTabViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -227,6 +228,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewMessageEvent(NewMessageEvent event) {
         reminder.setVisibility(event.same ? View.GONE : View.VISIBLE);
+        showDialog();
+    }
+
+    private void showDialog(){
+        AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mContext, getSupportFragmentManager());
+        builder.setTag("showDialog");
+        builder.setTitle("您有新的通知");
+        builder.setNegativeButton("确定", new AlertDialogFragment.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectMainTab(TAB_READ);
+                mainVp.setCurrentItem(TAB_READ, false);
+            }
+        });
+        builder.setCancelable(true);
+        builder.show();
     }
 
     private void download() {

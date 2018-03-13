@@ -101,6 +101,22 @@
                     android:background="@color/green_light" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/cb_save_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color2"
+                    android:text="记住密码"/>
+
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
