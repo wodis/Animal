@@ -19,10 +19,16 @@ import com.openwudi.animal.activity.MessageDetailActivity;
 import com.openwudi.animal.base.BaseFragment;
 import com.openwudi.animal.db.MessageEntity;
 import com.openwudi.animal.db.manager.MessageEntityManager;
+import com.openwudi.animal.event.RefreshMessageEvent;
+import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Message;
 import com.openwudi.animal.view.EmptyView;
 import com.openwudi.animal.view.TitleBarView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +77,8 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
         lv.setEmptyView(emptyView);
         srl.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimary));
         srl.setOnRefreshListener(this);
+
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -78,6 +86,7 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -140,6 +149,11 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshMessageEvent(RefreshMessageEvent event) {
         refresh();
     }
 
@@ -207,9 +221,10 @@ public class MessageFragment extends BaseFragment implements SwipeRefreshLayout.
         }
 
         public void setMessage(List<Message> newMessage) {
-            if (EmptyUtils.isEmpty(newMessage)) {
+            if (newMessage == null){
                 return;
             }
+
             data.clear();
             data.addAll(newMessage);
             notifyDataSetChanged();

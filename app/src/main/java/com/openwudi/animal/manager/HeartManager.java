@@ -41,6 +41,8 @@ public class HeartManager {
                     list = ApiManager.listMessage();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    resendHeart();
+                    return;
                 }
 
                 List<String> fids = new ArrayList<>();

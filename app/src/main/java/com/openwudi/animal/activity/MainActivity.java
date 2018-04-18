@@ -22,6 +22,7 @@ import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.db.AnimalServerEntity;
 import com.openwudi.animal.db.manager.AnimalServerEntityManager;
 import com.openwudi.animal.event.NewMessageEvent;
+import com.openwudi.animal.event.RefreshMessageEvent;
 import com.openwudi.animal.event.TabEvent;
 import com.openwudi.animal.fragment.HomeFragment;
 import com.openwudi.animal.fragment.MessageFragment;
@@ -228,18 +229,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewMessageEvent(NewMessageEvent event) {
         reminder.setVisibility(event.same ? View.GONE : View.VISIBLE);
-        showDialog();
+        if (!event.same && !showed) {
+            showDialog();
+        }
     }
 
-    private void showDialog(){
+    private boolean showed = false;
+
+    private void showDialog() {
+        showed = true;
         AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mContext, getSupportFragmentManager());
         builder.setTag("showDialog");
         builder.setTitle("您有新的通知");
         builder.setNegativeButton("确定", new AlertDialogFragment.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectMainTab(TAB_READ);
-                mainVp.setCurrentItem(TAB_READ, false);
+                showed = false;
+                if (TAB_READ == mainVp.getCurrentItem()){
+                    EventBus.getDefault().post(new RefreshMessageEvent());
+                } else {
+                    selectMainTab(TAB_READ);
+                    mainVp.setCurrentItem(TAB_READ, false);
+                }
             }
         });
         builder.setCancelable(true);
