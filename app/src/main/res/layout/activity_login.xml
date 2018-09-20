@@ -147,4 +147,15 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/versionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="right"
+        android:paddingRight="10dp"
+        android:text=""
+        android:textColor="@color/color5"
+        android:textSize="12sp" />
 </FrameLayout>

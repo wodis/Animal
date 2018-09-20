@@ -14,13 +14,13 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.EmptyUtils;
 import com.blankj.utilcode.utils.SPUtils;
 import com.blankj.utilcode.utils.ToastUtils;
+import com.openwudi.animal.BuildConfig;
 import com.openwudi.animal.R;
 import com.openwudi.animal.base.BaseActivity;
 import com.openwudi.animal.base.StatusBarCompat;
 import com.openwudi.animal.manager.AccountManager;
 import com.openwudi.animal.manager.ApiManager;
 import com.openwudi.animal.model.Account;
-import com.openwudi.animal.view.AlertDialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +50,8 @@ public class LoginActivity extends BaseActivity {
     TextView regBtn;
     @BindView(R.id.cb_save_pass)
     AppCompatCheckBox cbSavePass;
+    @BindView(R.id.versionName)
+    TextView tvVersion;
 
     @Override
     protected void setStatusBarColor() {
@@ -65,7 +67,9 @@ public class LoginActivity extends BaseActivity {
         String acc = spUtils.getString(ACC, "");
         String pwd = spUtils.getString(PWD, "");
 
-        if (EmptyUtils.isNotEmpty(acc)){
+        tvVersion.setText("v"+BuildConfig.VERSION_NAME);
+
+        if (EmptyUtils.isNotEmpty(acc)) {
             account.setText(acc);
             password.setText(pwd);
             cbSavePass.setChecked(true);
