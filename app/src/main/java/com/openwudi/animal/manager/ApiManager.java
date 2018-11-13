@@ -131,6 +131,17 @@ public class ApiManager {
         return items;
     }
 
+    public static List<Item> getItemsListUpdateCache(String encode) {
+        File cache = new File(AnimalApplication.INSTANCE.getCacheDir(), encode);
+        List<Item> items = null;
+        Map<String, String> params = new HashMap<>(1);
+        params.put("encode", encode);
+        String result = send("GetItemsList", params);
+        items = JSON.parseArray(result, Item.class);
+        FileUtils.writeFileFromString(cache, result, false);
+        return items;
+    }
+
     /**
      * 根据物种名称获取物种下拉列表
      *

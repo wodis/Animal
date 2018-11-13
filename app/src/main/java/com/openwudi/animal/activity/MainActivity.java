@@ -267,14 +267,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (!version.equals(serverVersion)) {
                     List<Animal> all = ApiManager.getAnimalAll();
                     AnimalServerEntityManager.add(all);
-                    ApiManager.getItemsList(ItemEncode.CJFW);
-                    ApiManager.getItemsList(ItemEncode.CJJL);
-                    ApiManager.getItemsList(ItemEncode.CJWZ);
-                    ApiManager.getItemsList(ItemEncode.DWZT);
-                    ApiManager.getItemsList(ItemEncode.SJTZ);
-                    ApiManager.getItemsList(ItemEncode.SYDX);
                     spUtils.putString(Constants.SP_CONFIG_V, serverVersion);
                 }
+
+                //强制更新枚举
+                ApiManager.getItemsListUpdateCache(ItemEncode.CJFW);
+                ApiManager.getItemsListUpdateCache(ItemEncode.CJJL);
+                ApiManager.getItemsListUpdateCache(ItemEncode.CJWZ);
+                ApiManager.getItemsListUpdateCache(ItemEncode.DWZT);
+                ApiManager.getItemsListUpdateCache(ItemEncode.SJTZ);
+                ApiManager.getItemsListUpdateCache(ItemEncode.SYDX);
+
                 subscriber.onNext("");
                 subscriber.onCompleted();
             }
