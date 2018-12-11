@@ -32,6 +32,7 @@ import com.openwudi.animal.db.DaoSession;
 import com.openwudi.animal.manager.HeartManager;
 import com.openwudi.animal.utils.CommonUtil;
 import com.openwudi.animal.utils.NetUtil;
+import com.openwudi.animal.utils.ViewUtil;
 import com.tencent.bugly.Bugly;
 
 import org.greenrobot.greendao.database.Database;
@@ -102,6 +103,7 @@ public class AnimalApplication extends Application {
         initBD();
         Bugly.init(getApplicationContext(), getString(R.string.BUGLY_APPID), true);
         HeartManager.getInstance().resendHeart();
+        ViewUtil.applyAppFont(this);
     }
 
     @Override

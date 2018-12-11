@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.text.Html;
 import android.view.Gravity;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.openwudi.animal.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,18 @@ public class ViewUtil {
     private Toast mToast = null;
 
     private TextView mTextView = null;
+
+    public static void applyAppFont(Context context) {
+        try {
+            final Field staticField = Typeface.class.getDeclaredField("SERIF");
+            staticField.setAccessible(true);
+            staticField.set(null,Typeface.createFromAsset(context.getAssets(), "fonts/KaiXinSong2.1.ttf"));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void showToast(Activity activity, String message) {
         Toast.makeText(activity, message,Toast.LENGTH_SHORT).show();
