@@ -47,7 +47,7 @@ public class ApiManager {
     private static L logger = L.get(ApiManager.class.getSimpleName());
 
     //命名空间,作为常量
-    private static final String NAME_SPACE = "http://tempuri.org/";
+    private static final String NAME_SPACE = "http://jjjysdwjc.bjylfw.cn:8080/";
     //相关参数
     private static final String URL = AnimalApplication.INSTANCE.getString(R.string.API_URL);
     private static final String PASSWORD = "D49F1F8D1ACD2380B02F90C0A8059CB6";
