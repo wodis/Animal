@@ -59,7 +59,7 @@ public class TracePresenter extends TraceContract.Presenter implements OnDateSet
             @Override
             public void run() {
                 GPSData data = mModel.save2Db(lat, lng, uuid);
-                if (mModel.getTimes() % 10 == 0) {
+                if (mModel.getTimes() % 2 == 0) {
                     LogUtils.d(mModel.getTimes() % 10);
                     upAll();
                 }
@@ -122,7 +122,7 @@ public class TracePresenter extends TraceContract.Presenter implements OnDateSet
                     mModel.deleteById(data.getId());
                 } catch (Exception e) {
                     if (e instanceof AnimalException) {
-                        if (((AnimalException) e).getErrorCode() == RESP_FAIL_ERROR.code || e.getMessage().contains("重复键值")) {
+                        if (e.getMessage().contains("重复键值")) {
                             mModel.deleteById(data.getId());
                         }
                     }

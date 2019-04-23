@@ -23,6 +23,8 @@ import com.baidu.trace.api.track.OnTrackListener;
 import com.baidu.trace.model.BaseRequest;
 import com.baidu.trace.model.OnCustomAttributeListener;
 import com.baidu.trace.model.ProcessOption;
+
+import com.baidu.mapapi.SDKInitializer;
 import com.openwudi.animal.R;
 import com.openwudi.animal.activity.LoginActivity;
 import com.openwudi.animal.activity.TraceActivity;
@@ -138,6 +140,11 @@ public class AnimalApplication extends Application {
                 map.put("key1", "value1");
                 map.put("key2", "value2");
                 return map;
+            }
+
+            @Override
+            public Map<String, String> onTrackAttributeCallback(long l) {
+                return null;
             }
         });
 

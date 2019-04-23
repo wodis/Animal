@@ -548,6 +548,11 @@ public class TraceActivity extends BaseActivity implements View.OnClickListener,
                     notificationManager.notify(notifyId++, notification);
                 }
             }
+
+            @Override
+            public void onInitBOSCallback(int i, String s) {
+
+            }
         };
 
     }

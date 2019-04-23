@@ -5,6 +5,9 @@ import com.blankj.utilcode.utils.ConstUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.openwudi.animal.db.GPSData;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by diwu on 17/7/24.
  */
@@ -80,12 +83,14 @@ public class GPSDataModel {
 
     }
 
+    public static final SimpleDateFormat DEFAULT_SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
+
     public GPSDataModel(GPSData gpsData) {
         setUserId(gpsData.getUserId());
         setTerminalId(gpsData.getTerminalId());
         setLat(gpsData.getLatitude() + "");
         setLng(gpsData.getLongtitude() + "");
-        setUploadTime(TimeUtils.date2String(gpsData.getCreateTime()));
+        setUploadTime(TimeUtils.date2String(gpsData.getCreateTime() , DEFAULT_SDF));
         if (gpsData.getLineLength() < 1D) {
             setLineLength("1");
         } else {
